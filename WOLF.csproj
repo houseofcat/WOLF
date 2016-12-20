@@ -1,0 +1,337 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{33188947-6E1A-4556-96F1-ADCB4B8CC854}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Wolf</RootNamespace>
+    <AssemblyName>WOLF</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <PublishUrl>C:\WOLF\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>0.3.586.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>F3BA0A47376EF003166A776FABCB22BC9FD1AC78</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>ShadowAdminAIO_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>false</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>WolfSpec\Icon256.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <StartupObject>Wolf.MainProgram</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <OutputPath>bin\Release\</OutputPath>
+    <Optimize>true</Optimize>
+    <LangVersion>5</LangVersion>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <Optimize>true</Optimize>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>5</LangVersion>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <Optimize>true</Optimize>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>5</LangVersion>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>WolfSpec\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <OutputPath>bin\Debug\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+    <Optimize>true</Optimize>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <PlatformTarget>x64</PlatformTarget>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <PlatformTarget>x86</PlatformTarget>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
+    <Reference Include="System.DirectoryServices.Protocols" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\WindowsPowerShell\3.0\System.Management.Automation.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Management.Instrumentation" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.ServiceModel.Discovery" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="mscorlib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CI_Report\CI_MiniReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CI_Report\CI_MiniReport.designer.cs">
+      <DependentUpon>CI_MiniReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CI_Report\CI_Start.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CI_Report\CI_Start.Designer.cs">
+      <DependentUpon>CI_Start.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CI_Report\CI_Report.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CI_Report\CI_Report.designer.cs">
+      <DependentUpon>CI_Report.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HardSpec\Monitor.cs" />
+    <Compile Include="HardSpec\GPU.cs" />
+    <Compile Include="HardSpec\Motherboard.cs" />
+    <Compile Include="HardSpec\PNPMonitor.cs" />
+    <Compile Include="HardSpec\RemoteMachine.cs" />
+    <Compile Include="HardSpec\DSKDRV.cs" />
+    <Compile Include="HardSpec\SoundDevice.cs" />
+    <Compile Include="OracleSoft\HardwareStats\Cache.cs" />
+    <Compile Include="OracleSoft\HardwareStats\Core.cs" />
+    <Compile Include="OracleSoft\HardwareStats\Drive.cs" />
+    <Compile Include="OracleSoft\HardwareStats\Processor.cs" />
+    <Compile Include="OracleSoft\Oracle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OracleSoft\Oracle.designer.cs">
+      <DependentUpon>Oracle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OracleSoft\SoftwareStats\Process.cs" />
+    <Compile Include="OracleSoft\SoftwareStats\ProcessList.cs" />
+    <Compile Include="OracleSoft\SoftwareStats\System.cs" />
+    <Compile Include="SearchRename\FolderBrowserDialogEx.cs">
+      <SubType>component</SubType>
+    </Compile>
+    <Compile Include="SearchRename\SNR.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SearchRename\SNR.Designer.cs">
+      <DependentUpon>SNR.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SearchRename\SearchItem.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="SoftSpec\Account.cs" />
+    <Compile Include="SoftSpec\BIOS.cs" />
+    <Compile Include="SoftSpec\DiskPartition.cs" />
+    <Compile Include="SoftSpec\Driver.cs" />
+    <Compile Include="SoftSpec\DRVL.cs" />
+    <Compile Include="SoftSpec\InstalledProgram.cs" />
+    <Compile Include="SoftSpec\IPL.cs" />
+    <Compile Include="SoftSpec\IRQ.cs" />
+    <Compile Include="SoftSpec\LicenseQuery.cs" />
+    <Compile Include="SoftSpec\LOGDRV.cs" />
+    <Compile Include="HardSpec\NIC.cs" />
+    <Compile Include="SoftSpec\NetList.cs" />
+    <Compile Include="SoftSpec\NetObj.cs" />
+    <Compile Include="SoftSpec\ProcList.cs" />
+    <Compile Include="SoftSpec\SMBIOS.cs" />
+    <Compile Include="SoftSpec\TaskManager.cs" />
+    <Compile Include="HardSpec\ThermalProbe.cs" />
+    <Compile Include="WolfSpec\Impersonation.cs" />
+    <Compile Include="WolfSpec\MainGUI\ChangeLog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WolfSpec\MainGUI\ChangeLog.Designer.cs">
+      <DependentUpon>ChangeLog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WolfSpec\MainGUI\Contributions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WolfSpec\MainGUI\Contributions.Designer.cs">
+      <DependentUpon>Contributions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WolfSpec\MainGUI\Known.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WolfSpec\MainGUI\Known.Designer.cs">
+      <DependentUpon>Known.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WolfSpec\MainGUI\Update.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WolfSpec\MainGUI\Update.Designer.cs">
+      <DependentUpon>Update.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WolfSpec\Tools.cs" />
+    <Compile Include="SoftSpec\NetCon.cs" />
+    <Compile Include="HardSpec\CPU.cs" />
+    <Compile Include="HardSpec\Computer.cs" />
+    <Compile Include="WolfSpec\MainGUI\GUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WolfSpec\MainGUI\GUI.Designer.cs">
+      <DependentUpon>GUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WolfSpec\MainProgram.cs" />
+    <Compile Include="SoftSpec\OS.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="HardSpec\MEM.cs" />
+    <EmbeddedResource Include="CI_Report\CI_MiniReport.resx">
+      <DependentUpon>CI_MiniReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CI_Report\CI_Start.resx">
+      <DependentUpon>CI_Start.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CI_Report\CI_Report.resx">
+      <DependentUpon>CI_Report.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OracleSoft\Oracle.resx">
+      <DependentUpon>Oracle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SearchRename\SNR.resx">
+      <DependentUpon>SNR.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WolfSpec\MainGUI\ChangeLog.resx">
+      <DependentUpon>ChangeLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WolfSpec\MainGUI\Contributions.resx">
+      <DependentUpon>Contributions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WolfSpec\MainGUI\GUI.resx">
+      <DependentUpon>GUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="WolfSpec\MainGUI\Known.resx">
+      <DependentUpon>Known.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WolfSpec\MainGUI\Update.resx">
+      <DependentUpon>Update.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="WolfSpec\app.manifest">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="WolfSpec\Icon256.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="NetFwTypeLib">
+      <Guid>{58FBCF7C-E7A9-467C-80B3-FC65E8FCCA08}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
