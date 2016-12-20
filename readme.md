@@ -1,3 +1,3 @@
 # WOLF - Windows Operations & Library of Functions C\# 
 
-It's just a tiny re-usable class to aid in triggering a JAlert (or JQuery UI) modal window from the Server side. Just simplifies giving users feedback when Server conditions arise (for example errors.)
+My very first program that morphed into a Frakenstein mess! I am rewriting this program from scratch now that Windows 10 has changed the way administration works. I feel my program is still necessary but I could benefit from the latest technologies that I now know.
