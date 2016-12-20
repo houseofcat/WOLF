@@ -59,10 +59,10 @@
             this.llCurrent.LinkColor = System.Drawing.Color.Yellow;
             this.llCurrent.Location = new System.Drawing.Point(113, 39);
             this.llCurrent.Name = "llCurrent";
-            this.llCurrent.Size = new System.Drawing.Size(229, 13);
+            this.llCurrent.Size = new System.Drawing.Size(176, 13);
             this.llCurrent.TabIndex = 2;
             this.llCurrent.TabStop = true;
-            this.llCurrent.Text = "http://www.bytemedev.com/wolf/wolf-current/";
+            this.llCurrent.Text = "https://houseofcat.io/Home/WOLF";
             this.llCurrent.VisitedLinkColor = System.Drawing.Color.Yellow;
             this.llCurrent.Click += new System.EventHandler(this.ClickEventHandler);
             // 

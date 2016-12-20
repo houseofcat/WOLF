@@ -20,7 +20,7 @@ namespace Wolf
                 try
                 {
                     System.Net.WebClient wc = new System.Net.WebClient();
-                    string webData = wc.DownloadString("http://www.bytemedev.com/Public/lv.txt");
+                    string webData = wc.DownloadString( "https://houseofcat.blob.core.windows.net/wolf/lv.txt" );
 
                     if (webData.Any())
                     {

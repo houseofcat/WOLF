@@ -26,7 +26,7 @@ namespace Wolf
 {
     public partial class GUI : Form
     {
-        private string version = "0.3587";
+        private string version = "0.3589";
         private string latestversion = "";
         private string Windows3264ProductKeyLocation = "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion";
 
@@ -427,12 +427,12 @@ namespace Wolf
 
         private void funcCheckUpdate()
         {
-            if (System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable())
+            if (NetworkInterface.GetIsNetworkAvailable())
             {
                 try
                 {
                     WebClient wc = new WebClient();
-                    string webData = wc.DownloadString("http://www.bytemedev.com/Public/lv.txt");
+                    string webData = wc.DownloadString("https://houseofcat.blob.core.windows.net/wolf/lv.txt");
 
                     if (webData.Any())
                     {

@@ -948,7 +948,7 @@ namespace Wolf.SearchRename
 
                 if (File.Exists(NodeFileName))
                 {
-                    System.Diagnostics.Process.Start(NodeFileName);
+                    Process.Start(NodeFileName);
                 }
                 else
                 {

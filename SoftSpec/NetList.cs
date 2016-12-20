@@ -226,7 +226,10 @@ namespace Wolf.SoftSpec
             {
                 try
                 {
-                    PName = System.Diagnostics.Process.GetProcessById(PID).ProcessName;
+                    if( Process.GetProcesses().Any(P => P.Id == PID))
+                    {
+                        PName = Process.GetProcessById( PID ).ProcessName ?? " { Unknown - Unreadable } :( ";
+                    }
                 }
                 catch 
                 {
@@ -276,7 +279,7 @@ namespace Wolf.SoftSpec
 
                 try
                 {
-                    Process proc = System.Diagnostics.Process.GetProcessById(pid);
+                    Process proc = Process.GetProcessById(pid);
                     proc.Kill();
                 }
                 catch (ArgumentException)

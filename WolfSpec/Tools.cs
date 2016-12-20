@@ -2580,13 +2580,13 @@ namespace Wolf
                 IntPtr ptr = new IntPtr();
                 NativeMethods.Wow64DisableWow64FsRedirection(ref ptr);
 
-                Process.Start("explorer.exe", "http://www.bytemedev.com/wolf/wolf-current");
+                Process.Start("explorer.exe", "https://houseofcat.io/Home/WOLF");
 
                 NativeMethods.Wow64RevertWow64FsRedirection(ref ptr);
             }
             else
             {
-                Process.Start("explorer.exe", "http://www.bytemedev.com/wolf/wolf-current");
+                Process.Start("explorer.exe", "https://houseofcat.io/Home/WOLF" );
             }
         }
 
@@ -3297,13 +3297,24 @@ namespace Wolf
             { MessageBox.Show("Exception: " + exc.Message + "\n\nStack: " + exc.StackTrace); }
 
             if (Key != null)
-            { Value = Key.GetValue("Allow Telemetry").ToString(); }
-
-            switch (Value)
             {
-                case "0": DataCollectionDisabled = true; break;
-                case "1": DataCollectionDisabled = false; break;
-                default: DataCollectionDisabled = false; break;
+
+                if( Key.GetSubKeyNames().Any( x => x.ToString() == "Allow Telemetry" ) )
+                {
+                    try
+                    { Value = Key.GetValue( "Allow Telemetry" ).ToString(); }
+                    catch { Value = null; }
+                }
+
+                if (Value != null)
+                {
+                    switch (Value)
+                    {
+                        case "0": DataCollectionDisabled = true; break;
+                        case "1": DataCollectionDisabled = false; break;
+                        default: DataCollectionDisabled = false; break;
+                    }
+                }
             }
 
             return DataCollectionDisabled;
