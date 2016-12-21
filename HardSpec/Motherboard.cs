@@ -298,27 +298,27 @@ namespace Wolf.HardSpec
 
         public string getName()
         {
-            return this.Name;
+            return Name;
         }
 
         public string getManu()
         {
-            return this.Manufacturer;
+            return Manufacturer;
         }
 
         public string getVersion()
         {
-            return this.Version;
+            return Version;
         }
 
         public string getSerial()
         {
-            return this.Serial;
+            return Serial;
         }
 
         public string getPID()
         {
-            return this.ProductId;
+            return ProductId;
         }
     }
 }

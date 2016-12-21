@@ -85,7 +85,7 @@ namespace Wolf.SearchRename
         // ctor
         public FolderBrowserDialogEx()
         {
-            this.Reset();
+            Reset();
         }
 
         // Factory Methods
@@ -111,7 +111,7 @@ namespace Wolf.SearchRename
 	{
             _uiFlags += BrowseFlags.BIF_BROWSEFORPRINTER;
             Description = "Select a printer:";
-            PInvoke.Shell32.SHGetSpecialFolderLocation(IntPtr.Zero, CSIDL.PRINTERS, ref this._rootFolderLocation);
+            PInvoke.Shell32.SHGetSpecialFolderLocation(IntPtr.Zero, CSIDL.PRINTERS, ref _rootFolderLocation );
             ShowNewFolderButton = false;
             ShowEditBox = false;
 	}       
@@ -120,7 +120,7 @@ namespace Wolf.SearchRename
 	{
             _uiFlags += BrowseFlags.BIF_BROWSEFORCOMPUTER;
             Description = "Select a computer:";
-            PInvoke.Shell32.SHGetSpecialFolderLocation(IntPtr.Zero, CSIDL.NETWORK, ref this._rootFolderLocation);
+            PInvoke.Shell32.SHGetSpecialFolderLocation(IntPtr.Zero, CSIDL.NETWORK, ref _rootFolderLocation );
             ShowNewFolderButton = false;
             ShowEditBox = false;
 	}
@@ -173,14 +173,14 @@ namespace Wolf.SearchRename
             switch (msg)
             {
                 case BrowseForFolderMessages.BFFM_INITIALIZED:
-                    if (this._selectedPath.Length != 0)
+                    if ( _selectedPath.Length != 0)
                     {
-                        PInvoke.User32.SendMessage(new HandleRef(null, hwnd), BrowseForFolderMessages.BFFM_SETSELECTIONW, 1, this._selectedPath);
-                        if (this._showEditBox && this._showFullPathInEditBox)
+                        PInvoke.User32.SendMessage(new HandleRef(null, hwnd), BrowseForFolderMessages.BFFM_SETSELECTIONW, 1, _selectedPath );
+                        if ( _showEditBox && _showFullPathInEditBox )
                         {
                             // get handle to the Edit box inside the Folder Browser Dialog
                             _hwndEdit = PInvoke.User32.FindWindowEx(new HandleRef(null, hwnd), IntPtr.Zero, "Edit", null);
-                            PInvoke.User32.SetWindowText(_hwndEdit, this._selectedPath);
+                            PInvoke.User32.SetWindowText(_hwndEdit, _selectedPath );
                         }
                     }
                     break;
@@ -199,13 +199,13 @@ namespace Wolf.SearchRename
                         {
                             IntPtr pszPath = Marshal.AllocHGlobal(MAX_PATH * Marshal.SystemDefaultCharSize);
                             bool haveValidPath = PInvoke.Shell32.SHGetPathFromIDList(pidl, pszPath);
-                            String displayedPath = Marshal.PtrToStringAuto(pszPath);
+                            string displayedPath = Marshal.PtrToStringAuto(pszPath);
                             Marshal.FreeHGlobal(pszPath);
                             // whether to enable the OK button or not. (if file is valid)
                             PInvoke.User32.SendMessage(new HandleRef(null, hwnd), BrowseForFolderMessages.BFFM_ENABLEOK, 0, haveValidPath ? 1 : 0);
 
                             // Maybe set the Edit Box text to the Full Folder path
-                            if (haveValidPath && !String.IsNullOrEmpty(displayedPath))
+                            if (haveValidPath && !string.IsNullOrEmpty(displayedPath))
                             {
                                 if (_showEditBox && _showFullPathInEditBox)
                                 {
@@ -232,16 +232,16 @@ namespace Wolf.SearchRename
 
         public override void Reset()
         {
-            this._rootFolder = (Environment.SpecialFolder)0;
-            this._descriptionText = string.Empty;
-            this._selectedPath = string.Empty;
-            this._selectedPathNeedsCheck = false;
-            this._showNewFolderButton = true;
-            this._showEditBox = true;
-            this._newStyle = true;
-            this._dontIncludeNetworkFoldersBelowDomainLevel = false;
-            this._hwndEdit = IntPtr.Zero;
-            this._rootFolderLocation = IntPtr.Zero;
+            _rootFolder = (Environment.SpecialFolder)0;
+            _descriptionText = string.Empty;
+            _selectedPath = string.Empty;
+            _selectedPathNeedsCheck = false;
+            _showNewFolderButton = true;
+            _showEditBox = true;
+            _newStyle = true;
+            _dontIncludeNetworkFoldersBelowDomainLevel = false;
+            _hwndEdit = IntPtr.Zero;
+            _rootFolderLocation = IntPtr.Zero;
         }
 
         protected override bool RunDialog(IntPtr hWndOwner)
@@ -249,7 +249,7 @@ namespace Wolf.SearchRename
             bool result = false;
             if (_rootFolderLocation == IntPtr.Zero)
             {
-                PInvoke.Shell32.SHGetSpecialFolderLocation(hWndOwner, (int)this._rootFolder, ref _rootFolderLocation);
+                PInvoke.Shell32.SHGetSpecialFolderLocation(hWndOwner, (int)_rootFolder, ref _rootFolderLocation);
                 if (_rootFolderLocation == IntPtr.Zero)
                 {
                     PInvoke.Shell32.SHGetSpecialFolderLocation(hWndOwner, 0, ref _rootFolderLocation);
@@ -263,13 +263,13 @@ namespace Wolf.SearchRename
             //_uiFlags = 0;
             if (_dontIncludeNetworkFoldersBelowDomainLevel)
                 _uiFlags += BrowseFlags.BIF_DONTGOBELOWDOMAIN;
-            if (this._newStyle)
+            if ( _newStyle )
                 _uiFlags += BrowseFlags.BIF_NEWDIALOGSTYLE;
-            if (!this._showNewFolderButton)
+            if (!_showNewFolderButton )
                 _uiFlags += BrowseFlags.BIF_NONEWFOLDERBUTTON;
-            if (this._showEditBox)
+            if ( _showEditBox )
                 _uiFlags += BrowseFlags.BIF_EDITBOX;
-            if (this._showBothFilesAndFolders)
+            if ( _showBothFilesAndFolders )
                 _uiFlags += BrowseFlags.BIF_BROWSEINCLUDEFILES;
 
 
@@ -285,20 +285,20 @@ namespace Wolf.SearchRename
                 PInvoke.BROWSEINFO browseInfo = new PInvoke.BROWSEINFO();
                 hglobal = Marshal.AllocHGlobal(MAX_PATH * Marshal.SystemDefaultCharSize);
                 pszPath = Marshal.AllocHGlobal(MAX_PATH * Marshal.SystemDefaultCharSize);
-                this._callback = new PInvoke.BrowseFolderCallbackProc(this.FolderBrowserCallback);
+                _callback = new PInvoke.BrowseFolderCallbackProc( FolderBrowserCallback );
                 browseInfo.pidlRoot = _rootFolderLocation;
                 browseInfo.Owner = hWndOwner;
                 browseInfo.pszDisplayName = hglobal;
-                browseInfo.Title = this._descriptionText;
+                browseInfo.Title = _descriptionText;
                 browseInfo.Flags = _uiFlags;
-                browseInfo.callback = this._callback;
+                browseInfo.callback = _callback;
                 browseInfo.lParam = IntPtr.Zero;
                 browseInfo.iImage = 0;
                 pidl = PInvoke.Shell32.SHBrowseForFolder(browseInfo);
                 if (((_uiFlags & BrowseFlags.BIF_BROWSEFORPRINTER) == BrowseFlags.BIF_BROWSEFORPRINTER) ||
                 ((_uiFlags & BrowseFlags.BIF_BROWSEFORCOMPUTER) == BrowseFlags.BIF_BROWSEFORCOMPUTER))
                 {
-                    this._selectedPath = Marshal.PtrToStringAuto(browseInfo.pszDisplayName);
+                    _selectedPath = Marshal.PtrToStringAuto(browseInfo.pszDisplayName);
                     result = true;
                 }
                 else
@@ -306,8 +306,8 @@ namespace Wolf.SearchRename
                     if (pidl != IntPtr.Zero)
                     {
                         PInvoke.Shell32.SHGetPathFromIDList(pidl, pszPath);
-                        this._selectedPathNeedsCheck = true;
-                        this._selectedPath = Marshal.PtrToStringAuto(pszPath);
+                        _selectedPathNeedsCheck = true;
+                        _selectedPath = Marshal.PtrToStringAuto(pszPath);
                         result = true;
                     }
                 }
@@ -329,7 +329,7 @@ namespace Wolf.SearchRename
                 {
                     Marshal.FreeHGlobal(hglobal);
                 }
-                this._callback = null;
+                _callback = null;
             }
             return result;
         }
@@ -344,11 +344,11 @@ namespace Wolf.SearchRename
         {
             get
             {
-                return this._descriptionText;
+                return _descriptionText;
             }
             set
             {
-                this._descriptionText = (value == null) ? string.Empty : value;
+                _descriptionText = (value == null) ? string.Empty : value;
             }
         }
 
@@ -357,7 +357,7 @@ namespace Wolf.SearchRename
         {
             get
             {
-                return this._rootFolder;
+                return _rootFolder;
             }
             set
             {
@@ -365,7 +365,7 @@ namespace Wolf.SearchRename
                 {
                     throw new InvalidEnumArgumentException("value", (int)value, typeof(Environment.SpecialFolder));
                 }
-                this._rootFolder = value;
+                _rootFolder = value;
             }
         }
 
@@ -378,17 +378,17 @@ namespace Wolf.SearchRename
         {
             get
             {
-                if (((this._selectedPath != null) && (this._selectedPath.Length != 0)) && this._selectedPathNeedsCheck)
+                if ((( _selectedPath != null) && ( _selectedPath.Length != 0)) && _selectedPathNeedsCheck )
                 {
-                    new FileIOPermission(FileIOPermissionAccess.PathDiscovery, this._selectedPath).Demand();
-                    this._selectedPathNeedsCheck = false;
+                    new FileIOPermission(FileIOPermissionAccess.PathDiscovery, _selectedPath ).Demand();
+                    _selectedPathNeedsCheck = false;
                 }
-                return this._selectedPath;
+                return _selectedPath;
             }
             set
             {
-                this._selectedPath = (value == null) ? string.Empty : value;
-                this._selectedPathNeedsCheck = true;
+                _selectedPath = (value == null) ? string.Empty : value;
+                _selectedPathNeedsCheck = true;
             }
         }
 
@@ -401,11 +401,11 @@ namespace Wolf.SearchRename
         {
             get
             {
-                return this._showNewFolderButton;
+                return _showNewFolderButton;
             }
             set
             {
-                this._showNewFolderButton = value;
+                _showNewFolderButton = value;
             }
         }
 
@@ -421,11 +421,11 @@ namespace Wolf.SearchRename
         {
             get
             {
-                return this._showEditBox;
+                return _showEditBox;
             }
             set
             {
-                this._showEditBox = value;
+                _showEditBox = value;
             }
         }
 
@@ -439,11 +439,11 @@ namespace Wolf.SearchRename
         {
             get
             {
-                return this._newStyle;
+                return _newStyle;
             }
             set
             {
-                this._newStyle = value;
+                _newStyle = value;
             }
         }
 
@@ -495,7 +495,7 @@ namespace Wolf.SearchRename
             public static extern IntPtr FindWindowEx(HandleRef hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
 
             [DllImport("user32.dll", SetLastError = true)]
-            public static extern Boolean SetWindowText(IntPtr hWnd, String text);
+            public static extern bool SetWindowText(IntPtr hWnd, string text );
         }
 
         [ComImport, Guid("00000002-0000-0000-c000-000000000046"), SuppressUnmanagedCodeSecurity, InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]

@@ -158,18 +158,18 @@ namespace OracleSoft.SoftwareStats
 
                 Loaded = true;
             }
-            catch (Exception EX)
+            catch (Exception ex)
             {
-                //MessageBox.Show(EX.ToString());
+                //MessageBox.Show(ex.ToString());
 
                 MessageBox.Show("EXCEPTION\n\n==== Loading CACHE Exception ===\nCACHE: " +
-                        "\nMessage: " + EX.Message +
-                        "\nHResult: " + EX.HResult.ToString() +
-                        "\nData: " + EX.Data +
-                        "\nStackTrace: " + EX.StackTrace + "\n");
+                        "\nMessage: " + ex.Message +
+                        "\nHResult: " + ex.HResult.ToString() +
+                        "\nData: " + ex.Data +
+                        "\nStackTrace: " + ex.StackTrace + "\n");
 
-                /*LSYSExm = EX.Message;
-                LSYSExs = EX.StackTrace;
+                /*LSYSExm = ex.Message;
+                LSYSExs = ex.StackTrace;
                 SYSLoaded = false;
                 ExceptionCounter++;*/
             }
@@ -183,11 +183,11 @@ namespace OracleSoft.SoftwareStats
             {
                 try
                 {
-                    temp = this.CAC_DP.NextValue();
+                    temp = CAC_DP.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -202,11 +202,11 @@ namespace OracleSoft.SoftwareStats
             {
                 try
                 {
-                    temp = this.CAC_DPT.NextValue();
+                    temp = CAC_DPT.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -221,11 +221,11 @@ namespace OracleSoft.SoftwareStats
             {
                 try
                 {
-                    temp = this.CAC_ADMSEC.NextValue();
+                    temp = CAC_ADMSEC.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -240,11 +240,11 @@ namespace OracleSoft.SoftwareStats
             {
                 try
                 {
-                    temp = this.CAC_ACRSEC.NextValue();
+                    temp = CAC_ACRSEC.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -259,11 +259,11 @@ namespace OracleSoft.SoftwareStats
             {
                 try
                 {
-                    temp = this.CAC_AFRSEC.NextValue();
+                    temp = CAC_AFRSEC.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -278,11 +278,11 @@ namespace OracleSoft.SoftwareStats
             {
                 try
                 {
-                    temp = this.CAC_AMDLRSEC.NextValue();
+                    temp = CAC_AMDLRSEC.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -297,11 +297,11 @@ namespace OracleSoft.SoftwareStats
             {
                 try
                 {
-                    temp = this.CAC_APRSEC.NextValue();
+                    temp = CAC_APRSEC.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -316,11 +316,11 @@ namespace OracleSoft.SoftwareStats
             {
                 try
                 {
-                    temp = this.CAC_SDMSEC.NextValue();
+                    temp = CAC_SDMSEC.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -335,11 +335,11 @@ namespace OracleSoft.SoftwareStats
             {
                 try
                 {
-                    temp = this.CAC_SCRSEC.NextValue();
+                    temp = CAC_SCRSEC.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -354,11 +354,11 @@ namespace OracleSoft.SoftwareStats
             {
                 try
                 {
-                    temp = this.CAC_SFRSEC.NextValue();
+                    temp = CAC_SFRSEC.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -373,11 +373,11 @@ namespace OracleSoft.SoftwareStats
             {
                 try
                 {
-                    temp = this.CAC_SMDLRSEC.NextValue();
+                    temp = CAC_SMDLRSEC.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -392,11 +392,11 @@ namespace OracleSoft.SoftwareStats
             {
                 try
                 {
-                    temp = this.CAC_SPRSEC.NextValue();
+                    temp = CAC_SPRSEC.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -411,11 +411,11 @@ namespace OracleSoft.SoftwareStats
             {
                 try
                 {
-                    temp = this.CAC_READAH.NextValue();
+                    temp = CAC_READAH.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -430,11 +430,11 @@ namespace OracleSoft.SoftwareStats
             {
                 try
                 {
-                    temp = this.CAC_PCRHITS.NextValue();
+                    temp = CAC_PCRHITS.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -449,11 +449,11 @@ namespace OracleSoft.SoftwareStats
             {
                 try
                 {
-                    temp = this.CAC_CRSEC.NextValue();
+                    temp = CAC_CRSEC.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -468,11 +468,11 @@ namespace OracleSoft.SoftwareStats
             {
                 try
                 {
-                    temp = this.CAC_FRSEC.NextValue();
+                    temp = CAC_FRSEC.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -487,11 +487,11 @@ namespace OracleSoft.SoftwareStats
             {
                 try
                 {
-                    temp = this.CAC_FRRMSEC.NextValue();
+                    temp = CAC_FRRMSEC.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -506,11 +506,11 @@ namespace OracleSoft.SoftwareStats
             {
                 try
                 {
-                    temp = this.CAC_FRNPSEC.NextValue();
+                    temp = CAC_FRNPSEC.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -525,11 +525,11 @@ namespace OracleSoft.SoftwareStats
             {
                 try
                 {
-                    temp = this.CAC_PMDLRHIT.NextValue();
+                    temp = CAC_PMDLRHIT.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -544,11 +544,11 @@ namespace OracleSoft.SoftwareStats
             {
                 try
                 {
-                    temp = this.CAC_MDLRSEC.NextValue();
+                    temp = CAC_MDLRSEC.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -563,11 +563,11 @@ namespace OracleSoft.SoftwareStats
             {
                 try
                 {
-                    temp = this.CAC_PPRHIT.NextValue();
+                    temp = CAC_PPRHIT.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -582,11 +582,11 @@ namespace OracleSoft.SoftwareStats
             {
                 try
                 {
-                    temp = this.CAC_PRSEC.NextValue();
+                    temp = CAC_PRSEC.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -601,11 +601,11 @@ namespace OracleSoft.SoftwareStats
             {
                 try
                 {
-                    temp = this.CAC_LWFSEC.NextValue();
+                    temp = CAC_LWFSEC.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -620,11 +620,11 @@ namespace OracleSoft.SoftwareStats
             {
                 try
                 {
-                    temp = this.CAC_LWPSEC.NextValue();
+                    temp = CAC_LWPSEC.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -639,11 +639,11 @@ namespace OracleSoft.SoftwareStats
             {
                 try
                 {
-                    temp = this.CAC_DFSEC.NextValue();
+                    temp = CAC_DFSEC.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -658,11 +658,11 @@ namespace OracleSoft.SoftwareStats
             {
                 try
                 {
-                    temp = this.CAC_DFPSEC.NextValue();
+                    temp = CAC_DFPSEC.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -677,11 +677,11 @@ namespace OracleSoft.SoftwareStats
             {
                 try
                 {
-                    temp = this.CAC_LWPSEC.NextValue();
+                    temp = CAC_LWPSEC.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -696,11 +696,11 @@ namespace OracleSoft.SoftwareStats
             {
                 try
                 {
-                    temp = this.CAC_DMPSEC.NextValue();
+                    temp = CAC_DMPSEC.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -715,11 +715,11 @@ namespace OracleSoft.SoftwareStats
             {
                 try
                 {
-                    temp = this.CAC_DMSEC.NextValue();
+                    temp = CAC_DMSEC.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 

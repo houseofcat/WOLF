@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Management;
+using Wolf.WolfSpec;
 
 namespace Wolf.HardSpec
 {
@@ -54,7 +55,7 @@ namespace Wolf.HardSpec
         {
             RemoteMachineFullyLoaded = false;
 
-            this.WorkStation = Workstation;
+            WorkStation = Workstation;
             //MessageBox.Show("Inside RM1 - IP:" + Workstation + ":");
 
             getRemoteMachineOSInfo(Domain, Username, Userpass, Workstation, RemChoices);
@@ -127,72 +128,72 @@ namespace Wolf.HardSpec
                         try
                         {
                             tempDate = ManagementDateTimeConverter.ToDateTime(item["InstallDate"].ToString());
-                            this.installDate = tempDate.ToString(format);
+                            installDate = tempDate.ToString(format);
                         }
                         catch (ManagementException ex)
                         {
-                            this.installDate = ex.Message;
+                            installDate = ex.Message;
                             continue;
                         }
 
                         try
                         {
                             tempDate = ManagementDateTimeConverter.ToDateTime(item["LastBootUpTime"].ToString());
-                            this.lastBootup = tempDate.ToString(format);
+                            lastBootup = tempDate.ToString(format);
                         }
                         catch (ManagementException ex)
                         {
-                            this.lastBootup = ex.Message;
+                            lastBootup = ex.Message;
                             continue;
                         }
 
                         try
                         {
-                            this.computerName = item["CSName"].ToString();
+                            computerName = item["CSName"].ToString();
                         }
                         catch (ManagementException ex)
                         {
-                            this.computerName = ex.Message;
+                            computerName = ex.Message;
                             continue;
                         }
 
                         try
                         {
-                            this.computerArch = item["OSArchitecture"].ToString();
+                            computerArch = item["OSArchitecture"].ToString();
                         }
                         catch (ManagementException ex)
                         {
-                            this.computerArch = ex.Message;
+                            computerArch = ex.Message;
                             continue;
                         }
 
                         try
                         {
-                            this.computerOS = item["Caption"].ToString().Replace("Microsoft ", "");
+                            computerOS = item["Caption"].ToString().Replace("Microsoft ", "");
                         }
                         catch (ManagementException ex)
                         {
-                            this.computerOS = ex.Message;
+                            computerOS = ex.Message;
                             continue;
                         }
 
                         try
                         {
-                            this.computerOSVersion = item["Version"].ToString();
+                            computerOSVersion = item["Version"].ToString();
                         }
                         catch (ManagementException ex)
                         {
-                            this.computerOSVersion = ex.Message;
+                            computerOSVersion = ex.Message;
                             continue;
                         }
 
                         try
                         {
-                            this.computerRAM = Tools.convertToGBFromKB(item["TotalVisibleMemorySize"].ToString());
+                            computerRAM = Tools.convertToGBFromKB(item["TotalVisibleMemorySize"].ToString());
                         }
                         catch (ManagementException ex)
                         {
-                            this.computerRAM = ex.Message;
+                            computerRAM = ex.Message;
                             continue;
                         }
                     }
@@ -210,12 +211,12 @@ namespace Wolf.HardSpec
                         {
                             if (item["SerialNumber"] != null)
                             {
-                                this.BIOS_SERIAL = item["SerialNumber"].ToString();
+                                BIOS_SERIAL = item["SerialNumber"].ToString();
                             }
                         }
                         catch (ManagementException ex)
                         {
-                            this.BIOS_SERIAL = ex.Message;
+                            BIOS_SERIAL = ex.Message;
                             continue;
                         }
 
@@ -223,12 +224,12 @@ namespace Wolf.HardSpec
                         {
                             if (item["Manufacturer"] != null)
                             {
-                                this.OEM = item["Manufacturer"].ToString();
+                                OEM = item["Manufacturer"].ToString();
                             }
                         }
                         catch (ManagementException ex)
                         {
-                            this.OEM = ex.Message;
+                            OEM = ex.Message;
                             continue;
                         }
 
@@ -236,12 +237,12 @@ namespace Wolf.HardSpec
                         {
                             if (item["SMBIOSBIOSVersion"] != null)
                             {
-                                this.BIOS_VERSION = item["SMBIOSBIOSVersion"].ToString();
+                                BIOS_VERSION = item["SMBIOSBIOSVersion"].ToString();
                             }
                         }
                         catch (ManagementException ex)
                         {
-                            this.BIOS_VERSION = ex.Message;
+                            BIOS_VERSION = ex.Message;
                             continue;
                         }
                     }
@@ -318,12 +319,12 @@ namespace Wolf.HardSpec
                         {
                             if (item["MACAddress"] != null)
                             {
-                                this.computerMAC = item["MACAddress"].ToString();
+                                computerMAC = item["MACAddress"].ToString();
                             }
                         }
                         catch (ManagementException ex)
                         {
-                            this.computerMAC = ex.Message;
+                            computerMAC = ex.Message;
                             continue;
                         }
                     }
@@ -343,11 +344,11 @@ namespace Wolf.HardSpec
 
                             string[] strArray = ((System.Collections.IEnumerable)obj).Cast<object>().Select(x => x.ToString()).ToArray();
 
-                            this.computerIP = strArray[0];
+                            computerIP = strArray[0];
                         }
                         catch (ManagementException ex)
                         {
-                            this.computerIP = ex.Message;
+                            computerIP = ex.Message;
                             continue;
                         }
                     }
@@ -369,17 +370,17 @@ namespace Wolf.HardSpec
 
                                 if (local)
                                 {
-                                    this.computerUser = localUser;
+                                    computerUser = localUser;
                                 }
                                 else
                                 {
-                                    this.computerUser = item["UserName"].ToString();
+                                    computerUser = item["UserName"].ToString();
                                 }
                             }
                         }
                         catch (ManagementException ex)
                         {
-                            this.computerUser = ex.Message;
+                            computerUser = ex.Message;
                             continue;
                         }
                     }

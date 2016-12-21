@@ -8,58 +8,58 @@ namespace Wolf.SoftSpec
 {
     class LicenseQuery
     {
-        private String L_MachineName = "";
-        private String L_OSVersion = "";
-        private String L_OSKey = "";
-        public List<String> L_OfficeKey = new List<String>();
-        public List<String> L_OfficeVersion = new List<String>();
+        private string L_MachineName = "";
+        private string L_OSVersion = "";
+        private string L_OSKey = "";
+        public List<string> L_OfficeKey = new List<string>();
+        public List<string> L_OfficeVersion = new List<string>();
 
-        public String GetMachineName()
+        public string GetMachineName()
         {
             return L_MachineName;
         }
 
-        public String GetOSVersion()
+        public string GetOSVersion()
         {
             return L_OSVersion;
         }
 
-        public String GetOSKey()
+        public string GetOSKey()
         {
             return L_OSKey;
         }
 
-        public List<String> GetOfficeVersion()
+        public List<string> GetOfficeVersion()
         {
             return L_OfficeVersion;
         }
 
-        public List<String> GetOfficeKey()
+        public List<string> GetOfficeKey()
         {
             return L_OfficeKey;
         }
 
-        public void SetMachineName(String Input)
+        public void SetMachineName( string Input )
         {
-            this.L_MachineName = Input;
+            L_MachineName = Input;
         }
 
-        public void SetOSVersion(String Input)
+        public void SetOSVersion( string Input )
         {
-            this.L_OSVersion = Input;
+            L_OSVersion = Input;
         }
 
-        public void SetOSKey(String Input)
+        public void SetOSKey( string Input )
         {
-            this.L_OSKey = Input;
+            L_OSKey = Input;
         }
 
-        public void SetOfficeVersion(String Key, String Version)
+        public void SetOfficeVersion( string Key, string Version )
         {
-            if (!this.L_OfficeKey.Contains(Key))
+            if (!L_OfficeKey.Contains(Key))
             {
-                this.L_OfficeVersion.Add(Version);
-                this.L_OfficeKey.Add(Key);
+                L_OfficeVersion.Add(Version);
+                L_OfficeKey.Add(Key);
             }
         }
     }

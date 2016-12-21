@@ -186,22 +186,22 @@ namespace Wolf
 
         public string getName()
         {
-            return this.AccountName;
+            return AccountName;
         }
 
         public string getType()
         {
-            return this.AccountType;
+            return AccountType;
         }
 
         public bool isLocal()
         {
-            return this.Local;
+            return Local;
         }
 
         public bool isActive()
         {
-            return this.Active;
+            return Active;
         }
 
         public List<string> ExportData()

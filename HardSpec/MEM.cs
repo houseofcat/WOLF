@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Management;
+using Wolf.WolfSpec;
 
 namespace Wolf.HardSpec
 {
@@ -580,17 +581,17 @@ namespace Wolf.HardSpec
 
         public string getMEMManufacturer()
         {
-            return this.MEMManu;
+            return MEMManu;
         }
 
         public string getMEMSpeed()
         {
-            return this.MEMSpeed;
+            return MEMSpeed;
         }
 
         public ulong getMemSize()
         {
-            return this.intTotMem;
+            return intTotMem;
         }
     }
 }

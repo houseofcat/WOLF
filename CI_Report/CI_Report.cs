@@ -30,7 +30,7 @@ namespace Wolf.CI_Report
 
             if (ClipboardOnly)
             {
-                this.Hide();
+                Hide();
 
                 CI_MiniReport newMiniReport = new CI_MiniReport(Win32ClassList, NoNulls, ClipboardOnly);
 
@@ -49,7 +49,7 @@ namespace Wolf.CI_Report
                 BW.RunWorkerCompleted += new RunWorkerCompletedEventHandler(BW_RunWorkerCompleted);
                 BW.RunWorkerAsync();
 
-                this.Text += " loading...";
+                Text += " loading...";
                 SetDoubleBuffered(this);
                 SetDoubleBuffered(dgvCompInfo);
             }
@@ -70,14 +70,14 @@ namespace Wolf.CI_Report
 
         private void BW_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            this.SuspendLayout();
+            SuspendLayout();
 
             if (ClipboardOnly)
             {
                 MessageBox.Show("Data copied!");
                 CopyDataToClipboard();
 
-                this.Close();
+                Close();
             }
             else if (dtAllComputerInfo.Columns.Count > 500)
             {
@@ -86,7 +86,7 @@ namespace Wolf.CI_Report
 
                 CopyDataToClipboard();
 
-                this.Close();
+                Close();
             }
 
             else if (dtAllComputerInfo.Columns.Count > 350)
@@ -98,7 +98,7 @@ namespace Wolf.CI_Report
 
                 dgvCompInfo.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-                for (int i = 0; i < dtAllComputerInfo.Columns.Count; i++)
+                for (int i = 0; i < dtAllComputerInfo.Columns.Count && i < int.MaxValue; i++)
                 {
 
                     DataGridViewTextBoxColumn column = new DataGridViewTextBoxColumn();
@@ -115,9 +115,9 @@ namespace Wolf.CI_Report
                 Data.DataSource = dtAllComputerInfo;
             }
 
-            this.ResumeLayout();
+            ResumeLayout();
 
-            this.Text = "Computer Info Report (v0.001)";
+            Text = "Computer Info Report (v0.001)";
         }
 
         private void CreateLists(List<string> Win32ClassList, bool NoNulls)
@@ -140,12 +140,12 @@ namespace Wolf.CI_Report
             }
         }
 
-        private DataTable ConvertListsToDataTable(List<List<String>> DataLists)
+        private DataTable ConvertListsToDataTable(List<List<string>> DataLists)
         {
             DataTable table = CreateNewTable(DataLists);
             int Max_Rows = GetMaxRows(DataLists);
 
-            for (int i = 0; i < Max_Rows; i++ )
+            for (int i = 0; i < Max_Rows && i < int.MaxValue; i++ )
             {
                 DataRow row = table.NewRow();
                 table.Rows.InsertAt(row, i);
@@ -193,16 +193,16 @@ namespace Wolf.CI_Report
 
             foreach(List<string> list in DataLists)
             {
-                if (Max_Rows < (list.Count() - 1))
+                if (Max_Rows < (list.Count()))
                 {
-                    Max_Rows = (list.Count() - 1);
+                    Max_Rows = (list.Count());
                 }
             }
 
             return Max_Rows;
         }
 
-        private void GetComputerInfo(String WMIClass)
+        private void GetComputerInfo( string WMIClass )
         {
             ManagementClass mc = new ManagementClass(WMIClass);
             ManagementObjectCollection MOC = mc.GetInstances();
@@ -211,7 +211,7 @@ namespace Wolf.CI_Report
             {
                 foreach (ManagementObject MO in MOC)
                 {
-                    List<String> ComputerInfo = new List<String>();
+                    List<string> ComputerInfo = new List<string>();
                     ComputerInfo.Add(WMIClass);
 
                     PropertyDataCollection pdlist = MO.Properties;
@@ -226,7 +226,7 @@ namespace Wolf.CI_Report
 
                             temp = pd.Name + ": ";
 
-                            for (int i = 0; i < strArray.Length; i++)
+                            for (int i = 0; i < strArray.Length && i < int.MaxValue; i++)
                             {
                                 ComputerInfo.Add(temp + strArray[i]);
                             }
@@ -261,9 +261,9 @@ namespace Wolf.CI_Report
                                     ComputerInfo.Add(temp + pd.Value);
                                     string[] splitString = pd.Value.ToString().Split(',');
 
-                                    if (splitString.Count() > 1)
+                                    if (splitString.Any())
                                     {
-                                        for (int i = 0; i < splitString.Count(); i++)
+                                        for (int i = 0; i < splitString.Length && i < int.MaxValue; i++)
                                         {
                                             if (i != 0)
                                             {
@@ -275,7 +275,7 @@ namespace Wolf.CI_Report
                                     {
                                         splitString = pd.Value.ToString().Split(':');
 
-                                        for (int i = 0; i < splitString.Count(); i++)
+                                        for (int i = 0; i < splitString.Length || i < int.MaxValue; i++)
                                         {
                                             if (i != 0)
                                             {
@@ -303,7 +303,7 @@ namespace Wolf.CI_Report
 
                                     splitString = pd.Value.ToString().Split(':');
 
-                                    for (int i = 0; i < splitString.Count(); i++)
+                                    for (int i = 0; i < splitString.Length || i < int.MaxValue; i++)
                                     {
                                         if (i != 0)
                                         {
@@ -343,7 +343,7 @@ namespace Wolf.CI_Report
             }
         }
 
-        private void GetComputerInfo_NoNulls(String WMIClass)
+        private void GetComputerInfo_NoNulls( string WMIClass )
         {
             ManagementClass mc = new ManagementClass(WMIClass);
             ManagementObjectCollection MOC = mc.GetInstances();
@@ -357,7 +357,7 @@ namespace Wolf.CI_Report
             {
                 foreach (ManagementObject MO in MOC)
                 {
-                    List<String> ComputerInfo = new List<String>();
+                    List<string> ComputerInfo = new List<string>();
                     ComputerInfo.Add(WMIClass);
 
                     PropertyDataCollection pdlist = MO.Properties;
@@ -372,7 +372,7 @@ namespace Wolf.CI_Report
 
                             temp = pd.Name + ": ";
 
-                            for (int i = 0; i < strArray.Length; i++)
+                            for (int i = 0; i < strArray.Length && i < int.MaxValue; i++)
                             {
                                 ComputerInfo.Add(temp + strArray[i]);
                             }
@@ -402,9 +402,9 @@ namespace Wolf.CI_Report
                                     ComputerInfo.Add(temp + pd.Value);
                                     string[] splitString = pd.Value.ToString().Split(',');
 
-                                    if (splitString.Count() > 1)
+                                    if (splitString.Any())
                                     {
-                                        for (int i = 0; i < splitString.Count(); i++)
+                                        for (int i = 0; i < splitString.Length && i < int.MaxValue; i++)
                                         {
                                             if (i != 0)
                                             {
@@ -416,7 +416,7 @@ namespace Wolf.CI_Report
                                     {
                                         splitString = pd.Value.ToString().Split(':');
 
-                                        for (int i = 0; i < splitString.Count(); i++)
+                                        for (int i = 0; i < splitString.Length && i < int.MaxValue; i++)
                                         {
                                             if (i != 0)
                                             {
@@ -439,7 +439,7 @@ namespace Wolf.CI_Report
 
                                     splitString = pd.Value.ToString().Split(':');
 
-                                    for (int i = 0; i < splitString.Count(); i++)
+                                    for (int i = 0; i < splitString.Length && i < int.MaxValue; i++)
                                     {
                                         if (i != 0)
                                         {
@@ -482,7 +482,7 @@ namespace Wolf.CI_Report
             StringBuilder Output = new StringBuilder();
  
             //The first "line" will be the Headers.
-            for (int i = 0; i < dtAllComputerInfo.Columns.Count; i++)
+            for (int i = 0; i < dtAllComputerInfo.Columns.Count && i < int.MaxValue; i++)
             {
                 Output.Append(dtAllComputerInfo.Columns[i].ColumnName + "\t");
             }
@@ -493,7 +493,7 @@ namespace Wolf.CI_Report
             foreach (DataRow Row in dtAllComputerInfo.Rows)
             {
                 //Don't generate a new line at all if Row is not visible
-                for (int i = 0; i < Row.ItemArray.Length; i++)
+                for (int i = 0; i < Row.ItemArray.Length && i < int.MaxValue; i++)
                 {
                     //Handling the last cell of the line.
                     if (i == (Row.ItemArray.Length - 1))

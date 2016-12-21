@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net.NetworkInformation;
+using Wolf.WolfSpec;
 
 namespace Wolf
 {
@@ -54,32 +55,32 @@ namespace Wolf
 
         public string getName()
         {
-            return this.Nic;
+            return Nic;
         }
 
         public string getConnName()
         {
-            return this.Conn;
+            return Conn;
         }
 
         public string getConnType()
         {
-            return this.ConnType;
+            return ConnType;
         }
 
         public string getSpeed()
         {
-            return this.Speed;
+            return Speed;
         }
 
         public string getMAC()
         {
-            return this.Mac;
+            return Mac;
         }
 
         public bool IsNICUp()
         {
-            return this.IsUp;
+            return IsUp;
         }
     }
 }

@@ -649,7 +649,7 @@ namespace Wolf.HardSpec
         //Index = 0;
         public string GetCPUCaption()
         {
-            return this.CPUInfo.ElementAt(0).ToString();
+            return CPUInfo.ElementAt(0).ToString();
         }
 
         //Index = 1;
@@ -657,7 +657,7 @@ namespace Wolf.HardSpec
         {
             string Name = "";
 
-            Name = funcConvertName(this.CPUInfo.ElementAt(1).ToString());
+            Name = funcConvertName( CPUInfo.ElementAt(1).ToString());
 
             return Name;
         }
@@ -665,7 +665,7 @@ namespace Wolf.HardSpec
         //Index = 2;
         public string GetCPUFamily()
         {
-            return this.CPUInfo.ElementAt(2).ToString();
+            return CPUInfo.ElementAt(2).ToString();
         }
 
         //Index = 3;
@@ -673,7 +673,7 @@ namespace Wolf.HardSpec
         {
             string Status = "";
 
-            Status = funcConvertStatus(this.CPUInfo.ElementAt(3).ToString());
+            Status = funcConvertStatus( CPUInfo.ElementAt(3).ToString());
 
             return Status;
         }
@@ -683,7 +683,7 @@ namespace Wolf.HardSpec
         {
             string Arch = "";
 
-            Arch = funcConvertArch(this.CPUInfo.ElementAt(4).ToString());
+            Arch = funcConvertArch( CPUInfo.ElementAt(4).ToString());
 
             return Arch;
         }
@@ -691,73 +691,73 @@ namespace Wolf.HardSpec
         //Index = 5;
         public string GetCPUAddressWidth()
         {
-            return this.CPUInfo.ElementAt(5).ToString();
+            return CPUInfo.ElementAt(5).ToString();
         }
 
         //Index = 6;
         public string GetCPUMaxFreq()
         {
-            return this.CPUInfo.ElementAt(6).ToString();
+            return CPUInfo.ElementAt(6).ToString();
         }
 
         //Index = 7;
         public string GetCPUMan()
         {
-            return this.CPUInfo.ElementAt(7).ToString();
+            return CPUInfo.ElementAt(7).ToString();
         }
 
         //Index = 8;
         public string GetCPUCurrentFreq()
         {
-            return this.CPUInfo.ElementAt(8).ToString();
+            return CPUInfo.ElementAt(8).ToString();
         }
 
         //Index = 9;
         public string GetCPUCurrentVolt()
         {
-            return this.CPUInfo.ElementAt(9).ToString();
+            return CPUInfo.ElementAt(9).ToString();
         }
 
         //Index = 10;
         public string GetCPUL2CacheSize()
         {
-            return this.CPUInfo.ElementAt(10).ToString();
+            return CPUInfo.ElementAt(10).ToString();
         }
 
         //Index = 11;
         public string GetCPUL3CacheSize()
         {
-            return this.CPUInfo.ElementAt(11).ToString();
+            return CPUInfo.ElementAt(11).ToString();
         }
 
         //Index = 12;
         public string GetCPUCores()
         {
-            return this.CPUInfo.ElementAt(12).ToString();
+            return CPUInfo.ElementAt(12).ToString();
         }
 
         //Index = 13;
         public string GetCPUThreads()
         {
-            return this.CPUInfo.ElementAt(13).ToString();
+            return CPUInfo.ElementAt(13).ToString();
         }
 
         //Index = 14;
         public string GetCPURevision()
         {
-            return this.CPUInfo.ElementAt(14).ToString();
+            return CPUInfo.ElementAt(14).ToString();
         }
 
         //Index = 15;
         public string GetCPURole()
         {
-            return this.CPUInfo.ElementAt(15).ToString();
+            return CPUInfo.ElementAt(15).ToString();
         }
 
         //Index = 16;
         public string GetCPUSocket()
         {
-            return this.CPUInfo.ElementAt(16).ToString();
+            return CPUInfo.ElementAt(16).ToString();
         }
 
         //Converts WMI number to meaningful String.

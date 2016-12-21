@@ -287,12 +287,12 @@ namespace Wolf
 
         public string getIRQName()
         {
-            return this.IRQName;
+            return IRQName;
         }
 
         public string getIRQNumber()
         {
-            return this.IRQNumber;
+            return IRQNumber;
         }
     }
 }

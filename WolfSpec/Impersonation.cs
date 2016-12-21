@@ -15,44 +15,39 @@ namespace Wolf
         private readonly SafeTokenHandle _handle;
         private readonly WindowsImpersonationContext _context;
 
-        public Boolean ImpersonationSucceeded = false;
+        public bool Success = false;
 
         const int LOGON32_LOGON_NEW_CREDENTIALS = 9;
 
-        public Impersonation(string domain, string username, string password)
+        public Impersonation(string d, string u, string p)
         {
             try
             {
-                ImpersonationSucceeded = LogonUser(username, domain, password,
-                           LOGON32_LOGON_NEW_CREDENTIALS, 0, out this._handle);
+                Success = LogonUser(u, d, p, LOGON32_LOGON_NEW_CREDENTIALS, 0, out _handle );
 
-                if (ImpersonationSucceeded)
+                if ( Success )
                 {
-                    this._context = WindowsIdentity.Impersonate(this._handle.DangerousGetHandle());
+                    _context = WindowsIdentity.Impersonate( _handle.DangerousGetHandle());
                 }
             }
             catch (UnauthorizedAccessException UAE)
             {
                 MessageBox.Show("Impersonation: Unauthorized Access Exception Occurred.\n\nMessage: " + UAE.Message + "\n\nStack: " + UAE.StackTrace);
-
-                ImpersonationSucceeded = false;
             }
-            catch (Exception EX)
+            catch (Exception ex)
             {
-                MessageBox.Show("Impersonation: Unknown Exception Occurred.\n\nMessage: " + EX.Message + "\n\nStack: " + EX.StackTrace);
-
-                ImpersonationSucceeded = false;
+                MessageBox.Show("Impersonation: Unknown Exception Occurred.\n\nMessage: " + ex.Message + "\n\nStack: " + ex.StackTrace);
             }
         }
 
         public void Dispose()
         {
-            this._context.Dispose();
-            this._handle.Dispose();
+            _context.Dispose();
+            _handle.Dispose();
         }
 
         [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        private static extern bool LogonUser(String lpszUsername, String lpszDomain, String lpszPassword, int dwLogonType, int dwLogonProvider, out SafeTokenHandle phToken);
+        private static extern bool LogonUser( string lpszUsername, string lpszDomain, string lpszPassword, int dwLogonType, int dwLogonProvider, out SafeTokenHandle phToken);
 
         public sealed class SafeTokenHandle : SafeHandleZeroOrMinusOneIsInvalid
         {

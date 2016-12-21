@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.IO;
+using System.Linq;
 using System.Management;
-using System.Security.Principal;
+using System.Runtime.InteropServices;
 using System.Security.AccessControl;
+using System.Security.Principal;
+using System.ServiceProcess;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using NetFwTypeLib;
 using Microsoft.Win32;
-using System.Runtime.InteropServices;
-using System.ServiceProcess;
+using NetFwTypeLib;
 
-namespace Wolf
+namespace Wolf.WolfSpec
 {
     #region UnmanagedCode
     class NativeMethods
@@ -1064,7 +1064,7 @@ namespace Wolf
             {
                 if ((Environment.Is64BitOperatingSystem) && (!(Environment.Is64BitProcess)))
                 {
-                    String RegLocation = "SYSTEM\\ControlSet001\\Control\\Power\\PowerSettings\\54533251-82be-4824-96c1-47b60b740d00\\0cc5b647-c1df-4637-891a-dec35c318583";
+                    string RegLocation = "SYSTEM\\ControlSet001\\Control\\Power\\PowerSettings\\54533251-82be-4824-96c1-47b60b740d00\\0cc5b647-c1df-4637-891a-dec35c318583";
                     RegistryKey corekey = (RegistryKey.OpenBaseKey(RegistryHive.LocalMachine,
                                            RegistryView.Registry64)).OpenSubKey(RegLocation, false);
 
@@ -2749,7 +2749,7 @@ namespace Wolf
         {
             string temp = "";
 
-            for (int i = 0; i < length; i++)
+            for (int i = 0; i < length && i < int.MaxValue; i++)
             {
                 temp += input.ElementAt(i);
 
@@ -2768,7 +2768,7 @@ namespace Wolf
         {
             string temp = "";
 
-            for (int i = 0; i < length; i++)
+            for (int i = 0; i < length && i < int.MaxValue; i++)
             {
                 temp += input.ElementAt(i);
 
@@ -2836,9 +2836,9 @@ namespace Wolf
                     KeyExists = false;
                 }
             }
-            catch (Exception EX)
+            catch (Exception ex)
             {
-                EX.ToString();
+                ex.ToString();
             }
 
             return KeyExists;
@@ -2861,9 +2861,9 @@ namespace Wolf
                     ProductKeyInfo[0] = dmkey;
                     ProductKeyInfo[1] = oemid;
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    EX.ToString();
+                    ex.ToString();
                 }
             }
             else
@@ -2967,9 +2967,9 @@ namespace Wolf
                         DecodedKey = new string(decodedChars);
                     }
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    EX.ToString();
+                    ex.ToString();
                 }
             }
 
@@ -3039,7 +3039,7 @@ namespace Wolf
         }
 
         #region Windows Telemetry
-        public static void stopService(String ServiceName, int Timeout)
+        public static void stopService( string ServiceName, int Timeout)
         {
             ServiceController service = null;
             try { service = new ServiceController(ServiceName); }
@@ -3064,7 +3064,7 @@ namespace Wolf
             else { MessageBox.Show("Service: " + ServiceName + "\n\nService was not found, unable to stop.", "Service Not Found"); }
         }
 
-        public static void startService(String ServiceName, int Timeout)
+        public static void startService( string ServiceName, int Timeout)
         {
             ServiceController service = null;
             try { service = new ServiceController(ServiceName); }
@@ -3092,7 +3092,7 @@ namespace Wolf
             else { MessageBox.Show("Service: " + ServiceName + "\n\nService was not found, unable to start.", "Service Not Found"); }
         }
 
-        public static bool isServiceRunning(String ServiceName)
+        public static bool isServiceRunning( string ServiceName )
         {
             ServiceController service = new ServiceController(ServiceName);
             bool IsRunning = false;
@@ -3114,7 +3114,7 @@ namespace Wolf
             return IsRunning;
         }
 
-        public static void disableService(String ServiceName)
+        public static void disableService( string ServiceName )
         {
             RegistryKey Key = null;
 
@@ -3129,7 +3129,7 @@ namespace Wolf
             { MessageBox.Show("Service: " + ServiceName + "\n\nService registry key was not found.", "RegKey Not Found"); }
         }
 
-        public static void enableService(String ServiceName)
+        public static void enableService( string ServiceName )
         {
             RegistryKey Key = null;
 
@@ -3216,7 +3216,7 @@ namespace Wolf
                 {
                     string[] Lines = File.ReadAllLines(HostsPath);
 
-                    for (int i = 0; i < Lines.Count(); i++)
+                    for (int i = 0; i < Lines.Length && i < int.MaxValue; i++)
                     {
                         if (Lines[i] == "# WOLF Windows Telemetry IP Block/Redirects #")
                         {
@@ -3320,7 +3320,7 @@ namespace Wolf
             return DataCollectionDisabled;
         }
 
-        public static string getServiceStartupStatus(String ServiceName)
+        public static string getServiceStartupStatus( string ServiceName )
         {
             RegistryKey wdKey = null;
             string Value = "";

@@ -8,18 +8,18 @@ namespace Wolf.SearchRename
 {
     public class SearchItem
     {
-        Boolean WasFound = false;
-        String FileName = "";
-        String FilePath = "";
-        String FileConversion = "";
-        String FileExtension = "";
+        bool WasFound = false;
+        string FileName = "";
+        string FilePath = "";
+        string FileConversion = "";
+        string FileExtension = "";
 
         public SearchItem()
         {
 
         }
 
-        public SearchItem(String filePath, String fileName, Boolean wasFound)
+        public SearchItem( string filePath, string fileName, bool wasFound )
         {
             setFilePath(filePath);
             setFileName(fileName);
@@ -27,57 +27,57 @@ namespace Wolf.SearchRename
             setExtension();
         }
 
-        private void setFilePath(String input)
+        private void setFilePath( string input )
         {
-            this.FilePath = input;
+            FilePath = input;
         }
 
-        private void setFileName(String input)
+        private void setFileName( string input )
         {
-            this.FileName = input;
+            FileName = input;
         }
 
-        private void setWasFound(Boolean input)
+        private void setWasFound( bool input )
         {
-            this.WasFound = input;
+            WasFound = input;
         }
 
         private void setExtension()
         {
             if (FilePath != "")
             {
-                String[] strArray = FilePath.Split('.');
+                string[] strArray = FilePath.Split('.');
 
                 if (strArray.Length == 2)
                 {
-                    this.FileExtension = "." + strArray[1];
+                    FileExtension = "." + strArray[1];
                 }
             }
         }
 
-        public String getFilePath()
+        public string getFilePath()
         {
-            return this.FilePath;
+            return FilePath;
         }
 
-        public String getFileName()
+        public string getFileName()
         {
-            return this.FileName;
+            return FileName;
         }
 
-        public String getFileConversion()
+        public string getFileConversion()
         {
-            return this.FileConversion;
+            return FileConversion;
         }
 
-        public Boolean getWasFound()
+        public bool getWasFound()
         {
-            return this.WasFound;
+            return WasFound;
         }
 
-        public String getFileExtension()
+        public string getFileExtension()
         {
-            return this.FileExtension;
+            return FileExtension;
         }
     }
 }

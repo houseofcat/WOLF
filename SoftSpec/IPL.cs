@@ -4,11 +4,11 @@ using System.Linq;
 using System.Windows.Forms;
 using Microsoft.Win32;
 
-namespace Wolf
+namespace Wolf.SoftSpec
 {
-    class IPL
+    internal class IPL
     {
-        private List<InstalledProgram> allInstalled = new List<InstalledProgram>();
+        private readonly List<InstalledProgram> allInstalled = new List<InstalledProgram>();
         public List<InstalledProgram> sortedList = new List<InstalledProgram>();
 
         public IPL()
@@ -16,9 +16,7 @@ namespace Wolf
             allInstalled = getInstalledPrograms();
 
             if (allInstalled.Any())
-            {
                 funcSortByName();
-            }
 
             sortedList = new List<InstalledProgram>(allInstalled);
         }
@@ -26,135 +24,83 @@ namespace Wolf
         //http://stackoverflow.com/questions/15524161/c-how-to-get-installing-programs-exactly-like-in-control-panel-programs-and-fe
         private List<InstalledProgram> getInstalledPrograms()
         {
-            List<InstalledProgram> newList = new List<InstalledProgram>();
-            RegistryKey UninstallKey32 = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall", false);
+            var newList = new List<InstalledProgram>();
+            var UninstallKey32 =
+                Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall", false);
 
-            foreach (string temp in UninstallKey32.GetSubKeyNames())
-            {
+            foreach (var temp in UninstallKey32.GetSubKeyNames())
                 try
                 {
-                    RegistryKey subkey = UninstallKey32.OpenSubKey(temp);
+                    var subkey = UninstallKey32.OpenSubKey(temp);
 
                     if (IsProgramVisible(subkey))
                     {
-                        string name = "";
-                        string version = "";
-                        string installDate = "";
-                        string uninstallCommand = "";
+                        var name = "";
+                        var version = "";
+                        var installDate = "";
+                        var uninstallCommand = "";
 
-                        if (subkey.GetValue("DisplayName") != null)
-                        {
-                            name = subkey.GetValue("DisplayName").ToString();
-                        }
-                        else
-                        {
-                            name = "";
-                        }
-
-                        if (subkey.GetValue("DisplayVersion") != null)
-                        {
-                            version = subkey.GetValue("DisplayVersion").ToString();
-                        }
-                        else
-                        {
-                            version = "";
-                        }
-
-                        if (subkey.GetValue("InstallDate") != null)
-                        {
-                            installDate = subkey.GetValue("InstallDate").ToString();
-                        }
-                        else
-                        {
-                            installDate = "";
-                        }
-
-                        if (subkey.GetValue("UninstallString") != null)
-                        {
-                            uninstallCommand = subkey.GetValue("UninstallString").ToString();
-                        }
-                        else
-                        {
-                            uninstallCommand = "";
-                        }
+                        name = subkey?.GetValue("DisplayName")?.ToString() ?? "";
+                        version = subkey?.GetValue("DisplayVersion")?.ToString() ?? "";
+                        installDate = subkey?.GetValue("InstallDate")?.ToString() ?? "";
+                        uninstallCommand = subkey?.GetValue("UninstallString")?.ToString() ?? "";
 
                         newList.Add(new InstalledProgram(name, version, installDate, uninstallCommand));
                     }
                 }
-                catch(Exception EX)
+                catch (Exception ex)
                 {
                     MessageBox.Show("Exception Occurred: 32-Bit Program Reading. \n\n" +
-                                    EX.Message + "\n\n" +
-                                    EX.StackTrace);
-
-                    continue;
+                                    ex.Message + "\n\n" +
+                                    ex.StackTrace);
                 }
-            }
 
             if (Environment.Is64BitOperatingSystem)
             {
-                RegistryKey UninstallKey64 = Registry.LocalMachine.OpenSubKey("SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall", false);
-                foreach (string temp in UninstallKey64.GetSubKeyNames())
-                {
+                var UninstallKey64 =
+                    Registry.LocalMachine.OpenSubKey(
+                        "SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall", false);
+                foreach (var temp in UninstallKey64.GetSubKeyNames())
                     try
                     {
-                        RegistryKey subkey = UninstallKey64.OpenSubKey(temp);
+                        var subkey = UninstallKey64.OpenSubKey(temp);
 
                         if (IsProgramVisible(subkey))
                         {
-                            string name = "";
-                            string version = "";
-                            string installDate = "";
-                            string uninstallCommand = "";
+                            var name = "";
+                            var version = "";
+                            var installDate = "";
+                            var uninstallCommand = "";
 
                             if (subkey.GetValue("DisplayName") != null)
-                            {
                                 name = subkey.GetValue("DisplayName").ToString();
-                            }
                             else
-                            {
                                 name = "Prog. (xNull.)";
-                            }
 
                             if (subkey.GetValue("DisplayVersion") != null)
-                            {
                                 version = subkey.GetValue("DisplayVersion").ToString();
-                            }
                             else
-                            {
                                 version = "Vers. (xNull)";
-                            }
 
                             if (subkey.GetValue("InstallDate") != null)
-                            {
                                 installDate = subkey.GetValue("InstallDate").ToString();
-                            }
                             else
-                            {
                                 installDate = "";
-                            }
 
                             if (subkey.GetValue("UninstallString") != null)
-                            {
                                 uninstallCommand = subkey.GetValue("UninstallString").ToString();
-                            }
                             else
-                            {
                                 uninstallCommand = "";
-                            }
 
                             newList.Add(new InstalledProgram(name, version, installDate, uninstallCommand));
                         }
                     }
-                    catch (Exception EX)
+                    catch (Exception ex)
                     {
                         MessageBox.Show("Exception Occurred: 64-Bit Program Reading. \n\n" +
-                                        EX.Message + "\n\n" +
-                                        EX.StackTrace);
-
-                        continue;
+                                        ex.Message + "\n\n" +
+                                        ex.StackTrace);
                     }
-                }
             }
 
             return newList;
@@ -162,18 +108,14 @@ namespace Wolf
 
         private bool IsProgramVisible(RegistryKey subkey)
         {
-            bool IsVisible = false;
-            string name = "";
+            var IsVisible = false;
+            var name = "";
 
             if (subkey.GetValue("DisplayName") != null)
-            {
                 name = subkey.GetValue("DisplayName").ToString();
-            }
 
-            if ((name != null)&&(name != ""))
-            {
+            if (name != null && name != "")
                 IsVisible = true;
-            }
 
             return IsVisible;
         }
@@ -186,12 +128,12 @@ namespace Wolf
 
         public List<InstalledProgram> getSortedList()
         {
-            return this.sortedList;
+            return sortedList;
         }
 
         public List<InstalledProgram> getUnsortedList()
         {
-            return this.allInstalled;
+            return allInstalled;
         }
     }
 }

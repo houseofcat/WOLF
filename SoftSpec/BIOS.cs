@@ -274,36 +274,36 @@ namespace Wolf
 
         public string getBIOSManufacturer()
         {
-            return this.Manufacturer;
+            return Manufacturer;
         }
 
         public string getBIOSDate()
         {
             string temp = "";
 
-            temp = this.Date.Replace("BIOS Date: ", "");
+            temp = Date.Replace("BIOS Date: ", "");
 
             return temp;
         }
 
         public string getBIOSVersion()
         {
-            return this.SMBIOS;
+            return SMBIOS;
         }
 
         public string getBIOSPrimary()
         {
-            return this.PrimaryBios;
+            return PrimaryBios;
         }
 
         public string getBIOSName()
         {
-            return this.Name;
+            return Name;
         }
 
         public string getBIOSSerial()
         {
-            return this.Serial;
+            return Serial;
         }
     }
 }

@@ -253,87 +253,87 @@ namespace Wolf
 
         public string getDisplayName()
         {
-            return this.DisplayName;
+            return DisplayName;
         }
 
         public string getDriverName()
         {
-            return this.DriverName;
+            return DriverName;
         }
 
         public string getDriverDescription()
         {
-            return this.DriverDescription;
+            return DriverDescription;
         }
 
         public string getErrorControl()
         {
-            return this.ErrorControl;
+            return ErrorControl;
         }
 
         public string getInstallDate()
         {
-            return this.InstallDate;
+            return InstallDate;
         }
 
         public string getName()
         {
-            return this.Name;
+            return Name;
         }
 
         public string getPathName()
         {
-            return this.PathName;
+            return PathName;
         }
 
         public string getTagId()
         {
-            return this.TagId;
+            return TagId;
         }
 
         public string getServiceType()
         {
-            return this.ServiceType;
+            return ServiceType;
         }
 
         public string getSpecificExitCode()
         {
-            return this.SpecificExitCode;
+            return SpecificExitCode;
         }
 
         public string getStartMode()
         {
-            return this.StartMode;
+            return StartMode;
         }
 
         public string getStartName()
         {
-            return this.StartName;
+            return StartName;
         }
 
         public string getStatus()
         {
-            return this.Status;
+            return Status;
         }
 
         public string getState()
         {
-            return this.State;
+            return State;
         }
 
         public bool getStarted()
         {
-            return this.Started;
+            return Started;
         }
 
         public bool getAcceptPause()
         {
-            return this.AcceptPause;
+            return AcceptPause;
         }
 
         public bool getAcceptStop()
         {
-            return this.AcceptStop;
+            return AcceptStop;
         }
     }
 }

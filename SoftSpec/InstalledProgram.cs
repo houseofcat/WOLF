@@ -30,12 +30,12 @@ namespace Wolf
 
         private void setProgramName(string name)
         {
-            this.programName = name;
+            programName = name;
         }
 
         private void setProgramVersion(string version)
         {
-            this.programVersion = version;
+            programVersion = version;
         }
 
         private void setInstallDate(string date)
@@ -53,18 +53,18 @@ namespace Wolf
                 date = "Unknown";
             }
 
-            this.programInstDate = date;
+            programInstDate = date;
         }
 
         private void setUninstallCMD(string UCMD)
         {
             if (UCMD != "")
             {
-                this.programUninstallCMD = UCMD;
+                programUninstallCMD = UCMD;
             }
             else
             {
-                this.programUninstallCMD = "Unknown";
+                programUninstallCMD = "Unknown";
             }
         }
 
@@ -79,7 +79,7 @@ namespace Wolf
             procStartInfo.UseShellExecute = true;
             procStartInfo.CreateNoWindow = true;
             procStartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            procStartInfo.Arguments = "/C \"" + this.programUninstallCMD + "\"";
+            procStartInfo.Arguments = "/C \"" + programUninstallCMD + "\"";
 
             Process startProc = Process.Start(procStartInfo);
 
@@ -88,27 +88,27 @@ namespace Wolf
 
         public string getProgramName()
         {
-            return this.programName;
+            return programName;
         }
 
         public string getProgramVersion()
         {
-            return this.programVersion;
+            return programVersion;
         }
 
         public string getProgramInstallDate()
         {
-            return this.programInstDate;
+            return programInstDate;
         }
 
         public string getUninstallCommand()
         {
-            return this.programUninstallCMD;
+            return programUninstallCMD;
         }
 
         public bool IsProgramUninstallable()
         {
-            return this.CanBeUninstalled;
+            return CanBeUninstalled;
         }
     }
 }

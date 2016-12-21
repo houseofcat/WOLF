@@ -29,7 +29,7 @@ namespace Wolf.CI_Report
         {
             InitializeComponent();
 
-            this.Text = strTitle + strVersion + " - Loading...";
+            Text = strTitle + strVersion + " - Loading...";
 
             BWHW.DoWork += new DoWorkEventHandler(BW_HW_DoWork);
             BWHW.RunWorkerCompleted += new RunWorkerCompletedEventHandler(BW_HW_RunWorkerCompleted);
@@ -62,7 +62,7 @@ namespace Wolf.CI_Report
 
         private void BW_HW_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            this.SuspendLayout();
+            SuspendLayout();
 
             int count = 0;
             foreach (Control c in gbxWin32HW.Controls)
@@ -82,12 +82,12 @@ namespace Wolf.CI_Report
                 count++;
             }
 
-            this.ResumeLayout(true);
+            ResumeLayout( true);
         }
 
         private void BW_OS_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            this.SuspendLayout();
+            SuspendLayout();
 
             int count = 0;
             foreach (Control c in gbxWin32OS.Controls)
@@ -111,9 +111,9 @@ namespace Wolf.CI_Report
             cbxClipboard.Enabled = true;
             btnRunReport.Enabled = true;
             btnEnablePIQs.Enabled = true;
-            this.Text = strTitle + strVersion;
+            Text = strTitle + strVersion;
 
-            this.ResumeLayout(true);
+            ResumeLayout( true);
         }
 
         private void BWPIQ_DoWork(object sender, DoWorkEventArgs e)
@@ -126,7 +126,7 @@ namespace Wolf.CI_Report
 
         private void BWPIQ_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            this.SuspendLayout();
+            SuspendLayout();
 
             int count = 0;
             foreach (Control c in gbxWin32PIQs.Controls)
@@ -148,10 +148,10 @@ namespace Wolf.CI_Report
 
             gbxWin32PIQs.Text = "Win32 - Performance Intensive Queries";
 
-            this.ResumeLayout(true);
+            ResumeLayout( true);
         }
 
-        private int GetWin32InstanceCount(String WMIClass)
+        private int GetWin32InstanceCount( string WMIClass )
         {
             int Count = 0;
 
@@ -222,7 +222,7 @@ namespace Wolf.CI_Report
             //Console.WriteLine(temp.Text);
         }
 
-        private void IncrementPerformance(String WMIClass)
+        private void IncrementPerformance( string WMIClass )
         {
             int temp = GetWin32InstanceCount(WMIClass);
 
@@ -232,7 +232,7 @@ namespace Wolf.CI_Report
             EvaluatePerformance();
         }
 
-        private void IncrementPerformancev2(String WMIClass)
+        private void IncrementPerformancev2( string WMIClass )
         {
             int temp = 0;
             string[] strArray = WMIClass.Split(' ');
@@ -249,7 +249,7 @@ namespace Wolf.CI_Report
             }
         }
 
-        private void DecrementPerformance(String WMIClass)
+        private void DecrementPerformance( string WMIClass )
         {
             int temp = GetWin32InstanceCount(WMIClass);
 
@@ -264,7 +264,7 @@ namespace Wolf.CI_Report
             EvaluatePerformance();
         }
 
-        private void DecrementPerformancev2(String WMIClass)
+        private void DecrementPerformancev2( string WMIClass )
         {
             int temp = 0;
             string[] strArray = WMIClass.Split(' ');

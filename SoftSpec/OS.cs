@@ -10,6 +10,7 @@ using System.Net.NetworkInformation;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Wolf.SoftSpec;
+using Wolf.WolfSpec;
 
 namespace Wolf
 {
@@ -148,9 +149,9 @@ namespace Wolf
             {
                 funcPopulateAccounts();
             }
-            catch(Exception EX)
+            catch(Exception ex)
             {
-                AccountErrorMessage = "Exception: " + EX.Message + "\n\nStack: " + EX.StackTrace;
+                AccountErrorMessage = "Exception: " + ex.Message + "\n\nStack: " + ex.StackTrace;
                 AccountErrorOccurred = true;
             }
         }
@@ -172,9 +173,9 @@ namespace Wolf
             {
                 funcPopulateIRQs();
             }
-            catch(Exception EX)
+            catch(Exception ex)
             {
-                IRQErrorMessage = "Exception: " + EX.Message + "\n\nStack Trace: " + EX.StackTrace;
+                IRQErrorMessage = "Exception: " + ex.Message + "\n\nStack Trace: " + ex.StackTrace;
                 IRQErrorOccured = true;
             }
         }
@@ -196,9 +197,9 @@ namespace Wolf
             {
                 funcPopulateNetPorts();
             }
-            catch (Exception EX)
+            catch (Exception ex)
             {
-                NetPortsErrorMessage = "Exception: " + EX.Message + "\n\nStack Trace: " + EX.StackTrace;
+                NetPortsErrorMessage = "Exception: " + ex.Message + "\n\nStack Trace: " + ex.StackTrace;
                 NetPortsErrorOccurred = true;
             }
         }
@@ -217,12 +218,12 @@ namespace Wolf
 
         public bool AreAccountsLoaded()
         {
-            return this.AccountsLoaded;
+            return AccountsLoaded;
         }
 
         public bool AreIRQsLoaded()
         {
-            return this.IRQsLoaded;
+            return IRQsLoaded;
         }
 
         private void SetOSInfo()
@@ -879,32 +880,32 @@ namespace Wolf
 
         public string GetLocale()
         {
-            return this.Localization;
+            return Localization;
         }
 
         public string GetCompName()
         {
-            return this.ComputerName;
+            return ComputerName;
         }
 
         public string GetUserName()
         {
-            return this.UserName;
+            return UserName;
         }
 
         public string GetOSVersion()
         {
-            return this.OSVersion;
+            return OSVersion;
         }
 
         public string GetNETVersion()
         {
-            return this.NETVersion;
+            return NETVersion;
         }
 
         public string GetDomainName()
         {
-            return this.DomainName;
+            return DomainName;
         }
 
         public string GetOSName()
@@ -959,18 +960,18 @@ namespace Wolf
 
         public string GetWindowsInstall()
         {
-            return this.WindowsInstall;
+            return WindowsInstall;
         }
 
         public List<string> ToList()
         {
             List<string> info = new List<string>();
 
-            info.Add(this.ComputerName);
-            info.Add(this.UserName);
-            info.Add(this.OSVersion);
-            info.Add(this.DomainName);
-            info.Add(this.NETVersion);
+            info.Add( ComputerName );
+            info.Add( UserName );
+            info.Add( OSVersion );
+            info.Add( DomainName );
+            info.Add( NETVersion );
 
             foreach (string temp in OSInfo)
             {
@@ -995,7 +996,7 @@ namespace Wolf
             {
                 if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
                 {
-                    this.strIPv4 = ip.ToString();
+                    strIPv4 = ip.ToString();
                 }
             }
 
@@ -1003,7 +1004,7 @@ namespace Wolf
 
             if (ipAddress[0].AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
             {
-                this.strIPv6 = ipAddress[0].ToString();
+                strIPv6 = ipAddress[0].ToString();
             }
         }
 
@@ -1031,7 +1032,7 @@ namespace Wolf
                 temp = "No internet connection.";
             }
 
-            this.strExtIP = temp;
+            strExtIP = temp;
         }
 
         public void SetPartitions()
@@ -1052,17 +1053,17 @@ namespace Wolf
 
         public string GetIPv4()
         {
-            return this.strIPv4;
+            return strIPv4;
         }
 
         public string GetIPv6()
         {
-            return this.strIPv6;
+            return strIPv6;
         }
 
         public string GetExtIP()
         {
-            return this.strExtIP;
+            return strExtIP;
         }
 
         public void SetMemoryConfig()
@@ -1132,47 +1133,47 @@ namespace Wolf
 
         public List<string> getMemoryConfig()
         {
-            return this.MemConfig;
+            return MemConfig;
         }
 
         public string getFreePhysicalMem()
         {
-            return this.MemConfig.ElementAt(0);
+            return MemConfig.ElementAt(0);
         }
 
         public string getFreeVirtualMem()
         {
-            return this.MemConfig.ElementAt(1);
+            return MemConfig.ElementAt(1);
         }
 
         public string getTotalVirtualMem()
         {
-            return this.MemConfig.ElementAt(2);
+            return MemConfig.ElementAt(2);
         }
 
         public string getTotalVisibleMem()
         {
-            return this.MemConfig.ElementAt(3);
+            return MemConfig.ElementAt(3);
         }
 
         public string getPageFileFree()
         {
-            return this.MemConfig.ElementAt(4);
+            return MemConfig.ElementAt(4);
         }
 
         public string getPageFileSize()
         {
-            return this.MemConfig.ElementAt(5);
+            return MemConfig.ElementAt(5);
         }
 
         public string getMaxProcessSize()
         {
-            return this.MemConfig.ElementAt(6);
+            return MemConfig.ElementAt(6);
         }
 
         public int getMemConfigLength()
         {
-            return this.intMemConfigLength;
+            return intMemConfigLength;
         }
 
         public string getMEMFreePerc()
@@ -1587,39 +1588,39 @@ namespace Wolf
 
                 if (temp.getType() == "User")
                 {
-                    this.UserAccounts.Add(temp);
+                    UserAccounts.Add(temp);
                 }
                 else if (temp.getType() == "Group")
                 {
-                    this.GroupAccounts.Add(temp);
+                    GroupAccounts.Add(temp);
                 }
                 else if (temp.getType() == "Domain")
                 {
-                    this.DomainAccounts.Add(temp);
+                    DomainAccounts.Add(temp);
                 }
                 else if (temp.getType() == "Alias")
                 {
-                    this.AliasAccounts.Add(temp);
+                    AliasAccounts.Add(temp);
                 }
                 else if (temp.getType() == "WellKnownGroup")
                 {
-                    this.WKGAccounts.Add(temp);
+                    WKGAccounts.Add(temp);
                 }
                 else if (temp.getType() == "DeletedAccount")
                 {
-                    this.DeletedAccounts.Add(temp);
+                    DeletedAccounts.Add(temp);
                 }
                 else if (temp.getType() == "Invalid")
                 {
-                    this.InvalidAccounts.Add(temp);
+                    InvalidAccounts.Add(temp);
                 }
                 else if (temp.getType() == "Unknown")
                 {
-                    this.UnknownAccounts.Add(temp);
+                    UnknownAccounts.Add(temp);
                 }
                 else if (temp.getType() == "Computer")
                 {
-                    this.ComputerAccounts.Add(temp);
+                    ComputerAccounts.Add(temp);
                 }
             }
             AccountTimer.Stop();

@@ -115,7 +115,7 @@ namespace Wolf.HardSpec
                 //Convert from Bytes to Gigabytes
                 memSize = memSize / 1041741824;
 
-                this.TotalMemory = memSize.ToString("0.##") + " GB " + "(" + intMemModules + "x DIMM)";
+                TotalMemory = memSize.ToString("0.##") + " GB " + "(" + intMemModules + "x DIMM)";
             }
         }
 
@@ -130,7 +130,7 @@ namespace Wolf.HardSpec
             {
                 MEM temp = new MEM(obj);
 
-                this.listMEM.Add(temp);
+                listMEM.Add(temp);
 
                 MemorySpeed = temp.MEMSpeed;
 
@@ -140,7 +140,7 @@ namespace Wolf.HardSpec
 
         public string getTotalMemorySize()
         {
-            return this.TotalMemory;
+            return TotalMemory;
         }
 
         //Set to public so it can be handled in a background worker thread
@@ -155,7 +155,7 @@ namespace Wolf.HardSpec
             {
                 CPU temp = new CPU(procInfo);
 
-                this.listCPU.Add(temp);
+                listCPU.Add(temp);
             }
         }
 
@@ -188,7 +188,7 @@ namespace Wolf.HardSpec
             {
                 GPU temp = new GPU(gpuInfo);
 
-                this.listGPU.Add(temp);
+                listGPU.Add(temp);
             }
         }
 
@@ -201,7 +201,7 @@ namespace Wolf.HardSpec
             {
                 SoundDevice temp = new SoundDevice(sdInfo);
 
-                this.listSD.Add(temp);
+                listSD.Add(temp);
             }
         }
 
@@ -214,7 +214,7 @@ namespace Wolf.HardSpec
             {
                 PNPMonitor temp = new PNPMonitor(monInfo);
 
-                this.listMons.Add(temp);
+                listMons.Add(temp);
             }
         }
 
@@ -227,7 +227,7 @@ namespace Wolf.HardSpec
             {
                 ThermalProbe temp = new ThermalProbe(tpInfo);
 
-                this.listTP.Add(temp);
+                listTP.Add(temp);
             }
         }
 
@@ -240,7 +240,7 @@ namespace Wolf.HardSpec
             {
                 BIOS temp = new BIOS(BIOSInfo);
 
-                this.listBIOS.Add(temp);
+                listBIOS.Add(temp);
             }
         }
 
@@ -253,7 +253,7 @@ namespace Wolf.HardSpec
             {
                 SMBIOS temp = new SMBIOS(SMInfo);
 
-                this.listSMBIOS.Add(temp);
+                listSMBIOS.Add(temp);
             }
         }
 
@@ -265,8 +265,8 @@ namespace Wolf.HardSpec
             foreach (ManagementObject Adapt in searcher.Get())
             {
                 NIC temp = new NIC(Adapt);
-            
-                this.listNIC.Add(temp);
+
+                listNIC.Add(temp);
             }
         }
 
@@ -279,7 +279,7 @@ namespace Wolf.HardSpec
             {
                 LOGDRV temp = new LOGDRV(Drive);
 
-                this.listLOGDRV.Add(temp);
+                listLOGDRV.Add(temp);
             }
         }
 
@@ -292,7 +292,7 @@ namespace Wolf.HardSpec
             {
                 DSKDRV temp = new DSKDRV(Drive);
 
-                this.listDSKDRV.Add(temp);
+                listDSKDRV.Add(temp);
             }
         }
 
@@ -305,7 +305,7 @@ namespace Wolf.HardSpec
             {
                 OS temp = new OS(item);
 
-                this.listOS.Add(temp);
+                listOS.Add(temp);
             }
         }
 

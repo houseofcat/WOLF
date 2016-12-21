@@ -481,17 +481,17 @@ namespace Wolf.HardSpec
 
         public string getName()
         {
-            return this.Name;
+            return Name;
         }
 
         public string getManufacturer()
         {
-            return this.Manu;
+            return Manu;
         }
 
         public string getModel()
         {
-            return this.Model;
+            return Model;
         }
 
         public bool IsOnGPU()

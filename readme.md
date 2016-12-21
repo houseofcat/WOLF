@@ -1,7 +1,13 @@
 # WOLF - Windows Operations & Library of Functions C\# 
 
-My very first program that morphed into a Frakenstein mess! I am rewriting this program from scratch now that Windows 10 has changed the way administration works.
+My very first program that morphed into a Frakenstein mess!
 
-I feel my program is still necessary but a good clean rewrite would also allow me to utilize my improved knowledge and skills.
+I am rewriting this program from scratch now that Windows 10 has changed the way administration works.
 
-This initial release is based on v0.3588. Also take note this is the one flagged for being vicious malware by AV companies. Willing to sell me a yearly certificate of about 120$ to help get my kick ass software off their blacklists...
+December 21st, 2106
+This was the last refactoring / code cleanup before beginning an entire rewrite as UWP.
+
+This program now comes up either 100% cleanup or one flag on VirusTotal.
+https://www.virustotal.com/en/file/0398b5b01977b0e8c389c625e17f5a146d52269de6bb3c29e1e03a905d4d1782/analysis/1482342876/
+
+Seems the best I can get with it.

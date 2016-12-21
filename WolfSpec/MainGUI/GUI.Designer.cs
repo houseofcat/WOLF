@@ -209,10 +209,10 @@
             this.ntfsOptions = new System.Windows.Forms.CheckedListBox();
             this.fsBox = new System.Windows.Forms.ComboBox();
             this.toolsPage5 = new System.Windows.Forms.TabPage();
+            this.mtbxDomainUserPassword = new System.Windows.Forms.MaskedTextBox();
             this.label28 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
-            this.tbxDomainUserPassword = new System.Windows.Forms.TextBox();
             this.tbxDomainUserName = new System.Windows.Forms.TextBox();
             this.tbxDomainName2 = new System.Windows.Forms.TextBox();
             this.tabDomain = new System.Windows.Forms.TabControl();
@@ -2584,10 +2584,10 @@
             // toolsPage5
             // 
             this.toolsPage5.BackColor = System.Drawing.Color.Silver;
+            this.toolsPage5.Controls.Add(this.mtbxDomainUserPassword);
             this.toolsPage5.Controls.Add(this.label28);
             this.toolsPage5.Controls.Add(this.label27);
             this.toolsPage5.Controls.Add(this.label26);
-            this.toolsPage5.Controls.Add(this.tbxDomainUserPassword);
             this.toolsPage5.Controls.Add(this.tbxDomainUserName);
             this.toolsPage5.Controls.Add(this.tbxDomainName2);
             this.toolsPage5.Controls.Add(this.tabDomain);
@@ -2596,6 +2596,17 @@
             this.toolsPage5.Size = new System.Drawing.Size(756, 386);
             this.toolsPage5.TabIndex = 4;
             this.toolsPage5.Text = "Domain";
+            // 
+            // mtbxDomainUserPassword
+            // 
+            this.mtbxDomainUserPassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.mtbxDomainUserPassword.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.mtbxDomainUserPassword.Location = new System.Drawing.Point(418, 6);
+            this.mtbxDomainUserPassword.Name = "mtbxDomainUserPassword";
+            this.mtbxDomainUserPassword.PasswordChar = '*';
+            this.mtbxDomainUserPassword.Size = new System.Drawing.Size(100, 20);
+            this.mtbxDomainUserPassword.TabIndex = 7;
+            this.mtbxDomainUserPassword.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
             // 
             // label28
             // 
@@ -2623,16 +2634,6 @@
             this.label26.Size = new System.Drawing.Size(46, 13);
             this.label26.TabIndex = 4;
             this.label26.Text = "Domain:";
-            // 
-            // tbxDomainUserPassword
-            // 
-            this.tbxDomainUserPassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.tbxDomainUserPassword.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.tbxDomainUserPassword.Location = new System.Drawing.Point(420, 6);
-            this.tbxDomainUserPassword.Name = "tbxDomainUserPassword";
-            this.tbxDomainUserPassword.PasswordChar = '*';
-            this.tbxDomainUserPassword.Size = new System.Drawing.Size(100, 20);
-            this.tbxDomainUserPassword.TabIndex = 3;
             // 
             // tbxDomainUserName
             // 
@@ -7035,7 +7036,6 @@
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Label label26;
-        private System.Windows.Forms.TextBox tbxDomainUserPassword;
         private System.Windows.Forms.TextBox tbxDomainUserName;
         private System.Windows.Forms.TextBox tbxDomainName2;
         private System.Windows.Forms.LinkLabel llByteMeDev;
@@ -7393,6 +7393,7 @@
         private System.Windows.Forms.Button btnOwnsLog;
         private System.Windows.Forms.TextBox tbxHostsOwner;
         private System.Windows.Forms.TextBox tbxTrackingOwner;
+        private System.Windows.Forms.MaskedTextBox mtbxDomainUserPassword;
     }
 }
 

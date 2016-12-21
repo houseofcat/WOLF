@@ -21,6 +21,8 @@ using Wolf.CI_Report;
 using Wolf.SearchRename;
 using Wolf.HardSpec;
 using Wolf.SoftSpec;
+using System.Security;
+using Wolf.WolfSpec;
 
 namespace Wolf
 {
@@ -221,11 +223,11 @@ namespace Wolf
 
             if (Environment.Is64BitProcess)
             {
-                this.Text += " (x64)";
+                Text += " (x64)";
             }
             else
             {
-                this.Text += " (x86)";
+                Text += " (x86)";
             }
 
             funcLOG("============= Program Start-Up ===================");
@@ -240,9 +242,9 @@ namespace Wolf
                 {
                     BWCUPDATE.RunWorkerAsync();
                 }
-                catch (Exception Ex)
+                catch (Exception ex)
                 {
-                    logEXCEPT(Ex);
+                    logEXCEPT(ex);
                 }
             }
 
@@ -374,11 +376,11 @@ namespace Wolf
                     aProp.SetValue(c, true, null);
                 }
             }
-            catch (Exception EX)
+            catch (Exception ex)
             {
                 MessageBox.Show("Setting double buffered controls failed. \n\n" +
-                                "Exception : " + EX.Message + "\n\n" +
-                                "Stack: " + EX.StackTrace);
+                                "Exception : " + ex.Message + "\n\n" +
+                                "Stack: " + ex.StackTrace);
             }
         }
 
@@ -436,12 +438,12 @@ namespace Wolf
 
                     if (webData.Any())
                     {
-                        this.latestversion = webData;
+                        latestversion = webData;
                     }
                 }
                 catch 
                 {
-                    this.latestversion = "";
+                    latestversion = "";
                 }
             }
         }
@@ -551,7 +553,7 @@ namespace Wolf
 
             try
             {
-                remMac = new RemoteMachine(tbxDomainName2.Text, tbxDomainUserName.Text, tbxDomainUserPassword.Text, tbxWSName.Text, RemChoices);
+                remMac = new RemoteMachine(tbxDomainName2.Text, tbxDomainUserName.Text, mtbxDomainUserPassword.Text, tbxWSName.Text, RemChoices);
             }
             catch (System.Management.ManagementException MEX)
             {
@@ -579,10 +581,10 @@ namespace Wolf
                 //so it could be logged.
                 CEX.ToString();
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("If you are seeing this message, very very very strong chance I have no idea what caused this.\n\n" +
-                                "You should definitely submit this to me.\n\n" + Ex.Message + "\n\nStack Trace: " + Ex.StackTrace);
+                                "You should definitely submit this to me.\n\n" + ex.Message + "\n\nStack Trace: " + ex.StackTrace);
 
                 remMac.funcClear();
             }
@@ -782,9 +784,9 @@ namespace Wolf
 
                 tbxGenCPU.Text = comp.cpu.GetCPUName();
             }
-            catch (Exception EX)
+            catch (Exception ex)
             {
-                logEXCEPT(EX);
+                logEXCEPT(ex);
             }
 
             funcLOG("Main processor information has been determined. Elapsed time: " + DisplayTimer.ElapsedMilliseconds.ToString() + " ms");
@@ -884,7 +886,7 @@ namespace Wolf
 
                     try
                     {
-                        remMac1 = new RemoteMachine(tbxDomainName2.Text, tbxDomainUserName.Text, tbxDomainUserPassword.Text, IP, RangeChoices);
+                        remMac1 = new RemoteMachine(tbxDomainName2.Text, tbxDomainUserName.Text, mtbxDomainUserPassword.Text, IP, RangeChoices);
                     }
                     catch (System.Management.ManagementException MEX)
                     {
@@ -913,10 +915,10 @@ namespace Wolf
                         CEX.ToString();
                         continue;
                     }
-                    catch (Exception Ex)
+                    catch (Exception ex)
                     {
                         MessageBox.Show("If you are seeing this message, very very very strong chance I have no idea what caused this.\n\n" +
-                                        "You should definitely submit this to me.\n\n" + Ex.Message + "\n\nStack Trace: " + Ex.StackTrace);
+                                        "You should definitely submit this to me.\n\n" + ex.Message + "\n\nStack Trace: " + ex.StackTrace);
                         continue;
                     }
                     finally
@@ -991,7 +993,7 @@ namespace Wolf
 
         private void BWQ_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            this.lbRangePercent.Text = "Percent Complete: " + (e.ProgressPercentage.ToString() + "%");
+            lbRangePercent.Text = "Percent Complete: " + (e.ProgressPercentage.ToString() + "%");
         }
 
         private void BWPQ_DoWork(object sender, DoWorkEventArgs e)
@@ -1028,8 +1030,8 @@ namespace Wolf
             double temp = temp = ramUsage.NextValue() / 1000.0;
             temp = (100 - ((temp / dblTotMem) * 100));
 
-            this.lbCPUUsage.Text = "CPU: " + (e.ProgressPercentage + "%");
-            this.lbRamUsage.Text = "RAM: " + temp.ToString("0.##") + "%";
+            lbCPUUsage.Text = "CPU: " + (e.ProgressPercentage + "%");
+            lbRamUsage.Text = "RAM: " + temp.ToString("0.##") + "%";
         }
 
         private void BWCUPDATE_DoWork(object sender, DoWorkEventArgs e)
@@ -1137,7 +1139,7 @@ namespace Wolf
 
             if (BWNP.CancellationPending != true)
             {
-                this.SuspendLayout();
+                SuspendLayout();
 
                 funcLoadNetworkPorts();
 
@@ -1167,9 +1169,9 @@ namespace Wolf
                 dgvNetPorts.HorizontalScrollingOffset = ScrollHoriz;
 
                 PropertyInfo verticalOffset = dgvNetPorts.GetType().GetProperty("VerticalOffset", BindingFlags.NonPublic | BindingFlags.Instance);
-                verticalOffset.SetValue(this.dgvNetPorts, ScrollVert, null);
+                verticalOffset.SetValue( dgvNetPorts, ScrollVert, null);
 
-                this.ResumeLayout(true);
+                ResumeLayout( true);
             }
         }
 
@@ -1350,9 +1352,9 @@ namespace Wolf
                     funcLOG("A OS product key has not been found & decoded.");
                 }
             }
-            catch (Exception EX)
+            catch (Exception ex)
             {
-                logEXCEPT(EX);
+                logEXCEPT(ex);
             }
 
             try
@@ -1445,9 +1447,9 @@ namespace Wolf
                     count++;
                 }
             }
-            catch (Exception EX)
+            catch (Exception ex)
             {
-                logEXCEPT(EX);
+                logEXCEPT(ex);
             }
             
 
@@ -1479,7 +1481,7 @@ namespace Wolf
 
                 if (temp.AllOSInfo.Any())
                 {
-                    for (int i = 0; i < temp.allOSLength; i++)
+                    for (int i = 0; i < temp.allOSLength && i < int.MaxValue; i++)
                     {
                         treeOS.Nodes[(j - 1)].Nodes.Add(temp.AllOSInfo.ElementAt(i));
                     }
@@ -1531,7 +1533,7 @@ namespace Wolf
 
                 if (con.CONInfo.Any())
                 {
-                    for (int i = 0; i < con.intCONlength; i++)
+                    for (int i = 0; i < con.intCONlength && i < int.MaxValue; i++)
                     {
                         treeCONs.Nodes[(j - 1)].Nodes.Add(con.CONInfo.ElementAt(i));
                     }
@@ -1624,10 +1626,10 @@ namespace Wolf
                 tbxHiberSize.Text = Tools.funcCheckHiberFileSize();
                 funcLOG("Hibernate file size/check completed.");
             }
-            catch (Exception EX)
+            catch (Exception ex)
             {
-                MessageBox.Show("OS Status Exception: " + EX.Message + "\n\n" +
-                                "Stack Trace: " + EX.StackTrace);
+                MessageBox.Show("OS Status Exception: " + ex.Message + "\n\n" +
+                                "Stack Trace: " + ex.StackTrace);
             }
         }
 
@@ -1637,7 +1639,7 @@ namespace Wolf
             funcLOG("All memory information has been gathered.");
 
             int j = 1;
-            this.intTotMem = 0;
+            intTotMem = 0;
 
             //MessageBox.Show("There are a total of " + comp.intMemModules.ToString() + " recognized DIMMS");
 
@@ -1646,7 +1648,7 @@ namespace Wolf
 
                 treeMEM.Nodes.Add("RAM Module #: " + j.ToString());
 
-                for (int i = 0; i < mem.intMEMLength; i++)
+                for (int i = 0; i < mem.intMEMLength && i < int.MaxValue; i++)
                 {
                     treeMEM.Nodes[(j - 1)].Nodes.Add(mem.MEMInfo.ElementAt(i));
                 }
@@ -1670,7 +1672,7 @@ namespace Wolf
                 j++;
             }
 
-            dblTotMem = Convert.ToDouble(this.intTotMem);
+            dblTotMem = Convert.ToDouble( intTotMem );
 
             //tbxLog.Text += "Double Converted Value: " + dblTotMem;
             //tbxLog.Text += System.Environment.NewLine;
@@ -1702,7 +1704,7 @@ namespace Wolf
             {
                 treePROCS.Nodes.Add("Processor #: " + j.ToString());
 
-                for (int i = 0; i < cpu.intCPULength; i++)
+                for (int i = 0; i < cpu.intCPULength && i < int.MaxValue; i++)
                 {
                     treePROCS.Nodes[(j - 1)].Nodes.Add(cpu.CPUInfo2.ElementAt(i));
                 }
@@ -1724,7 +1726,7 @@ namespace Wolf
             {
                 treePARTs.Nodes.Add("Partition #: " + j.ToString());
 
-                for (int i = 0; i < dp.intPRTLength; i++)
+                for (int i = 0; i < dp.intPRTLength && i < int.MaxValue; i++)
                 {
                     treePARTs.Nodes[(j - 1)].Nodes.Add(dp.PartitionInfo.ElementAt(i));
                 }
@@ -1746,7 +1748,7 @@ namespace Wolf
             {
                 treeBIOS.Nodes.Add("BIOS #: " + j.ToString());
 
-                for (int i = 0; i < bios.intBIOSLength; i++)
+                for (int i = 0; i < bios.intBIOSLength && i < int.MaxValue; i++)
                 {
                     treeBIOS.Nodes[(j - 1)].Nodes.Add(bios.BIOSInfo.ElementAt(i));
                 }
@@ -1792,7 +1794,7 @@ namespace Wolf
             {
                 treeBIOS.Nodes.Add("SMBIOS" + (j - 1).ToString(), "SMBIOS Memory Array #: " + (j - 1).ToString());
 
-                for (int i = 0; i < smbios.intSMLength; i++)
+                for (int i = 0; i < smbios.intSMLength && i < int.MaxValue; i++)
                 {
                     treeBIOS.Nodes[(j - 1)].Nodes.Add(smbios.SMInfo.ElementAt(i));
                 }
@@ -1994,7 +1996,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[0].Nodes[0].Nodes[0].Nodes.Add("User #: " + j.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[0].Nodes[0].Nodes[0].Nodes[(j - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2005,7 +2007,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[0].Nodes[0].Nodes[1].Nodes.Add("User #: " + k.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[0].Nodes[0].Nodes[1].Nodes[(k - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2016,7 +2018,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[0].Nodes[1].Nodes[0].Nodes.Add("User #: " + l.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[0].Nodes[1].Nodes[0].Nodes[(l - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2027,7 +2029,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[0].Nodes[1].Nodes[1].Nodes.Add("User #: " + m.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[0].Nodes[1].Nodes[1].Nodes[(m - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2050,7 +2052,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[1].Nodes[0].Nodes[0].Nodes.Add("Group #: " + j.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[1].Nodes[0].Nodes[0].Nodes[(j - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2061,7 +2063,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[1].Nodes[0].Nodes[1].Nodes.Add("Group #: " + k.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[1].Nodes[0].Nodes[1].Nodes[(k - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2072,7 +2074,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[1].Nodes[1].Nodes[0].Nodes.Add("Group #: " + l.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[1].Nodes[1].Nodes[0].Nodes[(l - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2083,7 +2085,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[1].Nodes[1].Nodes[1].Nodes.Add("Group #: " + m.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[1].Nodes[1].Nodes[1].Nodes[(m - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2106,7 +2108,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[2].Nodes[0].Nodes[0].Nodes.Add("Domain #: " + j.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[2].Nodes[0].Nodes[0].Nodes[(j - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2117,7 +2119,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[2].Nodes[0].Nodes[1].Nodes.Add("Domain #: " + k.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[2].Nodes[0].Nodes[1].Nodes[(k - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2128,7 +2130,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[2].Nodes[1].Nodes[0].Nodes.Add("Domain #: " + l.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[2].Nodes[1].Nodes[0].Nodes[(l - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2139,7 +2141,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[2].Nodes[1].Nodes[1].Nodes.Add("Domain #: " + m.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[2].Nodes[1].Nodes[1].Nodes[(m - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2162,7 +2164,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[3].Nodes[0].Nodes[0].Nodes.Add("Alias #: " + j.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[3].Nodes[0].Nodes[0].Nodes[(j - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2173,7 +2175,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[3].Nodes[0].Nodes[1].Nodes.Add("Alias #: " + k.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[3].Nodes[0].Nodes[1].Nodes[(k - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2184,7 +2186,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[3].Nodes[1].Nodes[0].Nodes.Add("Alias #: " + l.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[3].Nodes[1].Nodes[0].Nodes[(l - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2195,7 +2197,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[3].Nodes[1].Nodes[1].Nodes.Add("Alias #: " + m.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[3].Nodes[1].Nodes[1].Nodes[(m - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2218,7 +2220,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[4].Nodes[0].Nodes[0].Nodes.Add("WellKnownGroups #: " + j.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[4].Nodes[0].Nodes[0].Nodes[(j - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2229,7 +2231,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[4].Nodes[0].Nodes[1].Nodes.Add("WellKnownGroups #: " + k.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[4].Nodes[0].Nodes[1].Nodes[(k - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2240,7 +2242,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[4].Nodes[1].Nodes[0].Nodes.Add("WellKnownGroups #: " + l.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[4].Nodes[1].Nodes[0].Nodes[(l - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2251,7 +2253,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[4].Nodes[1].Nodes[1].Nodes.Add("WellKnownGroups #: " + m.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[4].Nodes[1].Nodes[1].Nodes[(m - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2274,7 +2276,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[5].Nodes[0].Nodes[0].Nodes.Add("Deleted #: " + j.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[5].Nodes[0].Nodes[0].Nodes[(j - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2285,7 +2287,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[5].Nodes[0].Nodes[1].Nodes.Add("Deleted #: " + k.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[5].Nodes[0].Nodes[1].Nodes[(k - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2296,7 +2298,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[5].Nodes[1].Nodes[0].Nodes.Add("Deleted #: " + l.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[5].Nodes[1].Nodes[0].Nodes[(l - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2307,7 +2309,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[5].Nodes[1].Nodes[1].Nodes.Add("Deleted #: " + m.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[5].Nodes[1].Nodes[1].Nodes[(m - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2330,7 +2332,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[6].Nodes[0].Nodes[0].Nodes.Add("Invalid #: " + j.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[6].Nodes[0].Nodes[0].Nodes[(j - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2341,7 +2343,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[6].Nodes[0].Nodes[1].Nodes.Add("Invalid #: " + k.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[6].Nodes[0].Nodes[1].Nodes[(k - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2352,7 +2354,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[6].Nodes[1].Nodes[0].Nodes.Add("Invalid #: " + l.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[6].Nodes[1].Nodes[0].Nodes[(l - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2363,7 +2365,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[6].Nodes[1].Nodes[1].Nodes.Add("Invalid #: " + m.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[6].Nodes[1].Nodes[1].Nodes[(m - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2386,7 +2388,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[7].Nodes[0].Nodes[0].Nodes.Add("Unknown #: " + j.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[7].Nodes[0].Nodes[0].Nodes[(j - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2397,7 +2399,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[7].Nodes[0].Nodes[1].Nodes.Add("Unknown #: " + k.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[7].Nodes[0].Nodes[1].Nodes[(k - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2408,7 +2410,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[7].Nodes[1].Nodes[0].Nodes.Add("Unknown #: " + l.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[7].Nodes[1].Nodes[0].Nodes[(l - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2419,7 +2421,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[7].Nodes[1].Nodes[1].Nodes.Add("Unknown #: " + m.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[7].Nodes[1].Nodes[1].Nodes[(m - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2442,7 +2444,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[8].Nodes[0].Nodes[0].Nodes.Add("Computer #: " + j.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[8].Nodes[0].Nodes[0].Nodes[(j - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2453,7 +2455,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[8].Nodes[0].Nodes[1].Nodes.Add("Computer #: " + k.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[8].Nodes[0].Nodes[1].Nodes[(k - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2464,7 +2466,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[8].Nodes[1].Nodes[0].Nodes.Add("Computer #: " + l.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[8].Nodes[1].Nodes[0].Nodes[(l - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2475,7 +2477,7 @@ namespace Wolf
                 {
                     treeACTs.Nodes[8].Nodes[1].Nodes[1].Nodes.Add("Computer #: " + m.ToString() + " - " + acct.getName());
 
-                    for (int i = 0; i < acct.intAcctLength; i++)
+                    for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
                         treeACTs.Nodes[8].Nodes[1].Nodes[1].Nodes[(m - 1)].Nodes.Add(acct.ACCTInfo.ElementAt(i));
                     }
@@ -2643,11 +2645,11 @@ namespace Wolf
                     newStream.Close();
 
                 }
-                catch (Exception Ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("Error ocurred writing a general CSV." + Environment.NewLine +
-                                Environment.NewLine + "Exception Message: " + Ex.Message +
-                                Environment.NewLine + "Message Stack: " + Ex.StackTrace);
+                                Environment.NewLine + "Exception Message: " + ex.Message +
+                                Environment.NewLine + "Message Stack: " + ex.StackTrace);
                 }
             }
         }
@@ -2664,7 +2666,7 @@ namespace Wolf
             {
                 treeIRQ.Nodes.Add(irq.getIRQName());
 
-                for (int i = 0; i < irq.intIRQLength; i++)
+                for (int i = 0; i < irq.intIRQLength && i < int.MaxValue; i++)
                 {
                     treeIRQ.Nodes[(j - 1)].Nodes.Add(irq.IRQInfo.ElementAt(i));
                 }
@@ -2698,7 +2700,7 @@ namespace Wolf
                         physNicGuid = nic.getGUID();
                     }
 
-                    for (int i = 0; i < nic.intNICLength; i++)
+                    for (int i = 0; i < nic.intNICLength && i < int.MaxValue; i++)
                     {
                         treeNICS.Nodes[(j - 1)].Nodes.Add(nic.NICInfo.ElementAt(i));
                     }
@@ -2722,7 +2724,7 @@ namespace Wolf
                 {
                     treeVNICS.Nodes.Add("VNI #: " + j.ToString() + " - " + nic.getName());
 
-                    for (int i = 0; i < nic.intNICLength; i++)
+                    for (int i = 0; i < nic.intNICLength && i < int.MaxValue; i++)
                     {
                         treeVNICS.Nodes[(j - 1)].Nodes.Add(nic.NICInfo.ElementAt(i));
                     }
@@ -2746,7 +2748,7 @@ namespace Wolf
             {
                 treeLDRVs.Nodes.Add("Drive #: " + j.ToString() + " - (" + drv.getName() + "\\)");
 
-                for (int i = 0; i < drv.intDRVLength; i++)
+                for (int i = 0; i < drv.intDRVLength && i < int.MaxValue; i++)
                 {
                     treeLDRVs.Nodes[(j - 1)].Nodes.Add(drv.DRVInfo.ElementAt(i));
                 }
@@ -2770,7 +2772,7 @@ namespace Wolf
             {
                 treePDRVs.Nodes.Add("Drive #: " + j.ToString() + " - (" + drv.getName() + "\\)");
 
-                for (int i = 0; i < drv.intDRVLength; i++)
+                for (int i = 0; i < drv.intDRVLength && i < int.MaxValue; i++)
                 {
                     treePDRVs.Nodes[(j - 1)].Nodes.Add(drv.DRVInfo.ElementAt(i));
                 }
@@ -2822,7 +2824,7 @@ namespace Wolf
                 {
                     treeGPUs.Nodes.Add("GPU #: " + j.ToString());
 
-                    for (int i = 0; i < gpu.intGPULength; i++)
+                    for (int i = 0; i < gpu.intGPULength && i < int.MaxValue; i++)
                     {
                         treeGPUs.Nodes[(j - 1)].Nodes.Add(gpu.GPUInfo.ElementAt(i));
                     }
@@ -2845,7 +2847,7 @@ namespace Wolf
             {
                 treeTPs.Nodes.Add("TP #: " + j.ToString() + " - " + tp.getName());
 
-                for (int i = 0; i < tp.intTPLength; i++)
+                for (int i = 0; i < tp.intTPLength && i < int.MaxValue; i++)
                 {
                     treeTPs.Nodes[(j - 1)].Nodes.Add(tp.TPInfo.ElementAt(i));
                 }
@@ -2869,7 +2871,7 @@ namespace Wolf
                 {
                     treeSDs.Nodes.Add("Sound Device #: " + j.ToString() + " - " + sd.getName());
 
-                    for (int i = 0; i < sd.intSDLength; i++)
+                    for (int i = 0; i < sd.intSDLength && i < int.MaxValue; i++)
                     {
                         treeSDs.Nodes[(j - 1)].Nodes.Add(sd.SDInfo.ElementAt(i));
                     }
@@ -2887,7 +2889,7 @@ namespace Wolf
                 {
                     treeGPUs.Nodes.Add("Sound Device (on GPUs) #: " + g.ToString() + " - " + sd.getName());
 
-                    for (int i = 0; i < sd.intSDLength; i++)
+                    for (int i = 0; i < sd.intSDLength && i < int.MaxValue; i++)
                     {
                         treeGPUs.Nodes[g].Nodes.Add(sd.SDInfo.ElementAt(i));
                     }
@@ -2946,7 +2948,7 @@ namespace Wolf
             {
                 treeDISPS.Nodes[1].Nodes.Add("PNP Display #" + j.ToString() + " - " + mon.getName());
 
-                for (int i = 0; i < mon.intMonLength; i++)
+                for (int i = 0; i < mon.intMonLength && i < int.MaxValue; i++)
                 {
                     treeDISPS.Nodes[1].Nodes[(j - 1)].Nodes.Add(mon.MONInfo.ElementAt(i));
                 }
@@ -2960,15 +2962,15 @@ namespace Wolf
         //Function load memory status of OS.
         private void funcLoadMemConfig()
         {
-            tbxMEMAvail.Text = this.comp.os.getFreePhysicalMem();
-            tbxVIRTAvail.Text = this.comp.os.getFreeVirtualMem();
-            tbxVIRTTotal.Text = this.comp.os.getTotalVirtualMem();
-            tbxPageFileFree.Text = this.comp.os.getPageFileFree();
-            tbxPageFileSize.Text = this.comp.os.getPageFileSize();
-            tbxMaxProcessSize.Text = this.comp.os.getMaxProcessSize();
-            tbxMEMAvailPerc.Text = this.comp.os.getMEMFreePerc() + "%";
-            tbxVIRTAvailPerc.Text = this.comp.os.getVIRTFreePerc() + "%";
-            tbxPAGEAvailPerc.Text = this.comp.os.getPAGEFreePerc() + "%";
+            tbxMEMAvail.Text = comp.os.getFreePhysicalMem();
+            tbxVIRTAvail.Text = comp.os.getFreeVirtualMem();
+            tbxVIRTTotal.Text = comp.os.getTotalVirtualMem();
+            tbxPageFileFree.Text = comp.os.getPageFileFree();
+            tbxPageFileSize.Text = comp.os.getPageFileSize();
+            tbxMaxProcessSize.Text = comp.os.getMaxProcessSize();
+            tbxMEMAvailPerc.Text = comp.os.getMEMFreePerc() + "%";
+            tbxVIRTAvailPerc.Text = comp.os.getVIRTFreePerc() + "%";
+            tbxPAGEAvailPerc.Text = comp.os.getPAGEFreePerc() + "%";
         }
 
         //Function load network ports into UI.
@@ -3599,7 +3601,7 @@ namespace Wolf
                 {
                     try
                     {
-                        if ((tbxDomainName2.Text != "") && (tbxWSName.Text != "") && (tbxDomainUserName.Text != ""))
+                        if ((tbxDomainName2.Text != "") && (tbxWSName.Text != "") && (mtbxDomainUserPassword.Text != ""))
                         {
                             funcRemoteMachineClear();
 
@@ -3928,13 +3930,13 @@ namespace Wolf
 
                     continue;
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
                     Thread.Sleep(100);
                     ErrorTryCounter++;
 
                     funcLOG("Exception Log: Catch EX ocurred. Count: " + ErrorTryCounter.ToString());
-                    logEXCEPT(EX);
+                    logEXCEPT(ex);
 
                     continue;
                 }
@@ -4173,7 +4175,7 @@ namespace Wolf
         //Installed Driver Section
         private void funcLoadInstalledPrograms()
         {
-            this.SuspendLayout();
+            SuspendLayout();
 
             dgvInstalledProgs.Columns.Clear();
 
@@ -4191,19 +4193,19 @@ namespace Wolf
             }
 
             dgvDrivers.DataSource = null;
-            dgvInstalledProgs.DataSource = dtOut;  
+            dgvInstalledProgs.DataSource = dtOut;
 
-            this.ResumeLayout(true);
+            ResumeLayout( true);
         }
 
         private void funcLoadInstalledDrivers()
         {
-            this.SuspendLayout();
+            SuspendLayout();
 
             dgvDrivers.DataSource = null;
             dgvDrivers.DataSource = comp.os.allDrivers.getDT();
 
-            this.ResumeLayout(true);
+            ResumeLayout( true);
         }
 
         private void funcRefreshDrivers()
@@ -4285,7 +4287,7 @@ namespace Wolf
             {
                 if ((sender.Equals(tbxIPStartOne)) || (sender.Equals(tbxIPStartTwo)) || (sender.Equals(tbxIPStartThree)))
                 {
-                    this.GetNextControl((Control)sender, true).Focus();
+                    GetNextControl( (Control)sender, true).Focus();
                 }
 
                 /*Prevent selection after Focus();
@@ -4627,11 +4629,11 @@ namespace Wolf
                     newStream.Close();
 
                 }
-                catch (Exception Ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show("Error ocurred writing a general CSV." + Environment.NewLine +
-                                Environment.NewLine + "Exception Message: " + Ex.Message +
-                                Environment.NewLine + "Message Stack: " + Ex.StackTrace);
+                                Environment.NewLine + "Exception Message: " + ex.Message +
+                                Environment.NewLine + "Message Stack: " + ex.StackTrace);
                 }
             }
         }
@@ -4854,8 +4856,8 @@ namespace Wolf
                     }
                 }
 
-                this.SuspendLayout();
-                this.ResumeLayout(true);
+                SuspendLayout();
+                ResumeLayout( true);
                 e.SuppressKeyPress = true;
             }
         }
@@ -4904,7 +4906,7 @@ namespace Wolf
             }
         }
 
-        private String PS_FilterShortcuts(String Input)
+        private string PS_FilterShortcuts( string Input )
         {
             string Conversion = Input;
 
@@ -4995,10 +4997,10 @@ namespace Wolf
 
         private LicenseQuery NewLQ = new LicenseQuery();
         private List<LicenseQuery> LQS = new List<LicenseQuery>();
-        private String L_Domain = "";
-        private String L_Username = "";
-        private String L_Password = "";
-        private String L_MachineName = "";
+        private string L_D = "";
+        private string L_U = "";
+        private string L_P = "";
+        private string L_M = "";
 
         private void Licensing_Click(object sender, EventArgs e)
         {
@@ -5022,34 +5024,35 @@ namespace Wolf
 
         private void Licensing_TryGrab()
         {
-            L_Domain = tbxDomainName2.Text;
-            L_Username = tbxDomainUserName.Text;
-            L_Password = tbxDomainUserPassword.Text;
-            L_MachineName = tbxLMachineName.Text;
+            L_D = tbxDomainName2.Text;
+            L_U = tbxDomainUserName.Text;
+            L_P = mtbxDomainUserPassword.Text;
+            L_M = tbxLMachineName.Text;
 
-            Impersonation imp = new Impersonation(L_Domain, L_Username, L_Password);
-
-            if (imp.ImpersonationSucceeded)
+            using( Impersonation imp = new Impersonation( L_D, L_U, L_P ) )
             {
-                if (!(GRL.IsBusy))
+                if( imp.Success )
                 {
-                    GRL.RunWorkerAsync();
+                    if( !( GRL.IsBusy ) )
+                    {
+                        GRL.RunWorkerAsync();
+                    }
+                    else
+                    {
+                        MessageBox.Show( "Still working on previous request." );
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Still working on previous request.");
+                    MessageBox.Show( "Your credentials were not accepted." );
                 }
-            }
-            else
-            {
-                MessageBox.Show("Your credentials were not accepted.");
             }
         }
 
         private void GRL_DoWork(object sender, DoWorkEventArgs e)
         {
             NewLQ = new LicenseQuery();
-            NewLQ.SetMachineName(L_MachineName);
+            NewLQ.SetMachineName(L_M);
 
             GetRemoteOSVersion();
             GetRemoteOSKey();
@@ -5061,16 +5064,16 @@ namespace Wolf
             try
             {
                 ConnectionOptions newCon = new ConnectionOptions();
-                newCon.Username = L_Username;
-                newCon.Password = L_Password;
+                newCon.Username = L_U;
+                newCon.Password = L_P;
                 newCon.Impersonation = ImpersonationLevel.Impersonate;
                 newCon.Timeout = new TimeSpan(0, 0, 0, 2);
-                newCon.Authority = "ntlmdomain:" + L_Domain;
+                newCon.Authority = "ntlmdomain:" + L_D;
 
                 ManagementScope newMS = new ManagementScope();
                 ManagementObjectSearcher newMOS = new ManagementObjectSearcher();
 
-                newMS = new ManagementScope("\\\\" + L_MachineName.Trim() + "\\root\\CIMV2", newCon);
+                newMS = new ManagementScope("\\\\" + L_M.Trim() + "\\root\\CIMV2", newCon);
 
                 ObjectQuery osQuery = new ObjectQuery("SELECT Caption FROM Win32_OperatingSystem");
                 newMOS = new ManagementObjectSearcher(newMS, osQuery);
@@ -5080,12 +5083,12 @@ namespace Wolf
                     NewLQ.SetOSVersion(item["Caption"].ToString().Replace("Microsoft ", ""));
                 }
             }
-            catch(Exception EX)
+            catch(Exception ex)
             {
                 NewLQ.SetOSVersion("Error");
 
-                MessageBox.Show("Exception Occurred: " + EX.Message + "\n\n" +
-                "Stack Trace: " + EX.StackTrace);
+                MessageBox.Show("Exception Occurred: " + ex.Message + "\n\n" +
+                "Stack Trace: " + ex.StackTrace);
             }
         }
 
@@ -5093,15 +5096,15 @@ namespace Wolf
         {
             try
             {
-                byte[] encryptedKey = Tools.funcGetRemoteProductKey("Microsoft", L_MachineName, Windows3264ProductKeyLocation);
+                byte[] encryptedKey = Tools.funcGetRemoteProductKey("Microsoft", L_M, Windows3264ProductKeyLocation);
 
                 NewLQ.SetOSKey(Tools.funcDecodeProductKey(encryptedKey));
             }
-            catch (Exception EX)
+            catch (Exception ex)
             {
                 NewLQ.SetOSKey("Error");
-                MessageBox.Show("Exception Occurred: " + EX.Message + "\n\n" +
-                                "Stack Trace: " + EX.StackTrace);
+                MessageBox.Show("Exception Occurred: " + ex.Message + "\n\n" +
+                                "Stack Trace: " + ex.StackTrace);
             }
         }
 
@@ -5115,7 +5118,7 @@ namespace Wolf
                 {
                     if (temp == "")
                     {
-                        byte[] encryptedKey = Tools.funcGetRemoteProductKey("Microsoft", L_MachineName, keylocation);
+                        byte[] encryptedKey = Tools.funcGetRemoteProductKey("Microsoft", L_M, keylocation);
 
                         temp = Tools.funcDecodeProductKey(encryptedKey);
 
@@ -5143,7 +5146,7 @@ namespace Wolf
                     {
                         if (temp == "")
                         {
-                            byte[] encryptedKey = Tools.funcGetRemoteProductKey("Microsoft", L_MachineName, keylocation);
+                            byte[] encryptedKey = Tools.funcGetRemoteProductKey("Microsoft", L_M, keylocation);
 
                             temp = Tools.funcDecodeProductKey(encryptedKey);
 
@@ -5168,16 +5171,16 @@ namespace Wolf
 
                 LQS.Add(NewLQ);
             }
-            catch (Exception EX)
+            catch (Exception ex)
             {
-                MessageBox.Show("Exception Occurred: " + EX.Message + "\n\n" +
-                                "Stack Trace: " + EX.StackTrace);
+                MessageBox.Show("Exception Occurred: " + ex.Message + "\n\n" +
+                                "Stack Trace: " + ex.StackTrace);
             }
         }
 
         private void GRL_WorkCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            this.SuspendLayout();
+            SuspendLayout();
 
             dgvLicenseQueries.Columns.Clear();
 
@@ -5214,7 +5217,7 @@ namespace Wolf
             dgvLicenseQueries.DataSource = null;
             dgvLicenseQueries.DataSource = dtOut;
 
-            this.ResumeLayout(true);
+            ResumeLayout( true);
         }
 
         private void LicenseClearAll(object sender, EventArgs e)
@@ -5281,7 +5284,7 @@ namespace Wolf
         #region SMTP Testing
         BackgroundWorker BW = new BackgroundWorker();
         BackgroundWorker BWADD = new BackgroundWorker();
-        String ADEMAIL = "";
+        string ADEMAIL = "";
 
         bool EmailCreated = false;
         MailMessage EMAIL = null;
@@ -5327,34 +5330,34 @@ namespace Wolf
                 {
                     SESSION.Send(EMAIL);
                 }
-                catch (SmtpFailedRecipientException EXC)
+                catch (SmtpFailedRecipientException ex)
                 {
                     ErrorMessage = "Possibly not added to the correct relays (ie. internal/external)." +
-                        Environment.NewLine + Environment.NewLine + "Exception: " + EXC.Message;
+                        Environment.NewLine + Environment.NewLine + "Exception: " + ex.Message;
                 }
-                catch (SmtpException EXC)
+                catch (SmtpException ex)
                 {
-                    if (EXC.Message.Contains("requires a secure"))
+                    if (ex.Message.Contains("requires a secure"))
                     {
                         ErrorMessage = "Not white-listed on the relay, or bad credentials were given." +
-                            Environment.NewLine + Environment.NewLine + "Exception: " + EXC.Message;
+                            Environment.NewLine + Environment.NewLine + "Exception: " + ex.Message;
                     }
-                    else if (EXC.Message.Contains("Client does not have permissions"))
+                    else if (ex.Message.Contains("Client does not have permissions"))
                     {
                         ErrorMessage = "User authenticated, but does not have permission to Send As the \"From\" " +
-                            "address." + Environment.NewLine + Environment.NewLine + "Exception: " + EXC.Message;
+                            "address." + Environment.NewLine + Environment.NewLine + "Exception: " + ex.Message;
                     }
                     else
                     {
                         ErrorMessage = "Possible network/configuration issue elsewhere." + Environment.NewLine +
-                            Environment.NewLine + "Exception: " + EXC.Message;
+                            Environment.NewLine + "Exception: " + ex.Message;
                     }
                 }
-                catch (Exception EXC)
+                catch (Exception ex)
                 {
                     ErrorMessage = "Unpredicted Exception Occurred." +
-                        Environment.NewLine + Environment.NewLine + "Exception: " + EXC.Message +
-                        Environment.NewLine + Environment.NewLine + "Stack Trace: " + EXC.StackTrace;
+                        Environment.NewLine + Environment.NewLine + "Exception: " + ex.Message +
+                        Environment.NewLine + Environment.NewLine + "Stack Trace: " + ex.StackTrace;
                 }
             }
             else
@@ -5478,11 +5481,11 @@ namespace Wolf
                 btnSendTest.Enabled = true;
                 EmailCreated = false;
             }
-            catch (Exception EXC)
+            catch (Exception ex)
             {
                 ErrorMessage = "Unpredicted Exception Occurred." +
-                    Environment.NewLine + Environment.NewLine + "Exception: " + EXC.Message +
-                    Environment.NewLine + Environment.NewLine + "Stack Trace: " + EXC.StackTrace;
+                    Environment.NewLine + Environment.NewLine + "Exception: " + ex.Message +
+                    Environment.NewLine + Environment.NewLine + "Stack Trace: " + ex.StackTrace;
 
                 btnSendTest.Enabled = true;
                 EmailCreated = false;

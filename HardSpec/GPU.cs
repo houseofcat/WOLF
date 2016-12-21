@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Management;
+using Wolf.WolfSpec;
 
 namespace Wolf.HardSpec
 {
@@ -1305,39 +1306,39 @@ namespace Wolf.HardSpec
 
         public string getVendor()
         {
-            return this.Vendor;
+            return Vendor;
         }
 
         public string getModel()
         {
-            return this.Model;
+            return Model;
         }
 
         public string getVersion()
         {
-            return this.Version;
+            return Version;
         }
 
         public string getVRAM()
         {
-            return this.VRAM;
+            return VRAM;
         }
         
         public string getDriverVersion()
         {
-            return this.DriverVersion;
+            return DriverVersion;
         }
 
         public string getINF()
         {
-            return this.DriverINF;
+            return DriverINF;
         }
 
         public string[] getDriverFiles()
         {
             if (DriverFiles != null)
             {
-                return this.DriverFiles;
+                return DriverFiles;
             }
             else
             {
@@ -1348,12 +1349,12 @@ namespace Wolf.HardSpec
 
         public string getINFSEC()
         {
-            return this.INFSec;
+            return INFSec;
         }
 
         public string getOut()
         {
-            return this.CurrentOutput;
+            return CurrentOutput;
         }
     }
 }

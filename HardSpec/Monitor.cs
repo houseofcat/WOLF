@@ -500,32 +500,32 @@ namespace Wolf.HardSpec
 
         public string getName()
         {
-            return this.Name;
+            return Name;
         }
 
         public string getManu()
         {
-            return this.Manufacturer;
+            return Manufacturer;
         }
 
         public string getType()
         {
-            return this.Type;
+            return Type;
         }
 
         public string getStatus()
         {
-            return this.Status;
+            return Status;
         }
 
         public string getDeviceID()
         {
-            return this.DeviceID;
+            return DeviceID;
         }
 
         public string getPNPID()
         {
-            return this.PNPID;
+            return PNPID;
         }
     }
 }

@@ -338,7 +338,7 @@ namespace Wolf.HardSpec
 
         public string getName()
         {
-            return this.Name;
+            return Name;
         }
     }
 }

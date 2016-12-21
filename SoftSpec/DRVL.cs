@@ -94,17 +94,17 @@ namespace Wolf
 
         public List<Driver> getSortedList()
         {
-            return this.SortedList;
+            return SortedList;
         }
 
         public List<Driver> getUnsortedList()
         {
-            return this.UnsortedList;
+            return UnsortedList;
         }
 
         public DataTable getDT()
         {
-            return this.dtOut;
+            return dtOut;
         }
 
 

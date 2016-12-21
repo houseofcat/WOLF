@@ -48,7 +48,7 @@ namespace Wolf.SoftSpec
         public NetObj(string Protocol, string LocAddress, string RemoteAddress, string State, string ProcessName, string PID)
         {
             this.Protocol = Protocol;
-            this.LocalAddress = LocAddress;
+            LocalAddress = LocAddress;
             this.RemoteAddress = RemoteAddress;
             this.State = State;
             this.ProcessName = ProcessName;
@@ -63,129 +63,129 @@ namespace Wolf.SoftSpec
         public void setLEP(string Input, bool IP4toIP6, bool IP6LL, bool IP6MC, bool IP6SL, bool IP6Tore,
                            string Scope, string AddFam, string Port)
         {
-            this.LEPAdd = Input;
-            this.LEPIsIP4MappedToIP6 = IP4toIP6;
-            this.LEPIsIP6LinkLocal = IP6LL;
-            this.LEPIsIP6Multi = IP6MC;
-            this.LEPIsIP6SiteLocal = IP6SL;
-            this.LEPIsIP6Toredo = IP6Tore;
-            this.LEPScopeID = Scope;
-            this.LEPAddFam = AddFam;
-            this.LEPPort = Port;
+            LEPAdd = Input;
+            LEPIsIP4MappedToIP6 = IP4toIP6;
+            LEPIsIP6LinkLocal = IP6LL;
+            LEPIsIP6Multi = IP6MC;
+            LEPIsIP6SiteLocal = IP6SL;
+            LEPIsIP6Toredo = IP6Tore;
+            LEPScopeID = Scope;
+            LEPAddFam = AddFam;
+            LEPPort = Port;
         }
 
         public void setREP(string Input, bool IP4toIP6, bool IP6LL, bool IP6MC, bool IP6SL, bool IP6Tore,
                            string Scope, string AddFam, string Port)
         {
-            this.REPAdd = Input;
-            this.REPIsIP4MappedToIP6 = IP4toIP6;
-            this.REPIsIP6LinkLocal = IP6LL;
-            this.REPIsIP6Multi = IP6MC;
-            this.REPIsIP6SiteLocal = IP6SL;
-            this.REPIsIP6Toredo = IP6Tore;
-            this.REPScopeID = Scope;
-            this.REPAddFam = AddFam;
-            this.REPPort = Port;
+            REPAdd = Input;
+            REPIsIP4MappedToIP6 = IP4toIP6;
+            REPIsIP6LinkLocal = IP6LL;
+            REPIsIP6Multi = IP6MC;
+            REPIsIP6SiteLocal = IP6SL;
+            REPIsIP6Toredo = IP6Tore;
+            REPScopeID = Scope;
+            REPAddFam = AddFam;
+            REPPort = Port;
         }
 
         public void setState(string Input)
         {
-            this.State = Input;
+            State = Input;
         }
 
         public string LEP_getAddress()
         {
-            return this.LEPAdd;
+            return LEPAdd;
         }
 
         public bool LEP_IsIP4MappedToIP6()
         {
-            return this.LEPIsIP4MappedToIP6;
+            return LEPIsIP4MappedToIP6;
         }
 
         public bool LEP_IsIP6LinkLocal()
         {
-            return this.LEPIsIP6LinkLocal;
+            return LEPIsIP6LinkLocal;
         }
 
         public bool LEP_IsIP6Multicast()
         {
-            return this.LEPIsIP6Multi;
+            return LEPIsIP6Multi;
         }
 
         public bool LEP_IsIP6SiteLocal()
         {
-            return this.LEPIsIP6SiteLocal;
+            return LEPIsIP6SiteLocal;
         }
 
         public bool LEP_IsIP6Toredo()
         {
-            return this.LEPIsIP6Toredo;
+            return LEPIsIP6Toredo;
         }
 
         public string LEP_getPort()
         {
-            return this.LEPPort;
+            return LEPPort;
         }
 
         public string LEP_getScopeID()
         {
-            return this.LEPScopeID;
+            return LEPScopeID;
         }
 
         public string REP_getAddress()
         {
-            return this.REPAdd;
+            return REPAdd;
         }
 
         public bool REP_IsIP4MappedToIP6()
         {
-            return this.REPIsIP4MappedToIP6;
+            return REPIsIP4MappedToIP6;
         }
 
         public bool REP_IsIP6LinkLocal()
         {
-            return this.REPIsIP6LinkLocal;
+            return REPIsIP6LinkLocal;
         }
 
         public bool REP_IsIP6Multicast()
         {
-            return this.REPIsIP6Multi;
+            return REPIsIP6Multi;
         }
 
         public bool REP_IsIP6SiteLocal()
         {
-            return this.REPIsIP6SiteLocal;
+            return REPIsIP6SiteLocal;
         }
 
         public bool REP_IsIP6Toredo()
         {
-            return this.REPIsIP6Toredo;
+            return REPIsIP6Toredo;
         }
 
         public string REP_getPort()
         {
-            return this.REPPort;
+            return REPPort;
         }
 
         public string REP_getScopeID()
         {
-            return this.REPScopeID;
+            return REPScopeID;
         }
 
         public string getState()
         {
-            return this.State;
+            return State;
         }
 
         public string getProtocol()
         {
-            return this.Protocol;
+            return Protocol;
         }
 
         public string getLocalAddress()
         {
-            return this.LocalAddress;
+            return LocalAddress;
         }
 
         public int getLocalPort()
@@ -194,7 +194,7 @@ namespace Wolf.SoftSpec
 
             try
             {
-                string[] temparray = this.LocalAddress.Split(':');
+                string[] temparray = LocalAddress.Split(':');
 
                 if (temparray.Length > 1)
                 {
@@ -212,7 +212,7 @@ namespace Wolf.SoftSpec
 
             try
             {
-                string[] temparray = this.RemoteAddress.Split(':');
+                string[] temparray = RemoteAddress.Split(':');
 
                 if (temparray.Length > 1)
                 {
@@ -226,12 +226,12 @@ namespace Wolf.SoftSpec
 
         public string getRemoteAddress()
         {
-            return this.RemoteAddress;
+            return RemoteAddress;
         }
 
         public string getProcessName()
         {
-            return this.ProcessName;
+            return ProcessName;
         }
 
         public int getPID()
@@ -245,7 +245,7 @@ namespace Wolf.SoftSpec
 
         public bool getIsSystem()
         {
-            return this.IsSystem;
+            return IsSystem;
         }
     }
 }

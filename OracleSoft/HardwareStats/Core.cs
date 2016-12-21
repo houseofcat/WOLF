@@ -126,13 +126,13 @@ namespace OracleSoft.HardwareStats
 
                     Loaded = true;
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show("EXCEPTION\n\n==== Loading Core Exception ===\nCore: " + this.CoreNumber +
-                            "\nMessage: " + EX.Message +
-                            "\nHResult: " + EX.HResult.ToString() +
-                            "\nData: " + EX.Data +
-                            "\nStackTrace: " + EX.StackTrace + "\n");
+                    MessageBox.Show("EXCEPTION\n\n==== Loading Core Exception ===\nCore: " + CoreNumber +
+                            "\nMessage: " + ex.Message +
+                            "\nHResult: " + ex.HResult.ToString() +
+                            "\nData: " + ex.Data +
+                            "\nStackTrace: " + ex.StackTrace + "\n");
                 }
             }
         }
@@ -145,11 +145,11 @@ namespace OracleSoft.HardwareStats
             {
                 try
                 {
-                    temp = this.Core_PC1TIME.NextValue();
+                    temp = Core_PC1TIME.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -164,11 +164,11 @@ namespace OracleSoft.HardwareStats
             {
                 try
                 {
-                    temp = this.Core_PC2TIME.NextValue();
+                    temp = Core_PC2TIME.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -183,11 +183,11 @@ namespace OracleSoft.HardwareStats
             {
                 try
                 {
-                    temp = this.Core_PC3TIME.NextValue();
+                    temp = Core_PC3TIME.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -202,11 +202,11 @@ namespace OracleSoft.HardwareStats
             {
                 try
                 {
-                    temp = this.Core_PPROCTIME.NextValue();
+                    temp = Core_PPROCTIME.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -221,11 +221,11 @@ namespace OracleSoft.HardwareStats
             {
                 try
                 {
-                    temp = this.Core_PIDLETIME.NextValue();
+                    temp = Core_PIDLETIME.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -240,11 +240,11 @@ namespace OracleSoft.HardwareStats
             {
                 try
                 {
-                    temp = this.Core_PINTERTIME.NextValue();
+                    temp = Core_PINTERTIME.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -259,11 +259,11 @@ namespace OracleSoft.HardwareStats
             {
                 try
                 {
-                    temp = this.Core_PPRIVTIME.NextValue();
+                    temp = Core_PPRIVTIME.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -278,11 +278,11 @@ namespace OracleSoft.HardwareStats
             {
                 try
                 {
-                    temp = this.Core_PPRIOTIME.NextValue();
+                    temp = Core_PPRIOTIME.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -297,11 +297,11 @@ namespace OracleSoft.HardwareStats
             {
                 try
                 {
-                    temp = this.Core_PUSERTIME.NextValue();
+                    temp = Core_PUSERTIME.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -316,11 +316,11 @@ namespace OracleSoft.HardwareStats
             {
                 try
                 {
-                    temp = this.Core_PMAXFREQ.NextValue();
+                    temp = Core_PMAXFREQ.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -335,11 +335,11 @@ namespace OracleSoft.HardwareStats
             {
                 try
                 {
-                    temp = this.Core_PARKSTATUS.NextValue();
+                    temp = Core_PARKSTATUS.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -354,11 +354,11 @@ namespace OracleSoft.HardwareStats
             {
                 try
                 {
-                    temp = this.Core_PROCFREQ.NextValue();
+                    temp = Core_PROCFREQ.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -373,11 +373,11 @@ namespace OracleSoft.HardwareStats
             {
                 try
                 {
-                    temp = this.Core_PROCSTATEFLAGS.NextValue();
+                    temp = Core_PROCSTATEFLAGS.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -392,11 +392,11 @@ namespace OracleSoft.HardwareStats
             {
                 try
                 {
-                    temp = this.Core_C1TRANSEC.NextValue();
+                    temp = Core_C1TRANSEC.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -411,11 +411,11 @@ namespace OracleSoft.HardwareStats
             {
                 try
                 {
-                    temp = this.Core_C2TRANSEC.NextValue();
+                    temp = Core_C2TRANSEC.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -430,11 +430,11 @@ namespace OracleSoft.HardwareStats
             {
                 try
                 {
-                    temp = this.Core_C3TRANSEC.NextValue();
+                    temp = Core_C3TRANSEC.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -449,11 +449,11 @@ namespace OracleSoft.HardwareStats
             {
                 try
                 {
-                    temp = this.Core_INTERSEC.NextValue();
+                    temp = Core_INTERSEC.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -468,11 +468,11 @@ namespace OracleSoft.HardwareStats
             {
                 try
                 {
-                    temp = this.Core_PDPCTIME.NextValue();
+                    temp = Core_PDPCTIME.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -487,11 +487,11 @@ namespace OracleSoft.HardwareStats
             {
                 try
                 {
-                    temp = this.Core_DPCRATE.NextValue();
+                    temp = Core_DPCRATE.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -506,11 +506,11 @@ namespace OracleSoft.HardwareStats
             {
                 try
                 {
-                    temp = this.Core_DPCQUEUEDSEC.NextValue();
+                    temp = Core_DPCQUEUEDSEC.NextValue();
                 }
-                catch (Exception EX)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(EX.ToString());
+                    MessageBox.Show(ex.ToString());
                 }
             }
 
@@ -547,9 +547,9 @@ namespace OracleSoft.HardwareStats
                 NextValueList.Add(nextCore_DPCRATE());
                 NextValueList.Add(nextCore_DPCQUEUEDSEC());
             }
-            catch(Exception EX)
+            catch(Exception ex)
             {
-                MessageBox.Show(EX.ToString());
+                MessageBox.Show(ex.ToString());
             }
 
             return NextValueList;

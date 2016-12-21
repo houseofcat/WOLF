@@ -385,7 +385,7 @@ namespace Wolf.SoftSpec
 
         public string getName()
         {
-            return this.prtName;
+            return prtName;
         }
 
         //Converts a capacity string from bytes to GB.

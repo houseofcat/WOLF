@@ -11,9 +11,9 @@ namespace Wolf.SearchRename
     public partial class SNR : Form
     {
         //Searching Section
-        List<String> FoundFileList = new List<String>();
-        List<String> PreviewFileList = new List<String>();
-        List<String> BatchSearch = new List<String>();
+        List<string> FoundFileList = new List<string>();
+        List<string> PreviewFileList = new List<string>();
+        List<string> BatchSearch = new List<string>();
 
         Int32 foundFiles = 0;
         Int32 checkedFiles = 0;
@@ -25,12 +25,12 @@ namespace Wolf.SearchRename
         double dblCounter2 = 0.0;
 
         //Renaming Section
-        List<String> FoundFileListR = new List<String>();
-        List<String> PreviewFileListR = new List<String>();
+        List<string> FoundFileListR = new List<string>();
+        List<string> PreviewFileListR = new List<string>();
 
-        String FilePathR = "";
-        String RenamePart = "";
-        String RenameTo = "";
+        string FilePathR = "";
+        string RenamePart = "";
+        string RenameTo = "";
 
         Int32 foundFilesR = 0;
         Int32 checkedFilesR = 0;
@@ -42,10 +42,10 @@ namespace Wolf.SearchRename
         double dblCounter2R = 0.0;
 
         //Copying Section
-        List<String> FoundFileListC = new List<String>();
-        List<String> PreviewFileListC = new List<String>();
+        List<string> FoundFileListC = new List<string>();
+        List<string> PreviewFileListC = new List<string>();
         //String FilePathC = "";
-        String CopyTo = "";
+        string CopyTo = "";
 
         Int32 foundFilesC = 0;
         Int32 checkedFilesC = 0;
@@ -57,8 +57,8 @@ namespace Wolf.SearchRename
         double dblCounter2C = 0.0;
 
         //Folder Renaming Section
-        List<String> FFRen = new List<String>();
-        List<String> FFRPrev = new List<String>();
+        List<string> FFRen = new List<string>();
+        List<string> FFRPrev = new List<string>();
 
         Int32 foundFolders = 0;
         Int32 checkedFolders = 0;
@@ -82,9 +82,9 @@ namespace Wolf.SearchRename
         BackgroundWorker BWFS = new BackgroundWorker();
 
         //Search Options
-        String FileType = "";
-        String FileType2 = "";
-        String FileType3 = "";
+        string FileType = "";
+        string FileType2 = "";
+        string FileType3 = "";
 
         //Performance Variables
         Stopwatch PerformanceTimer = new Stopwatch();
@@ -643,9 +643,9 @@ namespace Wolf.SearchRename
         }
 
         //MISC
-        private Boolean doesDirExist()
+        private bool doesDirExist()
         {
-            Boolean doesExist = false;
+            bool doesExist = false;
 
             if (Directory.Exists(tbxFilePath.Text))
             {
@@ -655,9 +655,9 @@ namespace Wolf.SearchRename
             return doesExist;
         }
 
-        private Boolean doesDirExist(String FilePath)
+        private bool doesDirExist( string FilePath )
         {
-            Boolean doesExist = false;
+            bool doesExist = false;
 
             if (Directory.Exists(FilePath))
             {
@@ -667,9 +667,9 @@ namespace Wolf.SearchRename
             return doesExist;
         }
 
-        private String getFolderPath()
+        private string getFolderPath()
         {
-            String temp = "";
+            string temp = "";
             /*
             FolderBrowserDialog OFD = new FolderBrowserDialog();
             OFD.SelectedPath = "\\\\TOWNAS\\ARTDEPT\\";
@@ -942,7 +942,7 @@ namespace Wolf.SearchRename
         {
             if (e.Node.Name != "Load")
             {
-                String NodeFileName = "";
+                string NodeFileName = "";
 
                 NodeFileName = e.Node.Text;
 
@@ -957,16 +957,11 @@ namespace Wolf.SearchRename
             }
         }
 
-        private void funcContextMenuNode(object sender, TreeNodeMouseClickEventArgs e)
-        {
-
-        }
-
         private void funcWriteToSS()
         {
             try
             {
-                String FileName = "";
+                string FileName = "";
                 SaveFileDialog SFD = new SaveFileDialog();
 
                 SFD.Filter = "csv files (*.csv)|*.csv";
@@ -980,14 +975,14 @@ namespace Wolf.SearchRename
 
                     if (FoundFileList.Any())
                     {
-                        foreach (String temp in FoundFileList)
+                        foreach ( string temp in FoundFileList)
                         {
-                            String FName = "";
-                            String Ext = "";
+                            string FName = "";
+                            string Ext = "";
 
                             FName = temp.Replace("\\\\", "\\");
 
-                            String[] strArray = FName.Split('\\');
+                            string[] strArray = FName.Split('\\');
 
                             FName = strArray[(strArray.Length - 1)];
 
@@ -1007,11 +1002,11 @@ namespace Wolf.SearchRename
                     newStream.Close();
                 }
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Error occured writing a general CSV." + Environment.NewLine +
-                            Environment.NewLine + "Exception Message: " + Ex.Message +
-                            Environment.NewLine + "Message Stack: " + Ex.StackTrace);
+                            Environment.NewLine + "Exception Message: " + ex.Message +
+                            Environment.NewLine + "Message Stack: " + ex.StackTrace);
             }
         }
 
@@ -1026,7 +1021,7 @@ namespace Wolf.SearchRename
                     treeFOUND.BeginUpdate();
                     for (int i = 0; i < 1000; i++)
                     {
-                        String item = FoundFileList.ElementAt(i);
+                        string item = FoundFileList.ElementAt(i);
                         treeFOUND.Nodes[0].Nodes.Add(item, item);
                     }
                     treeFOUND.EndUpdate();
@@ -1037,9 +1032,9 @@ namespace Wolf.SearchRename
                 {
                     DisplayTimer = Stopwatch.StartNew();
                     treeFOUND.BeginUpdate();
-                    for (int i = 0; i < FoundFileList.Count; i++)
+                    for (int i = 0; i < FoundFileList.Count && i < int.MaxValue; i++)
                     {
-                        String item = FoundFileList.ElementAt(i);
+                        string item = FoundFileList.ElementAt(i);
                         treeFOUND.Nodes[0].Nodes.Add(item, item);
                     }
                     treeFOUND.EndUpdate();
@@ -1051,7 +1046,7 @@ namespace Wolf.SearchRename
             {
                 DisplayTimer = Stopwatch.StartNew();
                 treeFOUND.BeginUpdate();
-                foreach (String item in FoundFileList)
+                foreach ( string item in FoundFileList)
                 {
                     treeFOUND.Nodes[0].Nodes.Add(item, item);
                 }
@@ -1061,7 +1056,7 @@ namespace Wolf.SearchRename
             }
         }
 
-        private void findAllFiles(String FilePath, String FileName)
+        private void findAllFiles( string FilePath, string FileName )
         {
             foundFiles = 0;
             checkedFiles = 0;
@@ -1076,7 +1071,7 @@ namespace Wolf.SearchRename
             }
         }
 
-        private void findAllFilesStrict(String FilePath, String FileName)
+        private void findAllFilesStrict( string FilePath, string FileName )
         {
             foundFiles = 0;
             checkedFiles = 0;
@@ -1091,11 +1086,11 @@ namespace Wolf.SearchRename
             }
         }
 
-        private void funcFileSearch(String FilePath, String FileName)
+        private void funcFileSearch( string FilePath, string FileName )
         {
             if ((FileType == "ANY") || (FileType == ""))
             {
-                foreach (String foundfile in SafeDirectoryWalk.EnumerateFiles(FilePath, FileName, SearchOption.AllDirectories).ToList())
+                foreach ( string foundfile in SafeDirectoryWalk.EnumerateFiles(FilePath, FileName, SearchOption.AllDirectories).ToList())
                 {
 
                     FoundFileList.Add(foundfile);
@@ -1106,7 +1101,7 @@ namespace Wolf.SearchRename
             }
             else if ((FileType != "ANY") && (FileType != ""))
             {
-                foreach (String foundfile in SafeDirectoryWalk.EnumerateFiles(FilePath, FileName, SearchOption.AllDirectories).ToList())
+                foreach ( string foundfile in SafeDirectoryWalk.EnumerateFiles(FilePath, FileName, SearchOption.AllDirectories).ToList())
                 {
                     //MessageBox.Show("File " + FileName + " was found.");
                     if ((foundfile.Contains(FileType.ToLower())) || (foundfile.Contains(FileType.ToUpper())))
@@ -1177,9 +1172,9 @@ namespace Wolf.SearchRename
             DisplayTimer = Stopwatch.StartNew();
             treeRenameFound.BeginUpdate();
 
-            for (int i = 0; i < FoundFileListR.Count; i++)
+            for (int i = 0; i < FoundFileListR.Count && i < int.MaxValue; i++)
             {
-                String item = FoundFileListR.ElementAt(i);
+                string item = FoundFileListR.ElementAt(i);
                 treeRenameFound.Nodes[0].Nodes.Add(item, item);
             }
             treeRenameFound.EndUpdate();
@@ -1193,7 +1188,7 @@ namespace Wolf.SearchRename
             {
                 try
                 {
-                    for (int i = 0; i < FoundFileListR.Count; i++)
+                    for (int i = 0; i < FoundFileListR.Count && i < int.MaxValue; i++)
                     {
                         File.Move(FoundFileListR.ElementAt(i), PreviewFileListR.ElementAt(i));
                     }
@@ -1213,10 +1208,10 @@ namespace Wolf.SearchRename
                         }
                     }
                 }
-                catch (Exception Ex)
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Folder Rename Exception: " + Ex.Message + "\n\n" +
-                                    Ex.StackTrace);
+                    MessageBox.Show("Folder Rename Exception: " + ex.Message + "\n\n" +
+                                    ex.StackTrace);
                 }
             }
             else
@@ -1227,7 +1222,7 @@ namespace Wolf.SearchRename
 
         private void funcRenamePreview()
         {
-            String Temp = "";
+            string Temp = "";
             Int32 copyCount = 1;
 
             PreviewFileListR.Clear();
@@ -1235,7 +1230,7 @@ namespace Wolf.SearchRename
 
             if (funcGetRenameInfo())
             {
-                foreach (String item in FoundFileListR)
+                foreach ( string item in FoundFileListR)
                 {
                     Temp = getNewName(item);
 
@@ -1265,7 +1260,7 @@ namespace Wolf.SearchRename
                 treePREV.Nodes.Add("Prev", "Preview List");
                 int i = 0;
 
-                foreach (String item in PreviewFileListR)
+                foreach ( string item in PreviewFileListR)
                 {
                     treePREV.Nodes[0].Nodes.Add(item, item);
                     i++;
@@ -1275,9 +1270,9 @@ namespace Wolf.SearchRename
             }
         }
 
-        private Boolean funcGetRenameInfo()
+        private bool funcGetRenameInfo()
         {
-            Boolean GoodToContinue = false;
+            bool GoodToContinue = false;
 
             if (tbxRenamePart.Text != "")
             {
@@ -1289,9 +1284,9 @@ namespace Wolf.SearchRename
             return GoodToContinue;
         }
 
-        private String getNewName(String Input)
+        private string getNewName( string Input )
         {
-            String NewName = "";
+            string NewName = "";
 
             try
             {
@@ -1300,8 +1295,8 @@ namespace Wolf.SearchRename
                     //MessageBox.Show("Rename Part: " + RenamePart + "  Which is " + RenamePart.Length.ToString() + " characters long.");
                     if (RenamePart == "*_")
                     {
-                        String FilePath = Path.GetDirectoryName(Input);
-                        String OldName = Input.Replace(FilePath, "");
+                        string FilePath = Path.GetDirectoryName(Input);
+                        string OldName = Input.Replace(FilePath, "");
                         OldName = OldName.Replace("\\", "");
 
                         //Console.WriteLine("Rename Part: " + RenamePart + "  Which is " + RenamePart.Length.ToString() + " characters long.");
@@ -1320,13 +1315,13 @@ namespace Wolf.SearchRename
                     }
                     else if (RenamePart == "_*")
                     {
-                        String FilePath = Path.GetDirectoryName(Input);
-                        String OldName = Input.Replace(FilePath, "");
+                        string FilePath = Path.GetDirectoryName(Input);
+                        string OldName = Input.Replace(FilePath, "");
                         OldName = OldName.Replace("\\", "");
 
                         if (OldName.Contains("."))
                         {
-                            String[] tempArray = OldName.Split('.');
+                            string[] tempArray = OldName.Split('.');
 
                             if (tempArray.Any())
                             {
@@ -1345,8 +1340,8 @@ namespace Wolf.SearchRename
                         //Console.WriteLine("Rename Part: " + RenamePart + "  Which is " + RenamePart.Length.ToString() + " characters long.");
                         //Console.WriteLine("User Entered: " + tbxRenamePart.Text + "  Which is " + tbxRenamePart.Text.Length.ToString() + " characters long.");
 
-                        String FilePath = Path.GetDirectoryName(Input);
-                        String OldName = Input.Replace(FilePath, "");
+                        string FilePath = Path.GetDirectoryName(Input);
+                        string OldName = Input.Replace(FilePath, "");
                         NewName = OldName.Replace(RenamePart, RenameTo);
 
                         NewName = FilePath + NewName;
@@ -1361,7 +1356,7 @@ namespace Wolf.SearchRename
             return NewName;
         }
 
-        private void findAllFilesR(String FilePath, String FileName)
+        private void findAllFilesR( string FilePath, string FileName )
         {
             foundFilesR = 0;
             checkedFilesR = 0;
@@ -1376,11 +1371,11 @@ namespace Wolf.SearchRename
             }
         }
 
-        private void funcFileSearchR(String FilePath, String FileName)
+        private void funcFileSearchR( string FilePath, string FileName )
         {
             if ((FileType2 == "ANY") || (FileType2 == ""))
             {
-                foreach (String foundfile in SafeDirectoryWalk.EnumerateFiles(FilePath, FileName, SearchOption.AllDirectories).ToList())
+                foreach ( string foundfile in SafeDirectoryWalk.EnumerateFiles(FilePath, FileName, SearchOption.AllDirectories).ToList())
                 {
                     FoundFileList.Add(foundfile);
                     foundFiles++;
@@ -1390,7 +1385,7 @@ namespace Wolf.SearchRename
             }
             else if ((FileType2 != "ANY") && (FileType2 != ""))
             {
-                foreach (String foundfile in Directory.EnumerateFiles(FilePath, FileName, SearchOption.AllDirectories).ToList())
+                foreach ( string foundfile in Directory.EnumerateFiles(FilePath, FileName, SearchOption.AllDirectories).ToList())
                 {
                     //MessageBox.Show("File " + FileName + " was found.");
                     if ((foundfile.Contains(FileType2.ToLower())) || (foundfile.Contains(FileType2.ToUpper())))
@@ -1407,13 +1402,13 @@ namespace Wolf.SearchRename
         //FOLDER RENAMING Section
         private void funcFRPreview()
         {
-            String Temp = "";
+            string Temp = "";
 
             FFRPrev.Clear();
             treeFRPREV.Nodes.Clear();
 
             //Convert the names and add them to the list.
-            foreach (String item in FFRen)
+            foreach ( string item in FFRen)
             {
                 Temp = getNewNameFR(item);
 
@@ -1433,7 +1428,7 @@ namespace Wolf.SearchRename
                 treeFRPREV.Nodes.Add("Prev", "Preview List");
                 int i = 0;
 
-                foreach (String item in FFRPrev)
+                foreach ( string item in FFRPrev)
                 {
                     treeFRPREV.Nodes[0].Nodes.Add(item, item);
                     i++;
@@ -1443,7 +1438,7 @@ namespace Wolf.SearchRename
             }
         }
 
-        private void findFRSearch(String FilePath, String FolderName)
+        private void findFRSearch( string FilePath, string FolderName )
         {
             foundFolders = 0;
             checkedFolders = 0;
@@ -1458,9 +1453,9 @@ namespace Wolf.SearchRename
             }
         }
 
-        private void funcFolderSearch(String FilePath, String FolderName)
+        private void funcFolderSearch( string FilePath, string FolderName )
         {
-            foreach (String foundFolder in SafeDirectoryWalk.EnumerateDirectories(FilePath, FolderName, SearchOption.AllDirectories).ToList())
+            foreach ( string foundFolder in SafeDirectoryWalk.EnumerateDirectories(FilePath, FolderName, SearchOption.AllDirectories).ToList())
             {
                 FFRen.Add(foundFolder);
                 foundFolders++;
@@ -1475,7 +1470,7 @@ namespace Wolf.SearchRename
             {
                 try
                 {
-                    for (int i = 0; i < FFRPrev.Count; i++)
+                    for (int i = 0; i < FFRPrev.Count && i < int.MaxValue; i++)
                     {
                         //When using wildcards, you may get folders in the folder foundlist
                         //that are folders but not matching what you want to rename.
@@ -1499,10 +1494,10 @@ namespace Wolf.SearchRename
                         Fill_TreeFFR();
                     }
                 }
-                catch (Exception Ex)
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Folder Rename Exception: " + Ex.Message + "\n\n" +
-                                    Ex.StackTrace);
+                    MessageBox.Show("Folder Rename Exception: " + ex.Message + "\n\n" +
+                                    ex.StackTrace);
                 }
             }
             else
@@ -1516,9 +1511,9 @@ namespace Wolf.SearchRename
             DisplayTimer = Stopwatch.StartNew();
             treeFRFound.BeginUpdate();
 
-            for (int i = 0; i < FFRen.Count; i++)
+            for (int i = 0; i < FFRen.Count && i < int.MaxValue; i++)
             {
-                String item = FFRen.ElementAt(i);
+                string item = FFRen.ElementAt(i);
                 treeFRFound.Nodes[0].Nodes.Add(item, item);
             }
 
@@ -1532,9 +1527,9 @@ namespace Wolf.SearchRename
             DisplayTimer = Stopwatch.StartNew();
             treeFRPREV.BeginUpdate();
 
-            for (int i = 0; i < FFRPrev.Count; i++)
+            for (int i = 0; i < FFRPrev.Count && i < int.MaxValue; i++)
             {
-                String item = FFRPrev.ElementAt(i);
+                string item = FFRPrev.ElementAt(i);
                 treeFRPREV.Nodes[0].Nodes.Add(item, item);
             }
 
@@ -1543,9 +1538,9 @@ namespace Wolf.SearchRename
             DisplayTimer.Stop();
         }
 
-        private Boolean funcGetRenameInfoFR()
+        private bool funcGetRenameInfoFR()
         {
-            Boolean GoodToContinue = false;
+            bool GoodToContinue = false;
 
             if (tbxFRPart.Text != "")
             {
@@ -1557,9 +1552,9 @@ namespace Wolf.SearchRename
             return GoodToContinue;
         }
 
-        private String getNewNameFR(String Input)
+        private string getNewNameFR( string Input )
         {
-            String NewName = "";
+            string NewName = "";
 
             try
             {
@@ -1592,9 +1587,9 @@ namespace Wolf.SearchRename
             DisplayTimer = Stopwatch.StartNew();
             treeCopyFound.BeginUpdate();
 
-            for (int i = 0; i < FoundFileListC.Count; i++)
+            for (int i = 0; i < FoundFileListC.Count && i < int.MaxValue; i++)
             {
-                String item = FoundFileListC.ElementAt(i);
+                string item = FoundFileListC.ElementAt(i);
                 treeCopyFound.Nodes[0].Nodes.Add(item, item);
             }
             treeCopyFound.EndUpdate();
@@ -1613,7 +1608,7 @@ namespace Wolf.SearchRename
 
                 if (Directory.Exists(CopyTo))
                 {
-                    foreach (String item in FoundFileListC)
+                    foreach ( string item in FoundFileListC)
                     {
                         PreviewFileListC.Add(getCopyToFileNamePath(item));
                     }
@@ -1639,7 +1634,7 @@ namespace Wolf.SearchRename
                 treeCopyPreview.Nodes.Add("Prev", "Preview List");
                 int i = 0;
 
-                foreach (String item in PreviewFileListC)
+                foreach ( string item in PreviewFileListC)
                 {
                     treeCopyPreview.Nodes[0].Nodes.Add(item, item);
                     i++;
@@ -1649,24 +1644,24 @@ namespace Wolf.SearchRename
             }
         }
 
-        private String getCopyToFileNamePath(String Input)
+        private string getCopyToFileNamePath( string Input )
         {
-            String NewPath = "";
+            string NewPath = "";
 
             if (CopyTo.Contains(".\\"))
             {
                 CopyTo = CopyTo.Replace(".\\", "");
 
-                String FilePath = FilePathR + "\\" + CopyTo;
-                String OldName = Path.GetFileName(Input);
+                string FilePath = FilePathR + "\\" + CopyTo;
+                string OldName = Path.GetFileName(Input);
                 OldName = OldName.Replace("\\", "");
 
                 NewPath = FilePath + "\\" + OldName;
             }
             else
             {
-                String FilePath = CopyTo;
-                String OldName = Path.GetFileName(Input);
+                string FilePath = CopyTo;
+                string OldName = Path.GetFileName(Input);
                 OldName = OldName.Replace("\\", "");
 
                 NewPath = FilePath + "\\" + OldName;
@@ -1675,7 +1670,7 @@ namespace Wolf.SearchRename
             return NewPath;
         }
 
-        private void findAllFilesC(String FilePath, String FileName)
+        private void findAllFilesC( string FilePath, string FileName )
         {
             foundFilesC = 0;
             checkedFilesC = 0;
@@ -1690,11 +1685,11 @@ namespace Wolf.SearchRename
             }
         }
 
-        private void funcFileSearchC(String FilePath, String FileName)
+        private void funcFileSearchC( string FilePath, string FileName )
         {
             if ((FileType3 == "ANY") || (FileType3 == ""))
             {
-                foreach (String foundfile in Directory.EnumerateFiles(FilePath, FileName, SearchOption.AllDirectories).ToList())
+                foreach ( string foundfile in Directory.EnumerateFiles(FilePath, FileName, SearchOption.AllDirectories).ToList())
                 {
                     FoundFileListC.Add(foundfile);
                     foundFilesC++;
@@ -1704,7 +1699,7 @@ namespace Wolf.SearchRename
             }
             else if ((FileType3 != "ANY") && (FileType3 != ""))
             {
-                foreach (String foundfile in Directory.EnumerateFiles(FilePath, FileName, SearchOption.AllDirectories).ToList())
+                foreach ( string foundfile in Directory.EnumerateFiles(FilePath, FileName, SearchOption.AllDirectories).ToList())
                 {
                     //MessageBox.Show("File " + FileName + " was found.");
                     if ((foundfile.Contains(FileType3.ToLower())) || (foundfile.Contains(FileType3.ToUpper())))
@@ -1724,7 +1719,7 @@ namespace Wolf.SearchRename
             {
                 try
                 {
-                    for (int i = 0; i < PreviewFileListC.Count; i++)
+                    for (int i = 0; i < PreviewFileListC.Count && i < int.MaxValue; i++)
                     {
                         File.Copy(FoundFileListC.ElementAt(i), PreviewFileListC.ElementAt(i));
                     }
@@ -1744,9 +1739,9 @@ namespace Wolf.SearchRename
                         }
                     }
                 }
-                catch (Exception Ex)
+                catch (Exception ex)
                 {
-                    MessageBox.Show("File Copy To Exception: " + Ex.Message + "\n\n" +
+                    MessageBox.Show("File Copy To Exception: " + ex.Message + "\n\n" +
                                     "You received this message because one of the original files probably has been moved or no longer exists!");
                 }
             }

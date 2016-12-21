@@ -26,8 +26,8 @@ namespace Wolf
 
             if (DRV["Name"] != null)
             {
-                this.drvName = DRV["Name"].ToString();
-                DRVInfo.Add("Letter: " + this.drvName);
+                drvName = DRV["Name"].ToString();
+                DRVInfo.Add("Letter: " + drvName );
             }
             else
             {
@@ -36,8 +36,8 @@ namespace Wolf
 
             if (DRV["VolumeName"] != null)
             {
-                this.drvLabel = DRV["VolumeName"].ToString();
-                DRVInfo.Add("Label: " + this.drvLabel);
+                drvLabel = DRV["VolumeName"].ToString();
+                DRVInfo.Add("Label: " + drvLabel );
             }
             else
             {
@@ -46,8 +46,8 @@ namespace Wolf
 
             if (DRV["VolumeSerialNumber"] != null)
             {
-                this.drvSerial = DRV["VolumeSerialNumber"].ToString();
-                DRVInfo.Add("Serial: " + this.drvSerial);
+                drvSerial = DRV["VolumeSerialNumber"].ToString();
+                DRVInfo.Add("Serial: " + drvSerial );
             }
             else
             {
@@ -56,8 +56,8 @@ namespace Wolf
 
             if (DRV["FileSystem"] != null)
             {
-                this.fileSystem = DRV["FileSystem"].ToString();
-                DRVInfo.Add("File System: " + this.fileSystem);
+                fileSystem = DRV["FileSystem"].ToString();
+                DRVInfo.Add("File System: " + fileSystem );
             }
             else
             {
@@ -66,9 +66,9 @@ namespace Wolf
 
             if (DRV["Size"] != null)
             {
-                this.drvSize = funcConvertSize(DRV["Size"].ToString());
+                drvSize = funcConvertSize(DRV["Size"].ToString());
 
-                DRVInfo.Add("Size: " + this.drvSize);
+                DRVInfo.Add("Size: " + drvSize );
             }
             else
             {
@@ -77,9 +77,9 @@ namespace Wolf
 
             if (DRV["FreeSpace"] != null)
             {
-                this.drvFreeSpace = funcConvertSize(DRV["FreeSpace"].ToString());
+                drvFreeSpace = funcConvertSize(DRV["FreeSpace"].ToString());
 
-                DRVInfo.Add("Free Space: " + this.drvFreeSpace);
+                DRVInfo.Add("Free Space: " + drvFreeSpace );
             }
             else
             {
@@ -540,27 +540,27 @@ namespace Wolf
 
         public string getName()
         {
-            return this.drvName;
+            return drvName;
         }
 
         public string getSerial()
         {
-            return this.drvSerial;
+            return drvSerial;
         }
 
         public string getLabel()
         {
-            return this.drvLabel;
+            return drvLabel;
         }
 
         public string getSize()
         {
-            return this.drvSize;
+            return drvSize;
         }
 
         public string getFreeSpace()
         {
-            return this.drvFreeSpace;
+            return drvFreeSpace;
         }
     }
 

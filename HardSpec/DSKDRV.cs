@@ -564,7 +564,7 @@ namespace Wolf.HardSpec
 
         public string getName()
         {
-            return this.drvName;
+            return drvName;
         }
 
         //Converts a capacity string from bytes to GB.

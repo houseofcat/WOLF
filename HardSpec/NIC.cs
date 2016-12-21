@@ -21,8 +21,8 @@ namespace Wolf.HardSpec
 
             if (nicInfo["Name"] != null)
             {
-                this.Name = nicInfo["Name"].ToString();
-                NICInfo.Add("Name: " + this.Name);
+                Name = nicInfo["Name"].ToString();
+                NICInfo.Add("Name: " + Name );
             }
             else
             {
@@ -49,8 +49,8 @@ namespace Wolf.HardSpec
 
             if (nicInfo["Speed"] != null)
             {
-                this.Speed = funcConvertSpeed(nicInfo["Speed"].ToString());
-                NICInfo.Add("Speed: " + this.Speed);
+                Speed = funcConvertSpeed(nicInfo["Speed"].ToString());
+                NICInfo.Add("Speed: " + Speed );
             }
             else
             {
@@ -68,8 +68,8 @@ namespace Wolf.HardSpec
 
             if (nicInfo["MACAddress"] != null)
             {
-                this.MAC = nicInfo["MACAddress"].ToString();
-                NICInfo.Add("MAC Address: " + this.MAC);
+                MAC = nicInfo["MACAddress"].ToString();
+                NICInfo.Add("MAC Address: " + MAC );
             }
             else
             {
@@ -78,8 +78,8 @@ namespace Wolf.HardSpec
 
             if (nicInfo["GUID"] != null)
             {
-                this.GUID = nicInfo["GUID"].ToString();
-                NICInfo.Add("GUID: " + this.GUID);
+                GUID = nicInfo["GUID"].ToString();
+                NICInfo.Add("GUID: " + GUID );
             }
             else
             {
@@ -155,7 +155,7 @@ namespace Wolf.HardSpec
 
                 if ((nicInfo["PhysicalAdapter"].ToString() == "True") || (nicInfo["PhysicalAdapter"].ToString() == "true"))
                 {
-                    this.IsPhysical = true;
+                    IsPhysical = true;
                 }
             }
             else
@@ -610,22 +610,22 @@ namespace Wolf.HardSpec
 
         public string getSpeed()
         {
-            return this.Speed;
+            return Speed;
         }
 
         public string getMAC()
         {
-            return this.MAC;
+            return MAC;
         }
 
         public string getGUID()
         {
-            return this.GUID;
+            return GUID;
         }
 
         public string getName()
         {
-            return this.Name;
+            return Name;
         }
     }
 }

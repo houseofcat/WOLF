@@ -86,20 +86,20 @@ namespace OracleSoft
             {
                 SetCPUInfo();
             }
-            catch(Exception EX)
+            catch(Exception ex)
             {
-                MessageBox.Show("CPU Reading Exception Occurred\n\nException: " + EX.Message +
-                    "\n\nStackTrace: " + EX.StackTrace);
+                MessageBox.Show("CPU Reading Exception Occurred\n\nException: " + ex.Message +
+                    "\n\nStackTrace: " + ex.StackTrace);
             }
 
             try
             {
                 SetDrvInfo();
             }
-            catch (Exception EX)
+            catch (Exception ex)
             {
-                MessageBox.Show("Drive Reading Exception Occurred\n\nException: " + EX.Message +
-                    "\n\nStackTrace: " + EX.StackTrace);
+                MessageBox.Show("Drive Reading Exception Occurred\n\nException: " + ex.Message +
+                    "\n\nStackTrace: " + ex.StackTrace);
             }
 
             SetSysInfo();
@@ -129,10 +129,10 @@ namespace OracleSoft
                 ProcessorTable = SetCPUDataTable();
                 TemporaryPTable = SetCPUDataTable();
             }
-            catch (Exception EX)
+            catch (Exception ex)
             {
-                MessageBox.Show("CPU DataTable Exception Occurred\n\nException: " + EX.Message +
-                    "\n\nStackTrace: " + EX.StackTrace);
+                MessageBox.Show("CPU DataTable Exception Occurred\n\nException: " + ex.Message +
+                    "\n\nStackTrace: " + ex.StackTrace);
             }
 
             CPUDataRows.Clear();
@@ -149,10 +149,10 @@ namespace OracleSoft
                 SystemTable = SetSysDataTable();
                 TemporarySTable = SetSysDataTable();
             }
-            catch (Exception EX)
+            catch (Exception ex)
             {
-                MessageBox.Show("SYS DataTable Exception Occurred\n\nException: " + EX.Message +
-                    "\n\nStackTrace: " + EX.StackTrace);
+                MessageBox.Show("SYS DataTable Exception Occurred\n\nException: " + ex.Message +
+                    "\n\nStackTrace: " + ex.StackTrace);
             }
 
             SYSROW = TemporarySTable.NewRow();
@@ -165,10 +165,10 @@ namespace OracleSoft
                 CacheTable = SetCacDataTable();
                 TemporaryCTable = SetCacDataTable();
             }
-            catch (Exception EX)
+            catch (Exception ex)
             {
-                MessageBox.Show("SYS DataTable Exception Occurred\n\nException: " + EX.Message +
-                    "\n\nStackTrace: " + EX.StackTrace);
+                MessageBox.Show("SYS DataTable Exception Occurred\n\nException: " + ex.Message +
+                    "\n\nStackTrace: " + ex.StackTrace);
             }
 
             CACROW = TemporaryCTable.NewRow();
@@ -257,13 +257,13 @@ namespace OracleSoft
                     core.LoadCore();
                 }
             }
-            catch(Exception EX)
+            catch(Exception ex)
             {
                 MessageBox.Show("EXCEPTION\n\n==== Loading Core Exception ===\n" +
-                                "\nMessage: " + EX.Message +
-                                "\nHResult: " + EX.HResult.ToString() +
-                                "\nData: " + EX.Data +
-                                "\nStackTrace: " + EX.StackTrace + "\n");
+                                "\nMessage: " + ex.Message +
+                                "\nHResult: " + ex.HResult.ToString() +
+                                "\nData: " + ex.Data +
+                                "\nStackTrace: " + ex.StackTrace + "\n");
             }
 
             while(KEEPRUNNING)
@@ -291,9 +291,9 @@ namespace OracleSoft
             {
                 SYS.LoadSystem();
             }
-            catch (Exception EX)
+            catch (Exception ex)
             {
-                MessageBox.Show(EX.ToString());
+                MessageBox.Show(ex.ToString());
             }
 
             while (KEEPRUNNING)
@@ -321,9 +321,9 @@ namespace OracleSoft
             {
                 CAC.LoadCache();
             }
-            catch (Exception EX)
+            catch (Exception ex)
             {
-                MessageBox.Show(EX.ToString());
+                MessageBox.Show(ex.ToString());
             }
 
             while (KEEPRUNNING)
@@ -373,9 +373,9 @@ namespace OracleSoft
                         {
                             CPUDataRows[j][k] = value;
                         }
-                        catch (Exception EX)
+                        catch (Exception ex)
                         {
-                            MessageBox.Show(EX.ToString());
+                            MessageBox.Show(ex.ToString());
                         }
                     }
 
@@ -449,7 +449,7 @@ namespace OracleSoft
         {
             DataRow[] ROWARRAY = new DataRow[5];
 
-            for (int i = 0; i < CPUDataRows.Count; i++)
+            for (int i = 0; i < CPUDataRows.Count && i < int.MaxValue; i++)
             {
                 ROWARRAY[i] = TemporaryPTable.NewRow();
             }
@@ -477,9 +477,9 @@ namespace OracleSoft
                 MessageBox.Show("DataGridView NullReferenceException\n\n" + NEX.ToString());
                 //continue;
             }
-            catch (Exception EX)
+            catch (Exception ex)
             {
-                MessageBox.Show("DataGridView DataRow Transfer Exception\n\n" + EX.ToString());
+                MessageBox.Show("DataGridView DataRow Transfer Exception\n\n" + ex.ToString());
                 //continue;
             }
 
@@ -512,9 +512,9 @@ namespace OracleSoft
                 MessageBox.Show("DGV System NullReferenceException\n\n" + NEX.ToString());
                 //continue;
             }
-            catch (Exception EX)
+            catch (Exception ex)
             {
-                MessageBox.Show("DGV System Row Transfer Exception\n\n" + EX.ToString());
+                MessageBox.Show("DGV System Row Transfer Exception\n\n" + ex.ToString());
                 //continue;
             }
         }
@@ -535,9 +535,9 @@ namespace OracleSoft
                 MessageBox.Show("DGV System NullReferenceException\n\n" + NEX.ToString());
                 //continue;
             }
-            catch (Exception EX)
+            catch (Exception ex)
             {
-                MessageBox.Show("DGV Cache Row Transfer Exception\n\n" + EX.ToString());
+                MessageBox.Show("DGV Cache Row Transfer Exception\n\n" + ex.ToString());
                 //continue;
             }
         }
@@ -594,7 +594,7 @@ namespace OracleSoft
 
             if (BWDGV1.CancellationPending != true)
             {
-                this.SuspendLayout();
+                SuspendLayout();
 
                 ProcessorTable = TemporaryPTable.Copy();
                 TemporaryPTable.Clear();
@@ -640,10 +640,10 @@ namespace OracleSoft
 
                 funcSetDoubleBuffered(dgvCPU);
 
-                this.dgvCPU.AdvancedCellBorderStyle.Left = DataGridViewAdvancedCellBorderStyle.None;
-                this.dgvCPU.AdvancedCellBorderStyle.Right = DataGridViewAdvancedCellBorderStyle.None;
-                this.dgvCPU.AdvancedCellBorderStyle.Bottom = DataGridViewAdvancedCellBorderStyle.None;
-                this.dgvCPU.AdvancedCellBorderStyle.Top = DataGridViewAdvancedCellBorderStyle.None;
+                dgvCPU.AdvancedCellBorderStyle.Left = DataGridViewAdvancedCellBorderStyle.None;
+                dgvCPU.AdvancedCellBorderStyle.Right = DataGridViewAdvancedCellBorderStyle.None;
+                dgvCPU.AdvancedCellBorderStyle.Bottom = DataGridViewAdvancedCellBorderStyle.None;
+                dgvCPU.AdvancedCellBorderStyle.Top = DataGridViewAdvancedCellBorderStyle.None;
 
                 if (ExecuteCPUOnce == 0)
                 {
@@ -651,7 +651,7 @@ namespace OracleSoft
                     ExecuteCPUOnce++;
                 }
 
-                this.ResumeLayout(true);
+                ResumeLayout( true);
             }
         }
 
@@ -707,7 +707,7 @@ namespace OracleSoft
 
             if (BWDGV1.CancellationPending != true)
             {
-                this.SuspendLayout();
+                SuspendLayout();
 
                 SystemTable = TemporarySTable.Copy();
                 TemporarySTable.Clear();
@@ -753,10 +753,10 @@ namespace OracleSoft
 
                 funcSetDoubleBuffered(dgvCPU);
 
-                this.dgvSys.AdvancedCellBorderStyle.Left = DataGridViewAdvancedCellBorderStyle.None;
-                this.dgvSys.AdvancedCellBorderStyle.Right = DataGridViewAdvancedCellBorderStyle.None;
-                this.dgvSys.AdvancedCellBorderStyle.Bottom = DataGridViewAdvancedCellBorderStyle.None;
-                this.dgvSys.AdvancedCellBorderStyle.Top = DataGridViewAdvancedCellBorderStyle.None;
+                dgvSys.AdvancedCellBorderStyle.Left = DataGridViewAdvancedCellBorderStyle.None;
+                dgvSys.AdvancedCellBorderStyle.Right = DataGridViewAdvancedCellBorderStyle.None;
+                dgvSys.AdvancedCellBorderStyle.Bottom = DataGridViewAdvancedCellBorderStyle.None;
+                dgvSys.AdvancedCellBorderStyle.Top = DataGridViewAdvancedCellBorderStyle.None;
 
                 if (ExecuteSYSOnce == 0)
                 {
@@ -764,7 +764,7 @@ namespace OracleSoft
                     ExecuteSYSOnce++;
                 }
 
-                this.ResumeLayout(true);
+                ResumeLayout( true);
             }
         }
 
@@ -820,7 +820,7 @@ namespace OracleSoft
 
             if (BWDGV1.CancellationPending != true)
             {
-                this.SuspendLayout();
+                SuspendLayout();
 
                 CacheTable = TemporaryCTable.Copy();
                 TemporaryCTable.Clear();
@@ -866,10 +866,10 @@ namespace OracleSoft
 
                 funcSetDoubleBuffered(dgvCPU);
 
-                this.dgvCac.AdvancedCellBorderStyle.Left = DataGridViewAdvancedCellBorderStyle.None;
-                this.dgvCac.AdvancedCellBorderStyle.Right = DataGridViewAdvancedCellBorderStyle.None;
-                this.dgvCac.AdvancedCellBorderStyle.Bottom = DataGridViewAdvancedCellBorderStyle.None;
-                this.dgvCac.AdvancedCellBorderStyle.Top = DataGridViewAdvancedCellBorderStyle.None;
+                dgvCac.AdvancedCellBorderStyle.Left = DataGridViewAdvancedCellBorderStyle.None;
+                dgvCac.AdvancedCellBorderStyle.Right = DataGridViewAdvancedCellBorderStyle.None;
+                dgvCac.AdvancedCellBorderStyle.Bottom = DataGridViewAdvancedCellBorderStyle.None;
+                dgvCac.AdvancedCellBorderStyle.Top = DataGridViewAdvancedCellBorderStyle.None;
 
                 if (ExecuteCACOnce == 0)
                 {
@@ -877,7 +877,7 @@ namespace OracleSoft
                     ExecuteCACOnce++;
                 }
 
-                this.ResumeLayout(true);
+                ResumeLayout( true);
             }
         }
 
@@ -907,7 +907,7 @@ namespace OracleSoft
             DT.Columns.Add("DPC Rate", typeof(double));
             DT.Columns.Add("DPCs Queued / Sec", typeof(double));
 
-            for (int i = 0; i <= LOGPCOUNT; i++)
+            for (int i = 0; i <= LOGPCOUNT && i < int.MaxValue; i++)
             {
                 DT.Rows.Add();
             }
@@ -1632,10 +1632,10 @@ namespace OracleSoft
             {
                 System.Diagnostics.Process.Start("http://www.bytemedev.com/");
             }
-            catch (Exception EX)
+            catch (Exception ex)
             {
-                MessageBox.Show("Web Browsing Exception Occured\n\nMessage: " + EX.Message +
-                                "\n\nStack Trace: " + EX.StackTrace);
+                MessageBox.Show("Web Browsing Exception Occured\n\nMessage: " + ex.Message +
+                                "\n\nStack Trace: " + ex.StackTrace);
             }
         }
 

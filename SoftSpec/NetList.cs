@@ -10,6 +10,7 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Management;
 using System.Collections;
+using Wolf.WolfSpec;
 
 namespace Wolf.SoftSpec
 {
@@ -217,7 +218,7 @@ namespace Wolf.SoftSpec
             }
         }
 
-        public string GetProcessName(String ProcessID)
+        public string GetProcessName( string ProcessID )
         {
             string PName = "";
             int PID = 0;
