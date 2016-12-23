@@ -4,11 +4,12 @@ My very first program that morphed into a Frakenstein mess!
 
 I am rewriting this program from scratch now that Windows 10 has changed the way administration works.
 
-December 21st, 2106
+December 23rd, 2016
 
 This was the last refactoring / code cleanup before beginning an entire rewrite as UWP.
 
-This program now comes up either 100% clean or one false positive on VirusTotal.
-https://www.virustotal.com/en/file/0398b5b01977b0e8c389c625e17f5a146d52269de6bb3c29e1e03a905d4d1782/analysis/1482342876/
+Identified the function name tripping anti-virus software "DisableWindowsKeyLogging" and KeyLogging bool variables have simply been renamed.
+VirusTotal 100% clean again.
 
-Seems that will be the best I can get with it.
+This program now comes up either 100% clean or one false positive on VirusTotal.
+https://www.virustotal.com/en/file/8e526352a20643b6f2858d647c28746d06c20da4ed3ca87d20652e2c3827d733/analysis/1482535755/

@@ -5579,8 +5579,8 @@ namespace Wolf
         #region Windows Telemetry
         bool IsDiagTrackStopped = false;
         bool IsDiagTrackDisabled = false;
-        bool IsKeyloggingStopped = false;
-        bool IsKeyloggingDisabled = false;
+        bool IsLoggingStopped = false;
+        bool IsLoggingDisabled = false;
         bool IsDataCollectionDisabled = false;
         bool IsGlobalSensorDisabled = false;
         bool IsSensorLocationDisabled = false;
@@ -5589,7 +5589,7 @@ namespace Wolf
         {
             funcLoadTelemetryOSStatus();
             funcLoadTrackingStatus();
-            funcLoadKeyloggingStatus();
+            funcLoadLoggingStatus();
             funcLoadLogStatus();
             funcLoadSensorStatus();
             funcLoadHostStatus();
@@ -5644,19 +5644,19 @@ namespace Wolf
 
         }
 
-        private void funcLoadKeyloggingStatus()
+        private void funcLoadLoggingStatus()
         {
             if (Tools.isServiceRunning("dmwappushservice"))
             {
                 tbxKeylogServiceStatus.Text = "Running";
-                IsKeyloggingStopped = false; tbxKeylogServiceStatus.BackColor = Color.Red;
-                btnStopKeylogging.Text = "Stop User Input Logging Service";
+                IsLoggingStopped = false; tbxKeylogServiceStatus.BackColor = Color.Red;
+                btnStopLogging.Text = "Stop User Input Logging Service";
             }
             else
             {
                 tbxKeylogServiceStatus.Text = "Not Running";
-                IsKeyloggingStopped = true; tbxKeylogServiceStatus.BackColor = Color.LightGreen;
-                btnStopKeylogging.Text = "Start User Input Logging Service";
+                IsLoggingStopped = true; tbxKeylogServiceStatus.BackColor = Color.LightGreen;
+                btnStopLogging.Text = "Start User Input Logging Service";
             }
 
             string Status = Tools.getServiceStartupStatus("dmwappushservice");
@@ -5664,13 +5664,13 @@ namespace Wolf
 
             if (Status == "Disabled")
             {
-                IsKeyloggingDisabled = true; tbxKeylogServiceStartup.BackColor = Color.LightGreen;
-                btnDisableKeylogging.Text = "Enable User Input Logging Service Startup";
+                IsLoggingDisabled = true; tbxKeylogServiceStartup.BackColor = Color.LightGreen;
+                btnDisableLogging.Text = "Enable User Input Logging Service Startup";
             }
             else
             {
-                IsKeyloggingDisabled = false; tbxKeylogServiceStartup.BackColor = Color.Red;
-                btnDisableKeylogging.Text = "Disable User Input Logging Service Startup";
+                IsLoggingDisabled = false; tbxKeylogServiceStartup.BackColor = Color.Red;
+                btnDisableLogging.Text = "Disable User Input Logging Service Startup";
             }
         }
 
@@ -5805,15 +5805,15 @@ namespace Wolf
                 { Tools.enableService("DiagTrack"); }
                 else { Tools.disableService("DiagTrack"); }
             }
-            else if (sender.Equals(btnStopKeylogging))
+            else if (sender.Equals(btnStopLogging))
             {
-                if (IsKeyloggingStopped)
+                if (IsLoggingStopped)
                 { Tools.startService("dmwappushservice", 60000); }
                 else { Tools.stopService("dmwappushservice", 60000); }
             }
-            else if (sender.Equals(btnDisableKeylogging))
+            else if (sender.Equals(btnDisableLogging))
             {
-                if (IsKeyloggingDisabled)
+                if (IsLoggingDisabled)
                 { Tools.enableService("dmwappushservice"); }
                 else
                 { Tools.disableService("dmwappushservice"); }

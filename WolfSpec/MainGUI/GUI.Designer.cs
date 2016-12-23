@@ -146,7 +146,7 @@
             this.btnWMSRT = new System.Windows.Forms.Button();
             this.btnRepairWMI = new System.Windows.Forms.Button();
             this.tbxCPUL3 = new System.Windows.Forms.TextBox();
-            this.btnStopKeylogging = new System.Windows.Forms.Button();
+            this.btnStopLogging = new System.Windows.Forms.Button();
             this.btnDisableTelemetry = new System.Windows.Forms.Button();
             this.btnDeleteTrackingLog = new System.Windows.Forms.Button();
             this.btnDisableDiagnosticTracking = new System.Windows.Forms.Button();
@@ -296,7 +296,7 @@
             this.btnBackupHosts = new System.Windows.Forms.Button();
             this.btnModifyHosts = new System.Windows.Forms.Button();
             this.groupBox22 = new System.Windows.Forms.GroupBox();
-            this.btnDisableKeylogging = new System.Windows.Forms.Button();
+            this.btnDisableLogging = new System.Windows.Forms.Button();
             this.groupBox21 = new System.Windows.Forms.GroupBox();
             this.gbxTelemetryStatus = new System.Windows.Forms.GroupBox();
             this.tbxTrackingOwner = new System.Windows.Forms.TextBox();
@@ -1806,18 +1806,18 @@
             this.tbxCPUL3.TabIndex = 94;
             this.WolfToolTips.SetToolTip(this.tbxCPUL3, "Windows does not seem to give this data out very well.");
             // 
-            // btnStopKeylogging
+            // btnStopLogging
             // 
-            this.btnStopKeylogging.Location = new System.Drawing.Point(6, 19);
-            this.btnStopKeylogging.Name = "btnStopKeylogging";
-            this.btnStopKeylogging.Size = new System.Drawing.Size(91, 49);
-            this.btnStopKeylogging.TabIndex = 9;
-            this.btnStopKeylogging.Text = "Stop User Input Logging Service";
-            this.WolfToolTips.SetToolTip(this.btnStopKeylogging, "Stops the dmwappushservice service logs all manners of user inputs, whether it\'s " +
+            this.btnStopLogging.Location = new System.Drawing.Point(6, 19);
+            this.btnStopLogging.Name = "btnStopLogging";
+            this.btnStopLogging.Size = new System.Drawing.Size(91, 49);
+            this.btnStopLogging.TabIndex = 9;
+            this.btnStopLogging.Text = "Stop User Input Logging Service";
+            this.WolfToolTips.SetToolTip(this.btnStopLogging, "Stops the dmwappushservice service logs all manners of user inputs, whether it\'s " +
         "key logging, webcam, or voice input.\r\n\r\nIt\'s service display name is dmwappushsv" +
         "c.");
-            this.btnStopKeylogging.UseVisualStyleBackColor = true;
-            this.btnStopKeylogging.Click += new System.EventHandler(this.evt_WindowsTelemetry);
+            this.btnStopLogging.UseVisualStyleBackColor = true;
+            this.btnStopLogging.Click += new System.EventHandler(this.evt_WindowsTelemetry);
             // 
             // btnDisableTelemetry
             // 
@@ -3587,8 +3587,8 @@
             // 
             this.groupBox22.Controls.Add(this.btnDisableLocationSensor);
             this.groupBox22.Controls.Add(this.btnDisableLocationUsage);
-            this.groupBox22.Controls.Add(this.btnStopKeylogging);
-            this.groupBox22.Controls.Add(this.btnDisableKeylogging);
+            this.groupBox22.Controls.Add(this.btnStopLogging);
+            this.groupBox22.Controls.Add(this.btnDisableLogging);
             this.groupBox22.Location = new System.Drawing.Point(6, 92);
             this.groupBox22.Name = "groupBox22";
             this.groupBox22.Size = new System.Drawing.Size(472, 80);
@@ -3596,15 +3596,15 @@
             this.groupBox22.TabStop = false;
             this.groupBox22.Text = "Keylogging && Location Services";
             // 
-            // btnDisableKeylogging
+            // btnDisableLogging
             // 
-            this.btnDisableKeylogging.Location = new System.Drawing.Point(103, 19);
-            this.btnDisableKeylogging.Name = "btnDisableKeylogging";
-            this.btnDisableKeylogging.Size = new System.Drawing.Size(91, 49);
-            this.btnDisableKeylogging.TabIndex = 10;
-            this.btnDisableKeylogging.Text = "Disable User Input Logging Service Startup";
-            this.btnDisableKeylogging.UseVisualStyleBackColor = true;
-            this.btnDisableKeylogging.Click += new System.EventHandler(this.evt_WindowsTelemetry);
+            this.btnDisableLogging.Location = new System.Drawing.Point(103, 19);
+            this.btnDisableLogging.Name = "btnDisableLogging";
+            this.btnDisableLogging.Size = new System.Drawing.Size(91, 49);
+            this.btnDisableLogging.TabIndex = 10;
+            this.btnDisableLogging.Text = "Disable User Input Logging Service Startup";
+            this.btnDisableLogging.UseVisualStyleBackColor = true;
+            this.btnDisableLogging.Click += new System.EventHandler(this.evt_WindowsTelemetry);
             // 
             // groupBox21
             // 
@@ -7362,8 +7362,8 @@
         private System.Windows.Forms.Label label66;
         private System.Windows.Forms.Button btnTelemetryRefresh;
         private System.Windows.Forms.GroupBox gbxTelemetryStatus;
-        private System.Windows.Forms.Button btnDisableKeylogging;
-        private System.Windows.Forms.Button btnStopKeylogging;
+        private System.Windows.Forms.Button btnDisableLogging;
+        private System.Windows.Forms.Button btnStopLogging;
         private System.Windows.Forms.Label label67;
         private System.Windows.Forms.TextBox tbxKeylogServiceStatus;
         private System.Windows.Forms.TextBox tbxKeylogServiceStartup;

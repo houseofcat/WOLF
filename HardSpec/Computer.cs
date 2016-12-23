@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace Wolf.HardSpec
 {
-    class Computer:IDisposable
+    class Computer : IDisposable
     {
 
         protected virtual void Dispose(bool disposing)
