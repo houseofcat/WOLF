@@ -11,10 +11,11 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Wolf.SoftSpec;
 using Wolf.WolfSpec;
+using System.Threading.Tasks;
 
 namespace Wolf
 {
-    class OS:IDisposable
+    class OS : IDisposable
     {
         protected virtual void Dispose(bool disposing)
         {
@@ -879,89 +880,55 @@ namespace Wolf
         }
 
         public string GetLocale()
-        {
-            return Localization;
-        }
+        { return Localization; }
 
         public string GetCompName()
-        {
-            return ComputerName;
-        }
+        { return ComputerName; }
 
         public string GetUserName()
-        {
-            return UserName;
-        }
+        { return UserName; }
 
         public string GetOSVersion()
-        {
-            return OSVersion;
-        }
+        { return OSVersion; }
 
         public string GetNETVersion()
-        {
-            return NETVersion;
-        }
+        { return NETVersion; }
 
         public string GetDomainName()
-        {
-            return DomainName;
-        }
+        { return DomainName; }
 
         public string GetOSName()
-        {
-            return OSInfo.ElementAt(0);
-        }
+        { return OSInfo.ElementAt(0); }
 
         public string GetOpersName()
-        {
-            return OpersName;
-        }
+        { return OpersName; }
 
         public string GetOpersVersion()
-        {
-            return OpersVersion;
-        }
+        { return OpersVersion; }
 
         public string GetOpersDir()
-        {
-            return OpersDir;
-        }
+        { return OpersDir; }
 
         public string GetOpersRegistered()
-        {
-            return OpersRegistered;
-        }
+        { return OpersRegistered; }
 
         public string GetOpersSP()
-        {
-            return OpersSP;
-        }
+        { return OpersSP; }
 
         public string GetOpersInstall()
-        {
-            return OpersInstall;
-        }
+        { return OpersInstall; }
 
         public string GetCompanyName()
-        {
-            return OSInfo.ElementAt(1);
-        }
+        { return OSInfo.ElementAt(1); }
 
         public string GetInstallDate()
-        {
-            return OSInfo.ElementAt(2);
-        }
+        { return OSInfo.ElementAt(2); }
 
         public string GetLastBootUpTime()
-        {
-            return OSInfo.ElementAt(3);
-        }
+        { return OSInfo.ElementAt(3); }
 
         public string GetWindowsInstall()
-        {
-            return WindowsInstall;
-        }
+        { return WindowsInstall; }
 
         public List<string> ToList()
         {
@@ -974,9 +941,7 @@ namespace Wolf
             info.Add( NETVersion );
 
             foreach (string temp in OSInfo)
-            {
-                info.Add(temp);
-            }
+            { info.Add(temp); }
 
             return info;
         }
@@ -988,24 +953,18 @@ namespace Wolf
         //Obviously modified and combined, with reformating.
         private void SetLocalIP()
         {
-            IPHostEntry LocalHost;
-
-            LocalHost = Dns.GetHostEntry(Dns.GetHostName());
+            IPHostEntry LocalHost = Dns.GetHostEntry(Dns.GetHostName());
 
             foreach (IPAddress ip in LocalHost.AddressList)
             {
                 if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-                {
-                    strIPv4 = ip.ToString();
-                }
+                { strIPv4 = ip.ToString(); }
             }
 
             IPAddress[] ipAddress = LocalHost.AddressList;
 
             if (ipAddress[0].AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
-            {
-                strIPv6 = ipAddress[0].ToString();
-            }
+            { strIPv6 = ipAddress[0].ToString(); }
         }
 
         //Source: CodeProject, User: Huseyin Atasoy
@@ -1013,26 +972,20 @@ namespace Wolf
         //Modified for style/personal readability.
         public void SetExternalIP()
         {
-            string temp = "";
+            strExtIP = "";
 
             if (NetworkInterface.GetIsNetworkAvailable())
             {
                 try
                 {
-                    temp = (new WebClient()).DownloadString("http://checkip.dyndns.org/");
-                    temp = (new Regex(@"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}")).Matches(temp)[0].ToString();
+                    strExtIP = (new WebClient()).DownloadString("http://checkip.dyndns.org/");
+                    strExtIP = (new Regex(@"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}")).Matches(strExtIP)[0].ToString();
                 }
                 catch
-                {
-                    temp = "Error";
-                }
+                { strExtIP = "Error"; }
             }
             else
-            {
-                temp = "No internet connection.";
-            }
-
-            strExtIP = temp;
+            { strExtIP = "No internet connection."; }
         }
 
         public void SetPartitions()
@@ -1040,194 +993,90 @@ namespace Wolf
             ObjectQuery PartitionQuery = new ObjectQuery("SELECT * FROM Win32_DiskPartition");
 
             ManagementObjectSearcher searcher = new ManagementObjectSearcher(PartitionQuery);
+            ManagementObjectCollection moc = searcher.Get();
 
-            intMemConfigLength = 0;
-
-            foreach (ManagementObject item in searcher.Get())
+            Parallel.ForEach(moc.Cast<ManagementObject>(), mo =>
             {
-                DiskPartition newPart = new DiskPartition(item);
+                DiskPartition newPart = new DiskPartition(mo);
 
                 DPs.Add(newPart);
-            }
+            });
         }
 
         public string GetIPv4()
-        {
-            return strIPv4;
-        }
+        { return strIPv4; }
 
         public string GetIPv6()
-        {
-            return strIPv6;
-        }
+        { return strIPv6; }
 
         public string GetExtIP()
-        {
-            return strExtIP;
-        }
+        { return strExtIP; }
 
         public void SetMemoryConfig()
         {
             ObjectQuery MemConfigQuery = new ObjectQuery("SELECT * FROM Win32_OperatingSystem");
 
             ManagementObjectSearcher searcher = new ManagementObjectSearcher(MemConfigQuery);
-
+            ManagementObjectCollection moc = searcher.Get();
             intMemConfigLength = 0;
 
-            foreach (ManagementObject item in searcher.Get())
+            Parallel.ForEach(moc.Cast<ManagementObject>(), mo =>
             {
-                string temp = "";
+                MemConfig.Add(Tools.convertToGBFromKB(mo["FreePhysicalMemory"]?.ToString()));
+                MemConfig.Add(Tools.convertToGBFromKB(mo["FreeVirtualMemory"].ToString()));
+                MemConfig.Add(Tools.convertToGBFromKB(mo["TotalVirtualMemorySize"].ToString()));
+                MemConfig.Add(Tools.convertToGBFromKB(mo["TotalVisibleMemorySize"].ToString()));
+                MemConfig.Add(Tools.convertToGBFromKB(mo["FreeSpaceInPagingFiles"].ToString()));
+                MemConfig.Add(Tools.convertToGBFromKB(mo["SizeStoredInPagingFiles"].ToString()));
+                MemConfig.Add(Tools.convertToGBFromKB(mo["MaxProcessMemorySize"].ToString()));
 
-                if (item["FreePhysicalMemory"] != null)
-                {
-                    temp = Tools.convertToGBFromKB(item["FreePhysicalMemory"].ToString());
-                    MemConfig.Add(temp);
-                    //MemConfig.Add(item["FreePhysicalMemory"].ToString());
-                }
-
-                if (item["FreeVirtualMemory"] != null)
-                {
-                    temp = Tools.convertToGBFromKB(item["FreeVirtualMemory"].ToString());
-                    MemConfig.Add(temp);
-                    //MemConfig.Add(item["FreeVirtualMemory"].ToString());
-                }
-
-                if (item["TotalVirtualMemorySize"] != null)
-                {
-                    temp = Tools.convertToGBFromKB(item["TotalVirtualMemorySize"].ToString());
-                    MemConfig.Add(temp);
-                    //MemConfig.Add(item["TotalVirtualMemorySize"].ToString());
-                }
-
-                if (item["TotalVisibleMemorySize"] != null)
-                {
-                    temp = Tools.convertToGBFromKB(item["TotalVisibleMemorySize"].ToString());
-                    MemConfig.Add(temp);
-                    //MemConfig.Add(item["TotalVisibleMemorySize"].ToString());
-                }
-
-                if (item["FreeSpaceInPagingFiles"] != null)
-                {
-                    temp = Tools.convertToGBFromKB(item["FreeSpaceInPagingFiles"].ToString());
-                    MemConfig.Add(temp);
-                    //MemConfig.Add(item["FreeSpaceInPagingFiles"].ToString());
-                }
-
-                if (item["SizeStoredInPagingFiles"] != null)
-                {
-                    temp = Tools.convertToGBFromKB(item["SizeStoredInPagingFiles"].ToString());
-                    MemConfig.Add(temp);
-                    //MemConfig.Add(item["SizeStoredInPagingFiles"].ToString());
-                }
-
-                if (item["MaxProcessMemorySize"] != null)
-                {
-                    temp = Tools.convertToGBFromKB(item["MaxProcessMemorySize"].ToString());
-                    MemConfig.Add(temp);
-                    //MemConfig.Add(item["MaxProcessMemorySize"].ToString());
-                }
-
-                intMemConfigLength = 8;
-            }
+                intMemConfigLength = 7;
+            });
         }
 
         public List<string> getMemoryConfig()
-        {
-            return MemConfig;
-        }
+        { return MemConfig; }
 
         public string getFreePhysicalMem()
-        {
-            return MemConfig.ElementAt(0);
-        }
+        { return MemConfig.ElementAt(0); }
 
         public string getFreeVirtualMem()
-        {
-            return MemConfig.ElementAt(1);
-        }
+        { return MemConfig.ElementAt(1); }
 
         public string getTotalVirtualMem()
-        {
-            return MemConfig.ElementAt(2);
-        }
+        { return MemConfig.ElementAt(2); }
 
         public string getTotalVisibleMem()
-        {
-            return MemConfig.ElementAt(3);
-        }
+        { return MemConfig.ElementAt(3); }
 
         public string getPageFileFree()
-        {
-            return MemConfig.ElementAt(4);
-        }
+        { return MemConfig.ElementAt(4); }
 
         public string getPageFileSize()
-        {
-            return MemConfig.ElementAt(5);
-        }
+        { return MemConfig.ElementAt(5); }
 
         public string getMaxProcessSize()
-        {
-            return MemConfig.ElementAt(6);
-        }
+        { return MemConfig.ElementAt(6); }
 
         public int getMemConfigLength()
-        {
-            return intMemConfigLength;
-        }
+        { return intMemConfigLength; }
 
         public string getMEMFreePerc()
         {
-            string temp = "";
-            string temp2 = "";
-            double dblTemp = 0.0;
-            double dblTemp2 = 0.0;
-
-            temp = getFreePhysicalMem();
-            temp2 = getTotalVisibleMem();
-
-            dblTemp = Tools.convertGBtoDouble(temp);
-            dblTemp2 = Tools.convertGBtoDouble(temp2);
-
-            temp = Tools.getPercentage(dblTemp, dblTemp2);
-
-            return temp;
+            return Tools.getPercentage(Tools.convertGBtoDouble(getFreePhysicalMem()),
+                                       Tools.convertGBtoDouble(getTotalVisibleMem()));
         }
 
         public string getVIRTFreePerc()
         {
-            string temp = "";
-            string temp2 = "";
-            double dblTemp = 0.0;
-            double dblTemp2 = 0.0;
-
-            temp = getFreeVirtualMem();
-            temp2 = getTotalVirtualMem();
-
-            dblTemp = Tools.convertGBtoDouble(temp);
-            dblTemp2 = Tools.convertGBtoDouble(temp2);
-
-            temp = Tools.getPercentage(dblTemp, dblTemp2);
-
-            return temp;
+            return Tools.getPercentage(Tools.convertGBtoDouble(getFreeVirtualMem()),
+                                       Tools.convertGBtoDouble(getTotalVirtualMem()));
         }
 
         public string getPAGEFreePerc()
         {
-            string temp = "";
-            string temp2 = "";
-            double dblTemp = 0.0;
-            double dblTemp2 = 0.0;
-
-            temp = getPageFileFree();
-            temp2 = getPageFileSize();
-
-            dblTemp = Tools.convertGBtoDouble(temp);
-            dblTemp2 = Tools.convertGBtoDouble(temp2);
-
-            temp = Tools.getPercentage(dblTemp, dblTemp2);
-
-            return temp;
+            return Tools.getPercentage(Tools.convertGBtoDouble(getPageFileFree()),
+                                       Tools.convertGBtoDouble(getPageFileSize()));
         }
 
         private string funcConvertForeground(string input)
@@ -1272,49 +1121,24 @@ namespace Wolf
 
         private string funcConvertSuiteMask(string input)
         {
-            if (input == "1")
+            int intType = -1;
+            if (int.TryParse(input, out intType))
             {
-                input = "Small Business";
-            }
-            else if (input == "2")
-            {
-                input = "Enterprise";
-            }
-            else if (input == "4")
-            {
-                input = "Back Office";
-            }
-            else if (input == "8")
-            {
-                input = "Communications";
-            }
-            else if (input == "16")
-            {
-                input = "Terminal";
-            }
-            else if (input == "32")
-            {
-                input = "Small Business Restricted";
-            }
-            else if (input == "64")
-            {
-                input = "Embedded NT";
-            }
-            else if (input == "128")
-            {
-                input = "Data Center";
-            }
-            else if (input == "256")
-            {
-                input = "Single User";
-            }
-            else if (input == "512")
-            {
-                input = "Personal";
-            }
-            else if (input == "1024")
-            {
-                input = "Blade";
+                switch (intType)
+                {
+                    case 1: input = "Small Business"; break;
+                    case 2: input = "Enterprise"; break;
+                    case 4: input = "Back Office"; break;
+                    case 8: input = "Communications"; break;
+                    case 16: input = "Terminal"; break;
+                    case 32: input = "Small Business Restricted"; break;
+                    case 64: input = "Embedded NT"; break;
+                    case 128: input = "Data Center"; break;
+                    case 256: input = "Single User"; break;
+                    case 512: input = "Personal"; break;
+                    case 1024: input = "Blade"; break;
+                    default: break;
+                }
             }
 
             return input;
@@ -1340,237 +1164,71 @@ namespace Wolf
 
         private string funcConvertOSType(string input)
         {
-            if (input == "0")
+            int intType = -1;
+            if (int.TryParse(input, out intType))
             {
-                input = "Unknown";
-            }
-            else if (input == "1")
-            {
-                input = "Other";
-            }
-            else if (input == "2")
-            {
-                input = "MACROS";
-            }
-            else if (input == "3")
-            {
-                input = "ATTUNIX";
-            }
-            else if (input == "4")
-            {
-                input = "DGUX";
-            }
-            else if (input == "5")
-            {
-                input = "DECNT";
-            }
-            else if (input == "6")
-            {
-                input = "Digital Unix";
-            }
-            else if (input == "7")
-            {
-                input = "OpenVMS";
-            }
-            else if (input == "8")
-            {
-                input = "HPUX";
-            }
-            else if (input == "9")
-            {
-                input = "AIX";
-            }
-            else if (input == "10")
-            {
-                input = "MVS";
-            }
-            else if (input == "11")
-            {
-                input = "OS400";
-            }
-            else if (input == "12")
-            {
-                input = "OS/2";
-            }
-            else if (input == "13")
-            {
-                input = "JavaVM";
-            }
-            else if (input == "14")
-            {
-                input = "MSDOS";
-            }
-            else if (input == "15")
-            {
-                input = "WIN3X";
-            }
-            else if (input == "16")
-            {
-                input = "WIN95";
-            }
-            else if (input == "17")
-            {
-                input = "WIN98";
-            }
-            else if (input == "18")
-            {
-                input = "WINNT";
-            }
-            else if (input == "19")
-            {
-                input = "WINCE";
-            }
-            else if (input == "20")
-            {
-                input = "NCR3000";
-            }
-            else if (input == "21")
-            {
-                input = "NetWare";
-            }
-            else if (input == "22")
-            {
-                input = "OSF";
-            }
-            else if (input == "23")
-            {
-                input = "DC/OS";
-            }
-            else if (input == "24")
-            {
-                input = "Reliant UNIX";
-            }
-            else if (input == "25")
-            {
-                input = "SCO UnixWare";
-            }
-            else if (input == "26")
-            {
-                input = "SCO OpenServer";
-            }
-            else if (input == "27")
-            {
-                input = "Sequent";
-            }
-            else if (input == "28")
-            {
-                input = "IRIX";
-            }
-            else if (input == "29")
-            {
-                input = "Solaris";
-            }
-            else if (input == "30")
-            {
-                input = "SunOS";
-            }
-            else if (input == "31")
-            {
-                input = "U6000";
-            }
-            else if (input == "32")
-            {
-                input = "ASERIES";
-            }
-            else if (input == "33")
-            {
-                input = "TandemNSK";
-            }
-            else if (input == "34")
-            {
-                input = "TandemNT";
-            }
-            else if (input == "35")
-            {
-                input = "BS2000";
-            }
-            else if (input == "36")
-            {
-                input = "LINUX";
-            }
-            else if (input == "37")
-            {
-                input = "Lynx";
-            }
-            else if (input == "38")
-            {
-                input = "XENIX";
-            }
-            else if (input == "39")
-            {
-                input = "VM/ESA";
-            }
-            else if (input == "40")
-            {
-                input = "Interactive Unix";
-            }
-            else if (input == "41")
-            {
-                input = "BSDUNIX";
-            }
-            else if (input == "42")
-            {
-                input = "FreeBSD";
-            }
-            else if (input == "43")
-            {
-                input = "NetBSD";
-            }
-            else if (input == "44")
-            {
-                input = "GNU Hurd";
-            }
-            else if (input == "45")
-            {
-                input = "OS9";
-            }
-            else if (input == "46")
-            {
-                input = "MACH Kernel";
-            }
-            else if (input == "47")
-            {
-                input = "Inferno";
-            }
-            else if (input == "48")
-            {
-                input = "QNX";
-            }
-            else if (input == "49")
-            {
-                input = "EPOC";
-            }
-            else if (input == "50")
-            {
-                input = "IxWorks";
-            }
-            else if (input == "51")
-            {
-                input = "VxWorks";
-            }
-            else if (input == "52")
-            {
-                input = "MiNT";
-            }
-            else if (input == "53")
-            {
-                input = "BeOS";
-            }
-            else if (input == "54")
-            {
-                input = "HP MPE";
-            }
-            else if (input == "55")
-            {
-                input = "NextStep";
-            }
-            else if (input == "56")
-            {
-                input = "PalmPilot";
-            }
-            else if (input == "57")
-            {
-                input = "Rhapsody";
+                switch (intType)
+                {
+                    case 0: input = "Unknown"; break;
+                    case 1: input = "Other"; break;
+                    case 2: input = "MACROS"; break;
+                    case 3: input = "ATTUNIX"; break;
+                    case 4: input = "DGUX"; break;
+                    case 5: input = "DECNT"; break;
+                    case 6: input = "Digital Unix"; break;
+                    case 7: input = "OpenVMS"; break;
+                    case 8: input = "HPUX"; break;
+                    case 9: input = "AIX"; break;
+                    case 10: input = "MVS"; break;
+                    case 11: input = "OS400"; break;
+                    case 12: input = "OS/2"; break;
+                    case 13: input = "JavaVM"; break;
+                    case 14: input = "MSDOS"; break;
+                    case 15: input = "WIN3X"; break;
+                    case 16: input = "WIN95"; break;
+                    case 17: input = "WIN98"; break;
+                    case 18: input = "WINNT"; break;
+                    case 19: input = "WINCE"; break;
+                    case 20: input = "NCR3000"; break;
+                    case 21: input = "NetWare"; break;
+                    case 22: input = "OSF"; break;
+                    case 23: input = "DC/OS"; break;
+                    case 24: input = "Reliant UNIX"; break;
+                    case 25: input = "SCO UnixWare"; break;
+                    case 26: input = "SCO OpenServer"; break;
+                    case 27: input = "Sequent"; break;
+                    case 28: input = "IRIX"; break;
+                    case 29: input = "Solaris"; break;
+                    case 30: input = "SunOS"; break;
+                    case 31: input = "U6000"; break;
+                    case 32: input = "ASERIES"; break;
+                    case 33: input = "TandemNSK"; break;
+                    case 34: input = "TandemNT"; break;
+                    case 35: input = "BS2000"; break;
+                    case 36: input = "LINUX"; break;
+                    case 37: input = "Lynx"; break;
+                    case 38: input = "XENIX"; break;
+                    case 39: input = "VM/ESA"; break;
+                    case 40: input = "Interactive Unix"; break;
+                    case 41: input = "BSDUNIX"; break;
+                    case 42: input = "FreeBSD"; break;
+                    case 43: input = "NetBSD"; break;
+                    case 44: input = "GNU Hurd"; break;
+                    case 45: input = "OS9"; break;
+                    case 46: input = "MACH Kernel"; break;
+                    case 47: input = "Inferno"; break;
+                    case 48: input = "QNX"; break;
+                    case 49: input = "EPOC"; break;
+                    case 50: input = "IxWorks"; break;
+                    case 51: input = "VxWorks"; break;
+                    case 52: input = "MiNT"; break;
+                    case 53: input = "BeOS"; break;
+                    case 54: input = "HP MPE"; break;
+                    case 55: input = "NextStep"; break;
+                    case 56: input = "PalmPilot"; break;
+                    case 57: input = "Rhapsody"; break;
+                    default: break;
+                }
             }
 
             return input;
@@ -1581,48 +1239,27 @@ namespace Wolf
             AccountTimer = Stopwatch.StartNew();
             SelectQuery QueryACs = new SelectQuery("SELECT * FROM Win32_Account");
             ManagementObjectSearcher searcher = new ManagementObjectSearcher(QueryACs);
+            ManagementObjectCollection moc = searcher.Get();
 
-            foreach (ManagementObject acctInfo in searcher.Get())
+            Parallel.ForEach(moc.Cast<ManagementObject>(), mo =>
             {
-                Account temp = new Account(acctInfo);
+                Account Account = new Account(mo);
 
-                if (temp.getType() == "User")
+                switch (Account.AccountType)
                 {
-                    UserAccounts.Add(temp);
+                    case "User":            UserAccounts.Add(Account);      break;
+                    case "Group":           GroupAccounts.Add(Account);     break;
+                    case "Domain":          DomainAccounts.Add(Account);    break;
+                    case "Alias":           AliasAccounts.Add(Account);     break;
+                    case "WellKnownGroup":  WKGAccounts.Add(Account);       break;
+                    case "DeletedAccount":  DeletedAccounts.Add(Account);   break;
+                    case "Invalid":         InvalidAccounts.Add(Account);   break;
+                    case "Unknown":         UnknownAccounts.Add(Account);   break;
+                    case "Computer":        ComputerAccounts.Add(Account);  break;
+                    default: break;
                 }
-                else if (temp.getType() == "Group")
-                {
-                    GroupAccounts.Add(temp);
-                }
-                else if (temp.getType() == "Domain")
-                {
-                    DomainAccounts.Add(temp);
-                }
-                else if (temp.getType() == "Alias")
-                {
-                    AliasAccounts.Add(temp);
-                }
-                else if (temp.getType() == "WellKnownGroup")
-                {
-                    WKGAccounts.Add(temp);
-                }
-                else if (temp.getType() == "DeletedAccount")
-                {
-                    DeletedAccounts.Add(temp);
-                }
-                else if (temp.getType() == "Invalid")
-                {
-                    InvalidAccounts.Add(temp);
-                }
-                else if (temp.getType() == "Unknown")
-                {
-                    UnknownAccounts.Add(temp);
-                }
-                else if (temp.getType() == "Computer")
-                {
-                    ComputerAccounts.Add(temp);
-                }
-            }
+            });
+
             AccountTimer.Stop();
             AccountElapsedTime = AccountTimer.ElapsedMilliseconds;
         }

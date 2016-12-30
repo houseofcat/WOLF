@@ -8,12 +8,12 @@ namespace Wolf
         public List<string> ACCTInfo = new List<string>();
         public int intAcctLength = 0;
 
-        bool Local = false;
-        bool Active = false;
+        public bool Local { get; set; } = false;
+        public bool Active { get; set; } = false;
 
-        string AccountName = "";
-        string AccountType = "";
-        string SID = "";
+        public string AccountName { get; set; } = "";
+        public string AccountType { get; set; } = "";
+        public string SID { get; set; } = "";
 
         public Account()
         { }
@@ -30,178 +30,47 @@ namespace Wolf
             intAcctLength = 0;
             ACCTInfo.Clear();
 
-            if (AcctInfo["Caption"] != null)
-            {
-                string temp = AcctInfo["Caption"].ToString();
-                AccountName = temp;
-                ACCTInfo.Add("Caption: " + temp);
-            }
-            else
-            {
-                ACCTInfo.Add("Caption: No Data (xNull).");
-            }
+            AccountName = AcctInfo["Caption"].ToString() ?? "No Data (xNull).";
+            ACCTInfo.Add("Caption: "        + AccountName);
+            ACCTInfo.Add("Description: "    + AcctInfo["Description"]?.ToString()   ?? "No Data (xNull).");
+            ACCTInfo.Add("Domain: "         + AcctInfo["Domain"]?.ToString()        ?? "No Data (xNull).");
+            ACCTInfo.Add("Install Date: "   + AcctInfo["InstallDate"]?.ToString()   ?? "No Data (xNull).");
 
-            if (AcctInfo["Description"] != null)
-            {
-                ACCTInfo.Add("Description: " + AcctInfo["Description"].ToString());
-            }
-            else
-            {
-                ACCTInfo.Add("Description: No Data (xNull).");
-            }
+            string temp = AcctInfo["LocalAccount"]?.ToString() ?? "No Data(xNull).";
+            if (temp.Contains("True")) { Local = true; } else { Local = false; }
 
-            if (AcctInfo["Domain"] != null)
-            {
-                ACCTInfo.Add("Domain: " + AcctInfo["Domain"].ToString());
-            }
-            else
-            {
-                ACCTInfo.Add("Domain: No Data (xNull).");
-            }
-
-            if (AcctInfo["InstallDate"] != null)
-            {
-                ACCTInfo.Add("Install Date: " + AcctInfo["InstallDate"].ToString());
-            }
-            else
-            {
-                ACCTInfo.Add("Install Date: No Data (xNull).");
-            }
-
-            if (AcctInfo["LocalAccount"] != null)
-            {
-                string temp = "";
-                temp = AcctInfo["LocalAccount"].ToString();
-
-                if (temp.Contains("True"))
-                {
-                    Local = true;
-                }
-                else if (temp.Contains("False"))
-                {
-                    Local = false;
-                }
-
-                ACCTInfo.Add("Local Account: " + Local);
-            }
-            else
-            {
-                ACCTInfo.Add("Local Account: No Data (xNull).");
-            }
-
-            if (AcctInfo["Name"] != null)
-            {
-                ACCTInfo.Add("Name: " + AcctInfo["Name"].ToString());
-            }
-            else
-            {
-                ACCTInfo.Add("Name: No Data (xNull).");
-            }
-
-            if (AcctInfo["SID"] != null)
-            {
-                SID = AcctInfo["SID"].ToString();
-                ACCTInfo.Add("SID: " + SID);
-            }
-            else
-            {
-                ACCTInfo.Add("SID: No Data (xNull).");
-            }
+            ACCTInfo.Add("Local Account: " + temp);
+            ACCTInfo.Add("Name: "   + AcctInfo["Name"]?.ToString()  ?? "No Data(xNull).");
+            ACCTInfo.Add("SID: "    + AcctInfo["SID"]?.ToString()   ?? "No Data(xNull).");
 
             if (AcctInfo["SIDType"] != null)
             {
-                string temp = AcctInfo["SIDType"].ToString();
+                int intTemp = -1;
+                if (int.TryParse(AcctInfo["SIDType"].ToString(), out intTemp))
+                {
+                    switch (intTemp)
+                    {
+                        case 1: AccountType = "User";           break;
+                        case 2: AccountType = "Group";          break;
+                        case 3: AccountType = "Domain";         break;
+                        case 4: AccountType = "Alias";          break;
+                        case 5: AccountType = "WellKnownGroup"; break;
+                        case 6: AccountType = "DeletedAccount"; break;
+                        case 7: AccountType = "Invalid";        break;
+                        case 8: AccountType = "Unknown";        break;
+                        case 9: AccountType = "Computer";       break;
+                        default: break;
+                    }
+                }
+                else { AccountType = "No Data(xNull)."; }
 
-                if (temp == "1")
-                {
-                    AccountType = "User";
-                    ACCTInfo.Add("SID Type: User");
-                }
-                else if (temp == "2")
-                {
-                    AccountType = "Group";
-                    ACCTInfo.Add("SID Type: Group");
-                }
-                else if (temp == "3")
-                {
-                    AccountType = "Domain";
-                    ACCTInfo.Add("SID Type: Domain");
-                }
-                else if (temp == "4")
-                {
-                    AccountType = "Alias";
-                    ACCTInfo.Add("SID Type: Alias");
-                }
-                else if (temp == "5")
-                {
-                    AccountType = "WellKnownGroup";
-                    ACCTInfo.Add("SID Type: Well Known Group");
-                }
-                else if (temp == "6")
-                {
-                    AccountType = "DeletedAccount";
-                    ACCTInfo.Add("SID Type: Deleted Account");
-                }
-                else if (temp == "7")
-                {
-                    AccountType = "Invalid";
-                    ACCTInfo.Add("SID Type: Invalid");
-                }
-                else if (temp == "8")
-                {
-                    AccountType = "Unknown";
-                    ACCTInfo.Add("SID Type: Unknown");
-                }
-                else if (temp == "9")
-                {
-                    AccountType = "Computer";
-                    ACCTInfo.Add("SID Type: Computer");
-                }
-            }
-            else
-            {
-                ACCTInfo.Add("SID Type: No Data (xNull).");
+                ACCTInfo.Add("SID Type: " + AccountType);
             }
 
-            if (AcctInfo["Status"] != null)
-            {
-                string temp = AcctInfo["Status"].ToString();
+            temp = AcctInfo["Status"]?.ToString() ?? "No Data(xNull).";
+            if (temp.Contains("OK")) { Active = true; } else { Active = false; }
 
-                if (temp == "OK")
-                {
-                    Active = true;
-                }
-                else
-                {
-                    Active = false;
-                }
-
-                ACCTInfo.Add("Status: " + temp);
-            }
-            else
-            {
-                ACCTInfo.Add("Status: No Data (xNull).");
-            }
-        }
-
-        public string getName()
-        {
-            return AccountName;
-        }
-
-        public string getType()
-        {
-            return AccountType;
-        }
-
-        public bool isLocal()
-        {
-            return Local;
-        }
-
-        public bool isActive()
-        {
-            return Active;
+            ACCTInfo.Add("Status: " + temp);
         }
 
         public List<string> ExportData()

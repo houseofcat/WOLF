@@ -1,12 +1,12 @@
 # WOLF - Windows Operations & Library of Functions C\# 
 
-My very first program that morphed into a Frakenstein mess!
+My very first program that morphed into a Frakenstein mess! I am rewriting significant portions of this source code.
 
-I am rewriting this program from scratch now that Windows 10 has changed the way administration works.
+December 30th, 2016
+Beginning a refactoring of code. Employing some C# 6.0 language simplifcations and general cleanup. Improving performance across the board.
 
-December 23rd, 2016
 
-This was the last refactoring / code cleanup before beginning an entire rewrite as UWP.
+# NOTE ABOUT ANTI-VIRUS / VIRUSTOTAL
 
 Identified the function name tripping anti-virus software "DisableWindowsKeyLogging" and KeyLogging bool variables have simply been renamed.
 VirusTotal 100% clean again.

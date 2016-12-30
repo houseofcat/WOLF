@@ -8,6 +8,7 @@ using System.Data;
 using System.Diagnostics;
 using System.DirectoryServices.AccountManagement;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -21,7 +22,6 @@ using Wolf.CI_Report;
 using Wolf.SearchRename;
 using Wolf.HardSpec;
 using Wolf.SoftSpec;
-using System.Security;
 using Wolf.WolfSpec;
 
 namespace Wolf
@@ -222,13 +222,9 @@ namespace Wolf
             //this.ResizeEnd += (s, e) => { this.ResumeLayout(true); };
 
             if (Environment.Is64BitProcess)
-            {
-                Text += " (x64)";
-            }
+            { Text += " (x64)"; }
             else
-            {
-                Text += " (x86)";
-            }
+            { Text += " (x86)"; }
 
             funcLOG("============= Program Start-Up ===================");
 
@@ -239,24 +235,16 @@ namespace Wolf
             if (!(BWCUPDATE.IsBusy))
             {
                 try
-                {
-                    BWCUPDATE.RunWorkerAsync();
-                }
+                { BWCUPDATE.RunWorkerAsync(); }
                 catch (Exception ex)
-                {
-                    logEXCEPT(ex);
-                }
+                { logEXCEPT(ex); }
             }
 
             if (Properties.Settings.Default["IGNORE_WINDEF_MESSAGE"] != null)
-            {
-                funcLOG("IGNORE_WINDEF_MESSAGE: " + Properties.Settings.Default["IGNORE_WINDEF_MESSAGE"]);
-            }
+            { funcLOG("IGNORE_WINDEF_MESSAGE: " + Properties.Settings.Default["IGNORE_WINDEF_MESSAGE"]); }
 
             if (Properties.Settings.Default["IGNORE_WINDOWS_FIREWALL"] != null)
-            {
-                funcLOG("IGNORE_WINDOWS_FIREWALL: " + Properties.Settings.Default["IGNORE_WINDOWS_FIREWALL"]);
-            }
+            { funcLOG("IGNORE_WINDOWS_FIREWALL: " + Properties.Settings.Default["IGNORE_WINDOWS_FIREWALL"]); }
 
             lblVersion.Text = "v" + version;
         }
@@ -269,27 +257,19 @@ namespace Wolf
             SetDoubleBufferOnControls();
             menuStrip1.Renderer = new DarkThemeRenderer();
 
-            if (BW0.IsBusy != true)
-            {
-                BW0.RunWorkerAsync();
-            }
+            if (!BW0.IsBusy)
+            { BW0.RunWorkerAsync(); }
 
-            if (BW1.IsBusy != true)
-            {
-                BW1.RunWorkerAsync();
-            }
+            if (!BW1.IsBusy)
+            { BW1.RunWorkerAsync(); }
 
-            if (BW2.IsBusy != true)
-            {
-                BW2.RunWorkerAsync();
-            }
+            if (!BW2.IsBusy)
+            { BW2.RunWorkerAsync(); }
 
-            if (BW3.IsBusy != true)
-            {
-                BW3.RunWorkerAsync();
-            }
+            if (!BW3.IsBusy)
+            { BW3.RunWorkerAsync(); }
 
-            if (BW4.IsBusy != true)
+            if (!BW4.IsBusy)
             {
                 treeACTs.Nodes.Add("Account information is loading (i.e. not frozen, give it time)...");
                 BW4.RunWorkerAsync();
@@ -345,15 +325,10 @@ namespace Wolf
             SetDoubleBuffered(tbxLog);
 
             foreach(Control c in groupBox6.Controls)
-            {
-                SetDoubleBuffered(c);
-            }
+            { SetDoubleBuffered(c); }
 
             foreach (Control c in groupBox18.Controls)
-            {
-                SetDoubleBuffered(c);
-            }
-
+            { SetDoubleBuffered(c); }
         }
 
         //Double Buffer Form Controls
@@ -366,12 +341,7 @@ namespace Wolf
                 //http://blogs.msdn.com/oldnewthing/archive/2006/01/03/508694.aspx
                 if (!(SystemInformation.TerminalServerSession))
                 {
-
-                    System.Reflection.PropertyInfo aProp =
-                      typeof(Control).GetProperty(
-                            "DoubleBuffered",
-                            System.Reflection.BindingFlags.NonPublic |
-                            System.Reflection.BindingFlags.Instance);
+                    PropertyInfo aProp = typeof(Control).GetProperty("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance);
 
                     aProp.SetValue(c, true, null);
                 }
@@ -437,14 +407,10 @@ namespace Wolf
                     string webData = wc.DownloadString("https://houseofcat.blob.core.windows.net/wolf/lv.txt");
 
                     if (webData.Any())
-                    {
-                        latestversion = webData;
-                    }
+                    { latestversion = webData; }
                 }
                 catch 
-                {
-                    latestversion = "";
-                }
+                { latestversion = ""; }
             }
         }
 
@@ -472,9 +438,7 @@ namespace Wolf
         }
 
         private void BW0_DoWork(object sender, DoWorkEventArgs e)
-        {
-            comp.funcLoadComputer();
-        }
+        { comp.funcLoadComputer(); }
 
         private void BW1_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -535,14 +499,10 @@ namespace Wolf
                 //Wait till the background thread of the OS class has finished
                 //loading the accounts.
                 while ((!(comp.os.AreAccountsLoaded())) || (comp.os.AccountErrorOccurred))
-                {
-                    Thread.Sleep(100);
-                }
+                { Thread.Sleep(100); }
             }
-            catch (Exception ex)
-            {
-                ex.ToString();
-            }
+            catch
+            { comp.os.AccountErrorOccurred = true; }
         }
 
         private void GRM_DoWork(object sender, DoWorkEventArgs e)
@@ -552,10 +512,8 @@ namespace Wolf
             DisplayTimer = Stopwatch.StartNew();
 
             try
-            {
-                remMac = new RemoteMachine(tbxDomainName2.Text, tbxDomainUserName.Text, mtbxDomainUserPassword.Text, tbxWSName.Text, RemChoices);
-            }
-            catch (System.Management.ManagementException MEX)
+            { remMac = new RemoteMachine(tbxDomainName2.Text, tbxDomainUserName.Text, mtbxDomainUserPassword.Text, tbxWSName.Text, RemChoices); }
+            catch (ManagementException MEX)
             {
                 MessageBox.Show("ManagementException occurred. Remote machine's WMI encountered an error." +
                     Environment.NewLine + Environment.NewLine + "Exception: " + MEX.Message +
@@ -565,7 +523,7 @@ namespace Wolf
             }
             // I am trying to manipulate the treeview with an access denied concatenation so I am sending this exception
             // on up to the next level.
-            catch (System.UnauthorizedAccessException UEX)
+            catch (UnauthorizedAccessException UEX)
             {
                 AccessDenied = true;
 
@@ -573,7 +531,7 @@ namespace Wolf
                 //so it could be logged.
                 UEX.ToString();
             }
-            catch (System.Runtime.InteropServices.COMException CEX)
+            catch (COMException CEX)
             {
                 ErrorDetected = true;
 
@@ -741,8 +699,7 @@ namespace Wolf
 
                 }
                 catch (Exception BUG)
-                {
-                    logEXCEPT(BUG);
+                { logEXCEPT(BUG);
                 }
             }
         }
@@ -888,7 +845,7 @@ namespace Wolf
                     {
                         remMac1 = new RemoteMachine(tbxDomainName2.Text, tbxDomainUserName.Text, mtbxDomainUserPassword.Text, IP, RangeChoices);
                     }
-                    catch (System.Management.ManagementException MEX)
+                    catch (ManagementException MEX)
                     {
                         WMIError1 = true;
 
@@ -897,7 +854,7 @@ namespace Wolf
                     }
                     // I am trying to manipulate the treeview with an access denied concatenation so I am sending this exception
                     // on up to the next level.
-                    catch (System.UnauthorizedAccessException UEX)
+                    catch (UnauthorizedAccessException UEX)
                     {
                         AccessDenied1 = true;
 
@@ -1992,9 +1949,9 @@ namespace Wolf
 
             foreach (Account acct in comp.os.UserAccounts)
             {
-                if ((acct.isLocal()) && (acct.isActive()))
+                if ((acct.Local) && (acct.Active))
                 {
-                    treeACTs.Nodes[0].Nodes[0].Nodes[0].Nodes.Add("User #: " + j.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[0].Nodes[0].Nodes[0].Nodes.Add("User #: " + j.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2003,9 +1960,9 @@ namespace Wolf
 
                     j++;
                 }
-                else if (acct.isLocal())
+                else if (acct.Local)
                 {
-                    treeACTs.Nodes[0].Nodes[0].Nodes[1].Nodes.Add("User #: " + k.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[0].Nodes[0].Nodes[1].Nodes.Add("User #: " + k.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2014,9 +1971,9 @@ namespace Wolf
 
                     k++;
                 }
-                else if (acct.isActive())
+                else if (acct.Active)
                 {
-                    treeACTs.Nodes[0].Nodes[1].Nodes[0].Nodes.Add("User #: " + l.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[0].Nodes[1].Nodes[0].Nodes.Add("User #: " + l.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2027,7 +1984,7 @@ namespace Wolf
                 }
                 else
                 {
-                    treeACTs.Nodes[0].Nodes[1].Nodes[1].Nodes.Add("User #: " + m.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[0].Nodes[1].Nodes[1].Nodes.Add("User #: " + m.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2048,9 +2005,9 @@ namespace Wolf
 
             foreach (Account acct in comp.os.GroupAccounts)
             {
-                if ((acct.isLocal()) && (acct.isActive()))
+                if ((acct.Local) && (acct.Active))
                 {
-                    treeACTs.Nodes[1].Nodes[0].Nodes[0].Nodes.Add("Group #: " + j.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[1].Nodes[0].Nodes[0].Nodes.Add("Group #: " + j.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2059,9 +2016,9 @@ namespace Wolf
 
                     j++;
                 }
-                else if (acct.isLocal())
+                else if (acct.Local)
                 {
-                    treeACTs.Nodes[1].Nodes[0].Nodes[1].Nodes.Add("Group #: " + k.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[1].Nodes[0].Nodes[1].Nodes.Add("Group #: " + k.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2070,9 +2027,9 @@ namespace Wolf
 
                     k++;
                 }
-                else if (acct.isActive())
+                else if (acct.Active)
                 {
-                    treeACTs.Nodes[1].Nodes[1].Nodes[0].Nodes.Add("Group #: " + l.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[1].Nodes[1].Nodes[0].Nodes.Add("Group #: " + l.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2083,7 +2040,7 @@ namespace Wolf
                 }
                 else
                 {
-                    treeACTs.Nodes[1].Nodes[1].Nodes[1].Nodes.Add("Group #: " + m.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[1].Nodes[1].Nodes[1].Nodes.Add("Group #: " + m.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2104,9 +2061,9 @@ namespace Wolf
 
             foreach (Account acct in comp.os.DomainAccounts)
             {
-                if ((acct.isLocal()) && (acct.isActive()))
+                if ((acct.Local) && (acct.Active))
                 {
-                    treeACTs.Nodes[2].Nodes[0].Nodes[0].Nodes.Add("Domain #: " + j.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[2].Nodes[0].Nodes[0].Nodes.Add("Domain #: " + j.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2115,9 +2072,9 @@ namespace Wolf
 
                     j++;
                 }
-                else if (acct.isLocal())
+                else if (acct.Local)
                 {
-                    treeACTs.Nodes[2].Nodes[0].Nodes[1].Nodes.Add("Domain #: " + k.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[2].Nodes[0].Nodes[1].Nodes.Add("Domain #: " + k.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2126,9 +2083,9 @@ namespace Wolf
 
                     k++;
                 }
-                else if (acct.isActive())
+                else if (acct.Active)
                 {
-                    treeACTs.Nodes[2].Nodes[1].Nodes[0].Nodes.Add("Domain #: " + l.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[2].Nodes[1].Nodes[0].Nodes.Add("Domain #: " + l.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2139,7 +2096,7 @@ namespace Wolf
                 }
                 else
                 {
-                    treeACTs.Nodes[2].Nodes[1].Nodes[1].Nodes.Add("Domain #: " + m.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[2].Nodes[1].Nodes[1].Nodes.Add("Domain #: " + m.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2160,9 +2117,9 @@ namespace Wolf
 
             foreach (Account acct in comp.os.AliasAccounts)
             {
-                if ((acct.isLocal()) && (acct.isActive()))
+                if ((acct.Local) && (acct.Active))
                 {
-                    treeACTs.Nodes[3].Nodes[0].Nodes[0].Nodes.Add("Alias #: " + j.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[3].Nodes[0].Nodes[0].Nodes.Add("Alias #: " + j.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2171,9 +2128,9 @@ namespace Wolf
 
                     j++;
                 }
-                else if (acct.isLocal())
+                else if (acct.Local)
                 {
-                    treeACTs.Nodes[3].Nodes[0].Nodes[1].Nodes.Add("Alias #: " + k.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[3].Nodes[0].Nodes[1].Nodes.Add("Alias #: " + k.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2182,9 +2139,9 @@ namespace Wolf
 
                     k++;
                 }
-                else if (acct.isActive())
+                else if (acct.Active)
                 {
-                    treeACTs.Nodes[3].Nodes[1].Nodes[0].Nodes.Add("Alias #: " + l.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[3].Nodes[1].Nodes[0].Nodes.Add("Alias #: " + l.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2195,7 +2152,7 @@ namespace Wolf
                 }
                 else
                 {
-                    treeACTs.Nodes[3].Nodes[1].Nodes[1].Nodes.Add("Alias #: " + m.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[3].Nodes[1].Nodes[1].Nodes.Add("Alias #: " + m.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2216,9 +2173,9 @@ namespace Wolf
 
             foreach (Account acct in comp.os.WKGAccounts)
             {
-                if ((acct.isLocal()) && (acct.isActive()))
+                if ((acct.Local) && (acct.Active))
                 {
-                    treeACTs.Nodes[4].Nodes[0].Nodes[0].Nodes.Add("WellKnownGroups #: " + j.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[4].Nodes[0].Nodes[0].Nodes.Add("WellKnownGroups #: " + j.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2227,9 +2184,9 @@ namespace Wolf
 
                     j++;
                 }
-                else if (acct.isLocal())
+                else if (acct.Local)
                 {
-                    treeACTs.Nodes[4].Nodes[0].Nodes[1].Nodes.Add("WellKnownGroups #: " + k.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[4].Nodes[0].Nodes[1].Nodes.Add("WellKnownGroups #: " + k.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2238,9 +2195,9 @@ namespace Wolf
 
                     k++;
                 }
-                else if (acct.isActive())
+                else if (acct.Active)
                 {
-                    treeACTs.Nodes[4].Nodes[1].Nodes[0].Nodes.Add("WellKnownGroups #: " + l.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[4].Nodes[1].Nodes[0].Nodes.Add("WellKnownGroups #: " + l.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2251,7 +2208,7 @@ namespace Wolf
                 }
                 else
                 {
-                    treeACTs.Nodes[4].Nodes[1].Nodes[1].Nodes.Add("WellKnownGroups #: " + m.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[4].Nodes[1].Nodes[1].Nodes.Add("WellKnownGroups #: " + m.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2272,9 +2229,9 @@ namespace Wolf
 
             foreach (Account acct in comp.os.DeletedAccounts)
             {
-                if ((acct.isLocal()) && (acct.isActive()))
+                if ((acct.Local) && (acct.Active))
                 {
-                    treeACTs.Nodes[5].Nodes[0].Nodes[0].Nodes.Add("Deleted #: " + j.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[5].Nodes[0].Nodes[0].Nodes.Add("Deleted #: " + j.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2283,9 +2240,9 @@ namespace Wolf
 
                     j++;
                 }
-                else if (acct.isLocal())
+                else if (acct.Local)
                 {
-                    treeACTs.Nodes[5].Nodes[0].Nodes[1].Nodes.Add("Deleted #: " + k.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[5].Nodes[0].Nodes[1].Nodes.Add("Deleted #: " + k.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2294,9 +2251,9 @@ namespace Wolf
 
                     k++;
                 }
-                else if (acct.isActive())
+                else if (acct.Active)
                 {
-                    treeACTs.Nodes[5].Nodes[1].Nodes[0].Nodes.Add("Deleted #: " + l.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[5].Nodes[1].Nodes[0].Nodes.Add("Deleted #: " + l.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2307,7 +2264,7 @@ namespace Wolf
                 }
                 else
                 {
-                    treeACTs.Nodes[5].Nodes[1].Nodes[1].Nodes.Add("Deleted #: " + m.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[5].Nodes[1].Nodes[1].Nodes.Add("Deleted #: " + m.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2328,9 +2285,9 @@ namespace Wolf
 
             foreach (Account acct in comp.os.InvalidAccounts)
             {
-                if ((acct.isLocal()) && (acct.isActive()))
+                if ((acct.Local) && (acct.Active))
                 {
-                    treeACTs.Nodes[6].Nodes[0].Nodes[0].Nodes.Add("Invalid #: " + j.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[6].Nodes[0].Nodes[0].Nodes.Add("Invalid #: " + j.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2339,9 +2296,9 @@ namespace Wolf
 
                     j++;
                 }
-                else if (acct.isLocal())
+                else if (acct.Local)
                 {
-                    treeACTs.Nodes[6].Nodes[0].Nodes[1].Nodes.Add("Invalid #: " + k.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[6].Nodes[0].Nodes[1].Nodes.Add("Invalid #: " + k.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2350,9 +2307,9 @@ namespace Wolf
 
                     k++;
                 }
-                else if (acct.isActive())
+                else if (acct.Active)
                 {
-                    treeACTs.Nodes[6].Nodes[1].Nodes[0].Nodes.Add("Invalid #: " + l.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[6].Nodes[1].Nodes[0].Nodes.Add("Invalid #: " + l.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2363,7 +2320,7 @@ namespace Wolf
                 }
                 else
                 {
-                    treeACTs.Nodes[6].Nodes[1].Nodes[1].Nodes.Add("Invalid #: " + m.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[6].Nodes[1].Nodes[1].Nodes.Add("Invalid #: " + m.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2384,9 +2341,9 @@ namespace Wolf
 
             foreach (Account acct in comp.os.UnknownAccounts)
             {
-                if ((acct.isLocal()) && (acct.isActive()))
+                if ((acct.Local) && (acct.Active))
                 {
-                    treeACTs.Nodes[7].Nodes[0].Nodes[0].Nodes.Add("Unknown #: " + j.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[7].Nodes[0].Nodes[0].Nodes.Add("Unknown #: " + j.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2395,9 +2352,9 @@ namespace Wolf
 
                     j++;
                 }
-                else if (acct.isLocal())
+                else if (acct.Local)
                 {
-                    treeACTs.Nodes[7].Nodes[0].Nodes[1].Nodes.Add("Unknown #: " + k.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[7].Nodes[0].Nodes[1].Nodes.Add("Unknown #: " + k.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2406,9 +2363,9 @@ namespace Wolf
 
                     k++;
                 }
-                else if (acct.isActive())
+                else if (acct.Active)
                 {
-                    treeACTs.Nodes[7].Nodes[1].Nodes[0].Nodes.Add("Unknown #: " + l.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[7].Nodes[1].Nodes[0].Nodes.Add("Unknown #: " + l.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2419,7 +2376,7 @@ namespace Wolf
                 }
                 else
                 {
-                    treeACTs.Nodes[7].Nodes[1].Nodes[1].Nodes.Add("Unknown #: " + m.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[7].Nodes[1].Nodes[1].Nodes.Add("Unknown #: " + m.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2440,9 +2397,9 @@ namespace Wolf
 
             foreach (Account acct in comp.os.ComputerAccounts)
             {
-                if ((acct.isLocal()) && (acct.isActive()))
+                if ((acct.Local) && (acct.Active))
                 {
-                    treeACTs.Nodes[8].Nodes[0].Nodes[0].Nodes.Add("Computer #: " + j.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[8].Nodes[0].Nodes[0].Nodes.Add("Computer #: " + j.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2451,9 +2408,9 @@ namespace Wolf
 
                     j++;
                 }
-                else if (acct.isLocal())
+                else if (acct.Local)
                 {
-                    treeACTs.Nodes[8].Nodes[0].Nodes[1].Nodes.Add("Computer #: " + k.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[8].Nodes[0].Nodes[1].Nodes.Add("Computer #: " + k.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2462,9 +2419,9 @@ namespace Wolf
 
                     k++;
                 }
-                else if (acct.isActive())
+                else if (acct.Active)
                 {
-                    treeACTs.Nodes[8].Nodes[1].Nodes[0].Nodes.Add("Computer #: " + l.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[8].Nodes[1].Nodes[0].Nodes.Add("Computer #: " + l.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2475,7 +2432,7 @@ namespace Wolf
                 }
                 else
                 {
-                    treeACTs.Nodes[8].Nodes[1].Nodes[1].Nodes.Add("Computer #: " + m.ToString() + " - " + acct.getName());
+                    treeACTs.Nodes[8].Nodes[1].Nodes[1].Nodes.Add("Computer #: " + m.ToString() + " - " + acct.AccountName);
 
                     for (int i = 0; i < acct.intAcctLength && i < int.MaxValue; i++)
                     {
@@ -2507,7 +2464,7 @@ namespace Wolf
                     {
                         string newLine = "";
 
-                        if (temp.getName() != "")
+                        if (temp.AccountName != "")
                         {
                             foreach (string temp2 in temp.ExportData())
                             {
@@ -2523,7 +2480,7 @@ namespace Wolf
                     {
                         string newLine = "";
 
-                        if (temp.getName() != "")
+                        if (temp.AccountName != "")
                         {
                             foreach (string temp2 in temp.ExportData())
                             {
@@ -2539,7 +2496,7 @@ namespace Wolf
                     {
                         string newLine = "";
 
-                        if (temp.getName() != "")
+                        if (temp.AccountName != "")
                         {
                             foreach (string temp2 in temp.ExportData())
                             {
@@ -2555,7 +2512,7 @@ namespace Wolf
                     {
                         string newLine = "";
 
-                        if (temp.getName() != "")
+                        if (temp.AccountName != "")
                         {
                             foreach (string temp2 in temp.ExportData())
                             {
@@ -2571,7 +2528,7 @@ namespace Wolf
                     {
                         string newLine = "";
 
-                        if (temp.getName() != "")
+                        if (temp.AccountName != "")
                         {
                             foreach (string temp2 in temp.ExportData())
                             {
@@ -2586,7 +2543,7 @@ namespace Wolf
                     {
                         string newLine = "";
 
-                        if (temp.getName() != "")
+                        if (temp.AccountName != "")
                         {
                             foreach (string temp2 in temp.ExportData())
                             {
@@ -2601,7 +2558,7 @@ namespace Wolf
                     {
                         string newLine = "";
 
-                        if (temp.getName() != "")
+                        if (temp.AccountName != "")
                         {
                             foreach (string temp2 in temp.ExportData())
                             {
@@ -2616,7 +2573,7 @@ namespace Wolf
                     {
                         string newLine = "";
 
-                        if (temp.getName() != "")
+                        if (temp.AccountName != "")
                         {
                             foreach (string temp2 in temp.ExportData())
                             {
@@ -2631,7 +2588,7 @@ namespace Wolf
                     {
                         string newLine = "";
 
-                        if (temp.getName() != "")
+                        if (temp.AccountName != "")
                         {
                             foreach (string temp2 in temp.ExportData())
                             {

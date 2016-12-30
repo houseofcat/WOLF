@@ -35,15 +35,10 @@ namespace Wolf.SoftSpec
 
                     if (IsProgramVisible(subkey))
                     {
-                        var name = "";
-                        var version = "";
-                        var installDate = "";
-                        var uninstallCommand = "";
-
-                        name = subkey?.GetValue("DisplayName")?.ToString() ?? "";
-                        version = subkey?.GetValue("DisplayVersion")?.ToString() ?? "";
-                        installDate = subkey?.GetValue("InstallDate")?.ToString() ?? "";
-                        uninstallCommand = subkey?.GetValue("UninstallString")?.ToString() ?? "";
+                        var name                = subkey?.GetValue("DisplayName")?.ToString()       ?? "";
+                        var version             = subkey?.GetValue("DisplayVersion")?.ToString()    ?? "";
+                        var installDate         = subkey?.GetValue("InstallDate")?.ToString()       ?? "";
+                        var uninstallCommand    = subkey?.GetValue("UninstallString")?.ToString()   ?? "";
 
                         newList.Add(new InstalledProgram(name, version, installDate, uninstallCommand));
                     }
