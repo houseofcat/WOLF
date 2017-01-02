@@ -178,9 +178,7 @@ namespace Wolf.HardSpec
                         }
 
                         try
-                        {
-                            computerOSVersion = item["Version"].ToString();
-                        }
+                        { computerOSVersion = item["Version"].ToString(); }
                         catch (ManagementException ex)
                         {
                             computerOSVersion = ex.Message;
@@ -188,9 +186,7 @@ namespace Wolf.HardSpec
                         }
 
                         try
-                        {
-                            computerRAM = Tools.convertToGBFromKB(item["TotalVisibleMemorySize"]);
-                        }
+                        { computerRAM = Tools.convertToGBFromKB(item["TotalVisibleMemorySize"]?.ToString() ?? null); }
                         catch (ManagementException ex)
                         {
                             computerRAM = ex.Message;
