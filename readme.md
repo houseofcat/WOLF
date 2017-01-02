@@ -2,8 +2,11 @@
 
 My very first program that morphed into a Frakenstein mess! I am rewriting significant portions of this source code.
 
-December 30th, 2016
+January 2nd, 2016
+
 Beginning a refactoring of code. Employing some C# 6.0 language simplifcations and general cleanup. Improving performance across the board.
+
+Last Update: OS Refactored
 
 
 # NOTE ABOUT ANTI-VIRUS / VIRUSTOTAL
