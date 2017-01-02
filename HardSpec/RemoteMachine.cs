@@ -189,7 +189,7 @@ namespace Wolf.HardSpec
 
                         try
                         {
-                            computerRAM = Tools.convertToGBFromKB(item["TotalVisibleMemorySize"].ToString());
+                            computerRAM = Tools.convertToGBFromKB(item["TotalVisibleMemorySize"]);
                         }
                         catch (ManagementException ex)
                         {

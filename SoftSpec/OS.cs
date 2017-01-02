@@ -59,12 +59,12 @@ namespace Wolf
         public long IRQElapsedTime = 0;
 
         private BackgroundWorker BWACCOUNTS = new BackgroundWorker();
-        private bool AccountsLoaded = false;
+        public bool AccountsLoaded { get; private set; } = false;
         public bool AccountErrorOccurred = false;
         public string AccountErrorMessage = "";
 
         private BackgroundWorker BWIRQS = new BackgroundWorker();
-        private bool IRQsLoaded = false;
+        public bool IRQsLoaded { get; private set; } = false;
         public bool IRQErrorOccured = false;
         public string IRQErrorMessage = "";
 
@@ -90,10 +90,10 @@ namespace Wolf
         string OpersSP = "";
         string OpersInstall = "";
 
-        private string strIPv4 = "";
-        private string strIPv6 = "N/A";
-        private string strExtIP = "Click Button";
-        public UInt32 allOSLength = 0;
+        public string IPv4 { get; private set; } = "";
+        public string IPv6 { get; private set; } = "N/A";
+        public string ExtIP { get; private set; } = "Click Button";
+        public int allOSLength { get; private set; } = 0;
 
         List<string> OSInfo = new List<string>();
         List<string> MemConfig = new List<string>();
@@ -110,26 +110,18 @@ namespace Wolf
             SetMemoryConfig();
             SetPartitions();
 
-            if (!(BWACCOUNTS.IsBusy))
-            {
-                BWACCOUNTS.RunWorkerAsync();
-            }
+            if (!BWACCOUNTS.IsBusy)
+            { BWACCOUNTS.RunWorkerAsync(); }
 
-            if (!(BWIRQS.IsBusy))
-            {
-                BWIRQS.RunWorkerAsync();
-            }
+            if (!BWIRQS.IsBusy)
+            { BWIRQS.RunWorkerAsync(); }
 
-            if (!(BWNET.IsBusy))
-            {
-                BWNET.RunWorkerAsync();
-            }
+            if (!BWNET.IsBusy)
+            { BWNET.RunWorkerAsync(); }
         }
 
         public OS(ManagementObject input)
-        {
-            SetAllOSInfo(input);
-        }
+        { SetAllOSInfo(input); }
 
         private void InitializeBackgroundWorkers()
         {
@@ -146,10 +138,7 @@ namespace Wolf
             AccountsLoaded = false;
             AccountErrorMessage = "";
 
-            try
-            {
-                funcPopulateAccounts();
-            }
+            try { funcPopulateAccounts(); }
             catch(Exception ex)
             {
                 AccountErrorMessage = "Exception: " + ex.Message + "\n\nStack: " + ex.StackTrace;
@@ -158,22 +147,14 @@ namespace Wolf
         }
 
         private void BWACCOUNTS_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (AccountErrorOccurred != true)
-            {
-                AccountsLoaded = true;
-            }
-        }
+        { if (AccountErrorOccurred != true) { AccountsLoaded = true; } }
 
         private void BWIRQS_DoWork(object sender, DoWorkEventArgs e)
         {
             IRQsLoaded = false;
             IRQErrorMessage = "";
 
-            try
-            {
-                funcPopulateIRQs();
-            }
+            try { funcPopulateIRQs(); }
             catch(Exception ex)
             {
                 IRQErrorMessage = "Exception: " + ex.Message + "\n\nStack Trace: " + ex.StackTrace;
@@ -182,22 +163,14 @@ namespace Wolf
         }
 
         private void BWIRQS_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (IRQErrorOccured != true)
-            {
-                IRQsLoaded = true;
-            }
-        }
+        { if (IRQErrorOccured != true) { IRQsLoaded = true; } }
 
         private void BWNET_DoWork(object sender, DoWorkEventArgs e)
         {
             NetPortsLoaded = false;
             NetPortsErrorMessage = "";
 
-            try
-            {
-                funcPopulateNetPorts();
-            }
+            try { funcPopulateNetPorts(); }
             catch (Exception ex)
             {
                 NetPortsErrorMessage = "Exception: " + ex.Message + "\n\nStack Trace: " + ex.StackTrace;
@@ -208,23 +181,9 @@ namespace Wolf
         private void BWNET_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (NetPortsErrorOccurred != true)
-            {
-                NetPortsLoaded = true;
-            }
+            { NetPortsLoaded = true; }
             else
-            {
-                MessageBox.Show(NetPortsErrorMessage);
-            }
-        }
-
-        public bool AreAccountsLoaded()
-        {
-            return AccountsLoaded;
-        }
-
-        public bool AreIRQsLoaded()
-        {
-            return IRQsLoaded;
+            { MessageBox.Show(NetPortsErrorMessage); }
         }
 
         private void SetOSInfo()
@@ -240,9 +199,7 @@ namespace Wolf
             DomainName = Environment.UserDomainName;
 
             if (DomainName.Contains(ComputerName))
-            {
-                DomainName = "No Domain";
-            }
+            { DomainName = "No Domain"; }
 
             SetLocalIP();
 
@@ -273,25 +230,17 @@ namespace Wolf
 
                     //Attach x86/x64 Suffix to OS Name.
                     if (Environment.Is64BitOperatingSystem)
-                    {
-                        OSName += "(x64)";
-                    }
+                    { OSName += "(x64)"; }
                     else
-                    {
-                        OSName += "(x86)";
-                    }
+                    { OSName += "(x86)"; }
 
                     OSInfo.Add(OSName);
                 }
 
                 if (item["Organization"] != null)
-                {
-                    OSInfo.Add(item["Organization"].ToString());
-                }
+                { OSInfo.Add(item["Organization"].ToString()); }
                 else
-                {
-                    OSInfo.Add("N/A");
-                }
+                { OSInfo.Add("N/A"); }
 
                 if (item["InstallDate"] != null)
                 {
@@ -311,570 +260,107 @@ namespace Wolf
 
         private void SetAllOSInfo(ManagementObject input)
         {
-            if (input["Primary"] != null)
-            {
-                AllOSInfo.Add("Primary: " + input["Primary"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("Primary:  No Data. (xNull)");
-            }
+            AllOSInfo.Add("Primary: "                       + input["Primary"]?.ToString()                      ?? "No Data. (xNull)");
+            AllOSInfo.Add("Caption: "                       + input["Caption"]?.ToString()                      ?? "No Data. (xNull)");
+            AllOSInfo.Add("OS Architecture: "               + input["OSArchitecture"]?.ToString()               ?? "No Data. (xNull)");
+            AllOSInfo.Add("Build Number: "                  + input["BuildNumber"]?.ToString()                  ?? "No Data. (xNull)");
 
-            if (input["Caption"] != null)
-            {
-                OpersName = input["Caption"].ToString();
-                AllOSInfo.Add("Caption: " + OpersName);
-            }
-            else
-            {
-                AllOSInfo.Add("Caption:  No Data. (xNull)");
-            }
+            OpersVersion = input["Version"]?.ToString() ?? "No Data. (xNull)";
+            AllOSInfo.Add("Version: "                       + OpersVersion);
 
-            if (input["OSArchitecture"] != null)
-            {
-                AllOSInfo.Add("OS Architecture: " + input["OSArchitecture"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("OS Architecture:  No Data. (xNull)");
-            }
+            AllOSInfo.Add("Foreground Application Boost: "  + input["ForegroundApplicationBoost"]?.ToString()   ?? "No Data. (xNull)");
 
-            if (input["BuildNumber"] != null)
-            {
-                AllOSInfo.Add("Build Number: " + input["BuildNumber"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("Build Number:  No Data. (xNull)");
-            }
+            AllOSInfo.Add("Free Physical Memory: "          + Tools.convertToGBFromKB(input["FreePhysicalMemory"]?.ToString()       ?? null));
+            AllOSInfo.Add("Total Visible Memory: "          + Tools.convertToGBFromKB(input["TotalVisibleMemorySize"]?.ToString()   ?? null));
+            AllOSInfo.Add("Free Virtual Memory: "           + Tools.convertToGBFromKB(input["FreeVirtualMemory"]?.ToString()        ?? null));
+            AllOSInfo.Add("Total Virtual Memory: "          + Tools.convertToGBFromKB(input["TotalVirtualMemorySize"]?.ToString()   ?? null));
+            AllOSInfo.Add("Size Stored In Paging Files: "   + Tools.convertToGBFromKB(input["SizeStoredInPagingFiles"]?.ToString()  ?? null));
+            AllOSInfo.Add("Free Space In Page File: "       + Tools.convertToGBFromKB(input["FreeSpaceInPagingFiles"]?.ToString()   ?? null));
+            AllOSInfo.Add("Total Swap Space Size: "         + Tools.convertToGBFromKB(input["TotalSwapSpaceSize"]?.ToString()       ?? null));
 
-            if (input["Version"] != null)
-            {
-                OpersVersion = input["Version"].ToString();
-                AllOSInfo.Add("Version: " + OpersVersion);
-            }
-            else
-            {
-                AllOSInfo.Add("Version:  No Data. (xNull)");
-            }
+            OpersName = input["Name"]?.ToString() ?? "No Data. (xNull)";
+            OpersName = OpersName.Split('|')[0];
+            AllOSInfo.Add("Name: " + OpersName);
 
-            if (input["ForegroundApplicationBoost"] != null)
-            {
-                AllOSInfo.Add("Foreground Application Boost: " + funcConvertForeground(input["ForegroundApplicationBoost"].ToString()));
-            }
-            else
-            {
-                AllOSInfo.Add("Foreground Application Boost:  No Data. (xNull)");
-            }
+            AllOSInfo.Add("Boot Device: "               + input["BootDevice"]?.ToString()           ?? "No Data. (xNull)");
+            AllOSInfo.Add("Build Type: "                + input["BuildType"]?.ToString()            ?? "No Data. (xNull)");
+            AllOSInfo.Add("Code Set: "                  + input["CodeSet"]?.ToString()              ?? "No Data. (xNull)");
+            AllOSInfo.Add("Country Code: "              + input["CountryCode"]?.ToString()          ?? "No Data. (xNull)");
+            AllOSInfo.Add("Creation Class Name: "       + input["CreationClassName"]?.ToString()    ?? "No Data. (xNull)");
+            AllOSInfo.Add("CS Creation Class Name: "    + input["CSCreationClassName"]?.ToString()  ?? "No Data. (xNull)");
+            AllOSInfo.Add("CSD Version: "               + input["CSDVersion"]?.ToString()           ?? "No Data. (xNull)");
+            AllOSInfo.Add("CS Name: "                   + input["CSName"]?.ToString()               ?? "No Data. (xNull)");
+            AllOSInfo.Add("Current Time Zone: "         + input["CurrentTimeZone"]?.ToString()      ?? "No Data. (xNull)");
 
-            if (input["FreePhysicalMemory"] != null)
-            {
-                AllOSInfo.Add("Free Physical Memory: " + Tools.convertToGBFromKB(input["FreePhysicalMemory"].ToString()));
-            }
-            else
-            {
-                AllOSInfo.Add("Free Physical Memory:  No Data. (xNull)");
-            }
+            AllOSInfo.Add("DEP Available: "                 + input["DataExecutionPrevention_Available"]?.ToString() ?? "No Data. (xNull)");
+            AllOSInfo.Add("DEP for 32-bit Applications: "   + input["DataExecutionPrevention_32BitApplications"]?.ToString() ?? "No Data. (xNull)");
+            AllOSInfo.Add("DEP for Drivers: "               + input["DataExecutionPrevention_Drivers"]?.ToString() ?? "No Data. (xNull)");
+            AllOSInfo.Add("DEP Support Policy: "            + funcConvertDEPPolicy(input["DataExecutionPrevention_SupportPolicy"]?.ToString() ?? "No Data. (xNull)"));
 
-            if (input["TotalVisibleMemorySize"] != null)
-            {
-                AllOSInfo.Add("Total Visible Memory Size: " + Tools.convertToGBFromKB(input["TotalVisibleMemorySize"].ToString()));
-            }
-            else
-            {
-                AllOSInfo.Add("Total Visible Memory Size:  No Data. (xNull)");
-            }
-
-            if (input["FreeVirtualMemory"] != null)
-            {
-                AllOSInfo.Add("Free Virtual Memory: " + Tools.convertToGBFromKB(input["FreeVirtualMemory"].ToString()));
-            }
-            else
-            {
-                AllOSInfo.Add("Free Virtual Memory:  No Data. (xNull)");
-            }
-
-            if (input["TotalVirtualMemorySize"] != null)
-            {
-                AllOSInfo.Add("Total Virtual Memory Size: " + Tools.convertToGBFromKB(input["TotalVirtualMemorySize"].ToString()));
-            }
-            else
-            {
-                AllOSInfo.Add("Total Virtual Memory Size:  No Data. (xNull)");
-            }
-
-            if (input["SizeStoredInPagingFiles"] != null)
-            {
-                AllOSInfo.Add("Size Stored In Paging Files: " + Tools.convertToGBFromKB(input["SizeStoredInPagingFiles"].ToString()));
-            }
-            else
-            {
-                AllOSInfo.Add("Size Stored In Paging Files:  No Data. (xNull)");
-            }
-
-            if (input["FreeSpaceInPagingFiles"] != null)
-            {
-                AllOSInfo.Add("Free Space In Page File: " + Tools.convertToGBFromKB(input["FreeSpaceInPagingFiles"].ToString()));
-            }
-            else
-            {
-                AllOSInfo.Add("Free Space In Page File:  No Data. (xNull)");
-            }
-
-            if (input["TotalSwapSpaceSize"] != null)
-            {
-                AllOSInfo.Add("Total Swap Space Size: " + Tools.convertToGBFromKB(input["TotalSwapSpaceSize"].ToString()));
-            }
-            else
-            {
-                AllOSInfo.Add("Total Swap Space Size:  No Data. (xNull)");
-            }
-
-            if (input["Name"] != null)
-            {
-                AllOSInfo.Add("Name: " + input["Name"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("Name:  No Data. (xNull)");
-            }
-
-            if (input["BootDevice"] != null)
-            {
-                AllOSInfo.Add("Boot Device: " + input["BootDevice"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("Boot Device:  No Data. (xNull)");
-            }
-
-            if (input["BuildType"] != null)
-            {
-                AllOSInfo.Add("Build Type: " + input["BuildType"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("Build Type:  No Data. (xNull)");
-            }
-
-            if (input["CodeSet"] != null)
-            {
-                AllOSInfo.Add("Code Set: " + input["CodeSet"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("Code Set:  No Data. (xNull)");
-            }
-
-            if (input["CountryCode"] != null)
-            {
-                AllOSInfo.Add("Country Code: " + input["CountryCode"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("CountryCode:  No Data. (xNull)");
-            }
-
-            if (input["CreationClassName"] != null)
-            {
-                AllOSInfo.Add("Creation Class Name: " + input["CreationClassName"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("Creation Class name:  No Data. (xNull)");
-            }
-
-            if (input["CSCreationClassName"] != null)
-            {
-                AllOSInfo.Add("CS Creation Class Name: " + input["CSCreationClassName"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("CS Creation Class Name:  No Data. (xNull)");
-            }
-
-            if (input["CSDVersion"] != null)
-            {
-                AllOSInfo.Add("CSD Version: " + input["CSDVersion"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("CSD Version:  No Data. (xNull)");
-            }
-
-            if (input["CSName"] != null)
-            {
-                AllOSInfo.Add("CS Name: " + input["CSName"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("CS Name:  No Data. (xNull)");
-            }
-
-            if (input["CurrentTimeZone"] != null)
-            {
-                AllOSInfo.Add("Current Time Zone: " + input["CurrentTimeZone"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("Current Time Zone:  No Data. (xNull)");
-            }
-
-            if (input["DataExecutionPrevention_Available"] != null)
-            {
-                AllOSInfo.Add("DEP Available: " + input["DataExecutionPrevention_Available"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("DEP Available:  No Data. (xNull)");
-            }
-
-            if (input["DataExecutionPrevention_32BitApplications"] != null)
-            {
-                AllOSInfo.Add("DEP for 32-bit Applications: " + input["DataExecutionPrevention_32BitApplications"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("DEP for 32-bit Applications:  No Data. (xNull)");
-            }
-
-            if (input["DataExecutionPrevention_Drivers"] != null)
-            {
-                AllOSInfo.Add("DEP for Drivers: " + input["DataExecutionPrevention_Drivers"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("DEP for Drivers:  No Data. (xNull)");
-            }
-
-            if (input["DataExecutionPrevention_SupportPolicy"] != null)
-            {
-                AllOSInfo.Add("DEP Support Policy: " + funcConvertDEPPolicy(input["DataExecutionPrevention_SupportPolicy"].ToString()));
-            }
-            else
-            {
-                AllOSInfo.Add("DEP Support Policy:  No Data. (xNull)");
-            }
-
-            if (input["Debug"] != null)
-            {
-                AllOSInfo.Add("Debug: " + input["Debug"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("Debug:  No Data. (xNull)");
-            }
-
-            if (input["Description"] != null)
-            {
-                AllOSInfo.Add("Description: " + input["Description"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("Description:  No Data. (xNull)");
-            }
-
-            if (input["Distributed"] != null)
-            {
-                AllOSInfo.Add("Distributed: " + input["Distributed"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("Distributed:  No Data. (xNull)");
-            }
-
-            if (input["EncryptionLevel"] != null)
-            {
-                AllOSInfo.Add("Encryption Level: " + input["EncryptionLevel"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("Encryption Level:  No Data. (xNull)");
-            }
+            AllOSInfo.Add("Debug: "             + input["Debug"]?.ToString()            ?? "No Data. (xNull)");
+            AllOSInfo.Add("Description: "       + input["Description"]?.ToString()      ?? "No Data. (xNull)");
+            AllOSInfo.Add("Distributed: "       + input["Distributed"]?.ToString()      ?? "No Data. (xNull)");
+            AllOSInfo.Add("Encryption Level: "  + input["EncryptionLevel"]?.ToString()  ?? "No Data. (xNull)");
 
             if (input["InstallDate"] != null)
-            {
-                string Date = "";
-                Date = ManagementDateTimeConverter.ToDateTime(input["InstallDate"].ToString()).ToString();
+            { OpersInstall = ManagementDateTimeConverter.ToDateTime(input["InstallDate"].ToString()).ToString(); }
+            else { OpersInstall = "No Data. (xNull)";}
+            
+            AllOSInfo.Add("Install Date: " + OpersInstall);
 
-                OpersInstall = Date.ToString();
-                AllOSInfo.Add("Install Date: " + Date);
-            }
-            else
-            {
-                AllOSInfo.Add("Install Date:  No Data. (xNull)");
-            }
+            AllOSInfo.Add("Large System Cache: " + input["LargeSystemCache"]?.ToString() ?? "No Data. (xNull)");
 
-            if (input["LargeSystemCache"] != null)
-            {
-                AllOSInfo.Add("Large System Cache: " + input["LargeSystemCache"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("Large System Cache:  No Data. (xNull)");
-            }
-
+            var date = "";
             if (input["LastBootUpTime"] != null)
-            {
-                string Date = "";
-                Date = ManagementDateTimeConverter.ToDateTime(input["LastBootUpTime"].ToString()).ToString();
+            { date = ManagementDateTimeConverter.ToDateTime(input["LastBootUpTime"].ToString()).ToString(); }
+            else { date = "No Data. (xNull)"; }
+            AllOSInfo.Add("Last Boot Up Time: " + date);
 
-                AllOSInfo.Add("Last Boot Up: " + Date);
-            }
-            else
-            {
-                AllOSInfo.Add("Last Boot Up:  No Data. (xNull)");
-            }
-
+            date = "";
             if (input["LocalDateTime"] != null)
-            {
-                string Date = "";
-                Date = ManagementDateTimeConverter.ToDateTime(input["LocalDateTime"].ToString()).ToString();
+            { date = ManagementDateTimeConverter.ToDateTime(input["LocalDateTime"].ToString()).ToString(); }
+            else { date = "No Data. (xNull)"; }
+            AllOSInfo.Add("Local Date Time: " + date);
 
-                AllOSInfo.Add("Local Date Time: " + Date);
-            }
-            else
-            {
-                AllOSInfo.Add("Local Date Time:  No Data. (xNull)");
-            }
+            AllOSInfo.Add("Locale: "                    + input["Locale"]?.ToString()               ?? "No Data. (xNull)");
+            AllOSInfo.Add("Manufacturer: "              + input["Manufacturer"]?.ToString()         ?? "No Data. (xNull)");
+            AllOSInfo.Add("Max Number of Processes: "   + input["MaxNumberOfProcesses"]?.ToString() ?? "No Data. (xNull)");
 
-            if (input["Locale"] != null)
-            {
-                AllOSInfo.Add("Locale: " + input["Locale"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("Locale:  No Data. (xNull)");
-            }
+            AllOSInfo.Add("Max Process Size: " + Tools.convertToGBFromKB(input["MaxProcessMemorySize"]?.ToString() ?? null));
+            AllOSInfo.Add("Number Of Licensed Users: " + input["NumberOfLicensedUsers"]?.ToString() ?? "No Data. (xNull)");
 
-            if (input["Manufacturer"] != null)
-            {
-                AllOSInfo.Add("Manufacturer: " + input["Manufacturer"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("Manufacturer:  No Data. (xNull)");
-            }
+            AllOSInfo.Add("Number Of Processes: "   + input["NumberOfProcesses"]?.ToString()    ?? "No Data. (xNull)");
+            AllOSInfo.Add("Number Of Users: "       + input["NumberOfUsers"]?.ToString()        ?? "No Data. (xNull)");
+            AllOSInfo.Add("OS SKU: "                + input["OperatingSystemSKU"]?.ToString()   ?? "No Data. (xNull)");
+            AllOSInfo.Add("Organization: "          + input["Organization"]?.ToString()         ?? "No Data. (xNull)");
+            AllOSInfo.Add("OS Language: "           + input["OSLanguage"]?.ToString()           ?? "No Data. (xNull)");
+            AllOSInfo.Add("OS Product Suite: "      + input["OSProductSuite"]?.ToString()       ?? "No Data. (xNull)");
 
-            if (input["MaxNumberOfProcesses"] != null)
-            {
-                AllOSInfo.Add("Max Number of Processes: " + input["MaxNumberOfProcesses"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("Max Number of Porcesses:  No Data. (xNull)");
-            }
+            AllOSInfo.Add("OS Type: "                   + funcConvertOSType(input["OSType"].ToString()) ?? "No Data. (xNull)");
+            AllOSInfo.Add("Other Type Description: "    + input["OtherTypeDescription"]?.ToString()     ?? "No Data. (xNull)");
+            AllOSInfo.Add("PAE Enabled: "               + input["PAEEnabled"]?.ToString()               ?? "No Data. (xNull)");
 
-            if (input["MaxProcessMemorySize"] != null)
-            {
-                AllOSInfo.Add("Max Process Size: " + Tools.convertToGBFromKB(input["MaxProcessMemorySize"].ToString()));
-            }
-            else
-            {
-                AllOSInfo.Add("Max Process Size:  No Data. (xNull)");
-            }
+            AllOSInfo.Add("Plus Product ID: "           + input["PlusProductID"]?.ToString()                           ?? "No Data. (xNull)");
+            AllOSInfo.Add("Plus Version Number: "       + input["PlusVersionNumber"]?.ToString()                      ?? "No Data. (xNull)");
+            AllOSInfo.Add("Portable Operating System: " + input["PortableOperatingSystem"]?.ToString()                ?? "No Data. (xNull)");
+            AllOSInfo.Add("ProductType: "               + funcConvertProductType(input["ProductType"]?.ToString())    ?? "No Data. (xNull)");
 
-            if (input["NumberOfLicensedUsers"] != null)
-            {
-                AllOSInfo.Add("Number Of Licensed Users: " + input["NumberOfLicensedUsers"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("Number Of Licenseded Users:  No Data. (xNull)");
-            }
+            OpersRegistered = input["RegisteredUser"]?.ToString() ?? "No Data. (xNull)";
+            AllOSInfo.Add("Registered User: " + OpersRegistered);
 
-            if (input["NumberOfProcesses"] != null)
-            {
-                AllOSInfo.Add("Number Of Processes: " + input["NumberOfProcesses"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("Number Of Processes:  No Data. (xNull)");
-            }
+            AllOSInfo.Add("Serial Number: " + input["SerialNumber"]?.ToString() ?? "No Data. (xNull)");
 
-            if (input["NumberOfUsers"] != null)
-            {
-                AllOSInfo.Add("Number Of Users: " + input["NumberOfUsers"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("Number Of Users:  No Data. (xNull)");
-            }
+            OpersSP = input["ServicePackMajorVersion"]?.ToString() ?? "0";
+            AllOSInfo.Add("Service Pack Major Version: " + OpersSP);
 
-            if (input["OperatingSystemSKU"] != null)
-            {
-                AllOSInfo.Add("OS SKU: " + input["OperatingSystemSKU"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("OS SKU:  No Data. (xNull)");
-            }
+            OpersSP += "." + input["ServicePackMinorVersion"]?.ToString() ?? "0";
+            AllOSInfo.Add("Service Pack Minor Version: "    + input["ServicePackMinorVersion"]?.ToString() ?? "0");
+            AllOSInfo.Add("Status: "                        + input["Status"]?.ToString() ?? "No Data. (xNull)");
+            AllOSInfo.Add("Suite Mask: "                    + funcConvertSuiteMask(input["SuiteMask"]?.ToString() ?? "No Data. (xNull)"));
+            AllOSInfo.Add("System Device: "                 + input["SystemDevice"]?.ToString() ?? "No Data. (xNull)");
 
-            if (input["Organization"] != null)
-            {
-                AllOSInfo.Add("Organization: " + input["Organization"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("Organization:  No Data. (xNull)");
-            }
-
-            if (input["OSLanguage"] != null)
-            {
-                AllOSInfo.Add("OS Language: " + input["OSLanguage"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("OS Language:  No Data. (xNull)");
-            }
-
-            if (input["OSProductSuite"] != null)
-            {
-                AllOSInfo.Add("OS Product Suite: " + input["OSProductSuite"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("OS Product Suite:  No Data. (xNull)");
-            }
-
-            if (input["OSType"] != null)
-            {
-                AllOSInfo.Add("OS Type: " + funcConvertOSType(input["OSType"].ToString()));
-            }
-            else
-            {
-                AllOSInfo.Add("OS Type:  No Data. (xNull)");
-            }
-
-            if (input["OtherTypeDescription"] != null)
-            {
-                AllOSInfo.Add("Other Type Description: " + input["OtherTypeDescription"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("Other Type Description:  No Data. (xNull)");
-            }
-
-            if (input["PAEEnabled"] != null)
-            {
-                AllOSInfo.Add("PAE Enabled: " + input["PAEEnabled"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("PAE Enabled:  No Data. (xNull)");
-            }
-
-            if (input["PlusProductID"] != null)
-            {
-                AllOSInfo.Add("Plus Product ID: " + input["PlusProductID"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("Plus Product ID:  No Data. (xNull)");
-            }
-
-            if (input["PlusVersionNumber"] != null)
-            {
-                AllOSInfo.Add("Plus Version Number: " + input["PlusVersionNumber"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("Plus Version Number:  No Data. (xNull)");
-            }
-
-            //if (input["PortableOperatingSystem"] != null)
-            //{
-            //    AllOSInfo.Add("Portable Operating System: " + input["PortableOperatingSystem"].ToString());
-            //}
-            //else
-            {
-                AllOSInfo.Add("Portable Operating System:  No Data. (xNull)");
-            }
-
-            if (input["ProductType"] != null)
-            {
-                AllOSInfo.Add("ProductType: " + funcConvertProductType(input["ProductType"].ToString()));
-            }
-            else
-            {
-                AllOSInfo.Add("ProductType:  No Data. (xNull)");
-            }
-
-            if (input["RegisteredUser"] != null)
-            {
-                OpersRegistered = input["RegisteredUser"].ToString();
-                AllOSInfo.Add("Registered User: " + OpersRegistered);
-            }
-            else
-            {
-                AllOSInfo.Add("Registered User:  No Data. (xNull)");
-            }
-
-            if (input["SerialNumber"] != null)
-            {
-                AllOSInfo.Add("Serial Number: " + input["SerialNumber"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("Serial Number:  No Data. (xNull)");
-            }
-
-            if (input["ServicePackMajorVersion"] != null)
-            {
-                OpersSP = input["ServicePackMajorVersion"].ToString();
-                AllOSInfo.Add("Service Pack Major Version: " + OpersSP);
-            }
-            else
-            {
-                AllOSInfo.Add("Service Pack Major Version:  No Data. (xNull)");
-            }
-
-            if (input["ServicePackMinorVersion"] != null)
-            {
-                OpersSP += "." + input["ServicePackMinorVersion"].ToString();
-                AllOSInfo.Add("Service Pack Minor Version: " + input["ServicePackMinorVersion"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("Service Pack Minor Version:  No Data. (xNull)");
-            }
-
-            if (input["Status"] != null)
-            {
-                AllOSInfo.Add("Status: " + input["Status"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("Status:  No Data. (xNull)");
-            }
-
-            if (input["SuiteMask"] != null)
-            {
-                AllOSInfo.Add("Suite Mask: " + funcConvertSuiteMask(input["SuiteMask"].ToString()));
-            }
-            else
-            {
-                AllOSInfo.Add("Suite Mask:  No Data. (xNull)");
-            }
-
-            if (input["SystemDevice"] != null)
-            {
-                AllOSInfo.Add("System Device: " + input["SystemDevice"].ToString());
-            }
-            else
-            {
-                AllOSInfo.Add("System Device:  No Data. (xNull)");
-            }
-
-            if (input["WindowsDirectory"] != null)
-            {
-                OpersDir = input["WindowsDirectory"].ToString();
-                AllOSInfo.Add("Windows Directory: " + OpersDir);
-            }
-            else
-            {
-                AllOSInfo.Add("Windows Directory:  No Data. (xNull)");
-            }
+            OpersDir = input["WindowsDirectory"]?.ToString() ?? "No Data. (xNull)";
+            AllOSInfo.Add("Windows Directory: " + OpersDir);
 
             allOSLength = 61;
         }
@@ -958,13 +444,13 @@ namespace Wolf
             foreach (IPAddress ip in LocalHost.AddressList)
             {
                 if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-                { strIPv4 = ip.ToString(); }
+                { IPv4 = ip.ToString(); }
             }
 
             IPAddress[] ipAddress = LocalHost.AddressList;
 
             if (ipAddress[0].AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
-            { strIPv6 = ipAddress[0].ToString(); }
+            { IPv6 = ipAddress[0].ToString(); }
         }
 
         //Source: CodeProject, User: Huseyin Atasoy
@@ -972,28 +458,24 @@ namespace Wolf
         //Modified for style/personal readability.
         public void SetExternalIP()
         {
-            strExtIP = "";
+            ExtIP = "";
 
             if (NetworkInterface.GetIsNetworkAvailable())
             {
                 try
                 {
-                    strExtIP = (new WebClient()).DownloadString("http://checkip.dyndns.org/");
-                    strExtIP = (new Regex(@"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}")).Matches(strExtIP)[0].ToString();
+                    ExtIP = (new WebClient()).DownloadString("http://checkip.dyndns.org/");
+                    ExtIP = (new Regex(@"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}")).Matches(ExtIP)[0].ToString();
                 }
-                catch
-                { strExtIP = "Error"; }
+                catch { ExtIP = "Error"; }
             }
-            else
-            { strExtIP = "No internet connection."; }
+            else { ExtIP = "No internet connection."; }
         }
 
         public void SetPartitions()
         {
             ObjectQuery PartitionQuery = new ObjectQuery("SELECT * FROM Win32_DiskPartition");
-
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(PartitionQuery);
-            ManagementObjectCollection moc = searcher.Get();
+            ManagementObjectCollection moc = new ManagementObjectSearcher(PartitionQuery).Get();
 
             Parallel.ForEach(moc.Cast<ManagementObject>(), mo =>
             {
@@ -1003,32 +485,21 @@ namespace Wolf
             });
         }
 
-        public string GetIPv4()
-        { return strIPv4; }
-
-        public string GetIPv6()
-        { return strIPv6; }
-
-        public string GetExtIP()
-        { return strExtIP; }
-
         public void SetMemoryConfig()
         {
             ObjectQuery MemConfigQuery = new ObjectQuery("SELECT * FROM Win32_OperatingSystem");
-
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(MemConfigQuery);
-            ManagementObjectCollection moc = searcher.Get();
+            ManagementObjectCollection moc = new ManagementObjectSearcher(MemConfigQuery).Get();
             intMemConfigLength = 0;
 
             Parallel.ForEach(moc.Cast<ManagementObject>(), mo =>
             {
-                MemConfig.Add(Tools.convertToGBFromKB(mo["FreePhysicalMemory"]?.ToString()));
-                MemConfig.Add(Tools.convertToGBFromKB(mo["FreeVirtualMemory"].ToString()));
-                MemConfig.Add(Tools.convertToGBFromKB(mo["TotalVirtualMemorySize"].ToString()));
-                MemConfig.Add(Tools.convertToGBFromKB(mo["TotalVisibleMemorySize"].ToString()));
-                MemConfig.Add(Tools.convertToGBFromKB(mo["FreeSpaceInPagingFiles"].ToString()));
-                MemConfig.Add(Tools.convertToGBFromKB(mo["SizeStoredInPagingFiles"].ToString()));
-                MemConfig.Add(Tools.convertToGBFromKB(mo["MaxProcessMemorySize"].ToString()));
+                MemConfig.Add(Tools.convertToGBFromKB(mo["FreePhysicalMemory"]?.ToString()      ?? null));
+                MemConfig.Add(Tools.convertToGBFromKB(mo["FreeVirtualMemory"]?.ToString()       ?? null));
+                MemConfig.Add(Tools.convertToGBFromKB(mo["TotalVirtualMemorySize"]?.ToString()  ?? null));
+                MemConfig.Add(Tools.convertToGBFromKB(mo["TotalVisibleMemorySize"]?.ToString()  ?? null));
+                MemConfig.Add(Tools.convertToGBFromKB(mo["FreeSpaceInPagingFiles"]?.ToString()  ?? null));
+                MemConfig.Add(Tools.convertToGBFromKB(mo["SizeStoredInPagingFiles"]?.ToString() ?? null));
+                MemConfig.Add(Tools.convertToGBFromKB(mo["MaxProcessMemorySize"]?.ToString()    ?? null));
 
                 intMemConfigLength = 7;
             });
@@ -1081,40 +552,19 @@ namespace Wolf
 
         private string funcConvertForeground(string input)
         {
-            if (input == "0")
-            {
-                input = "None";
-            }
-            else if (input == "1")
-            {
-                input = "Minimum";
-            }
-            else if (input == "2")
-            {
-                input = "Maximum";
-            }
+            if (input == "0") { input = "None"; }
+            else if (input == "1") { input = "Minimum"; }
+            else if (input == "2") { input = "Maximum"; }
 
             return input;
         }
 
         private string funcConvertDEPPolicy(string input)
         {
-            if (input == "0")
-            {
-                input = "Always Off";
-            }
-            else if (input == "1")
-            {
-                input = "Always On";
-            }
-            else if (input == "2")
-            {
-                input = "Opt In";
-            }
-            else if (input == "3")
-            {
-                input = "Opt Out";
-            }
+            if (input == "0") { input = "Always Off"; }
+            else if (input == "1") { input = "Always On"; }
+            else if (input == "2") { input = "Opt In"; }
+            else if (input == "3") { input = "Opt Out"; }
 
             return input;
         }
@@ -1238,8 +688,7 @@ namespace Wolf
         {
             AccountTimer = Stopwatch.StartNew();
             SelectQuery QueryACs = new SelectQuery("SELECT * FROM Win32_Account");
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(QueryACs);
-            ManagementObjectCollection moc = searcher.Get();
+            ManagementObjectCollection moc = new ManagementObjectSearcher(QueryACs).Get();
 
             Parallel.ForEach(moc.Cast<ManagementObject>(), mo =>
             {
@@ -1269,14 +718,10 @@ namespace Wolf
             IRQTimer = Stopwatch.StartNew();
 
             SelectQuery QueryIRQs = new SelectQuery("SELECT * FROM Win32_IRQResource");
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(QueryIRQs);
+            ManagementObjectCollection moc = new ManagementObjectSearcher(QueryIRQs).Get();
 
-            foreach (ManagementObject irqInfo in searcher.Get())
-            {
-                IRQ temp = new IRQ(irqInfo);
-
-                IRQs.Add(temp);
-            }
+            Parallel.ForEach(moc.Cast<ManagementObject>(), mo =>
+            { IRQs.Add(new IRQ(mo)); });
 
             IRQTimer.Stop();
             IRQElapsedTime = IRQTimer.ElapsedMilliseconds;

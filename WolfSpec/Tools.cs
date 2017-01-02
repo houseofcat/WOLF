@@ -2663,16 +2663,18 @@ namespace Wolf.WolfSpec
             return result;
         }
 
-        public static string convertToGBFromKB(string input)
+        public static string convertToGBFromKB(object input)
         {
-            string result = "";
-            double dblTemp = 0.0;
+            var strMemoryValue = input as string;
+            var result = "";
 
-            dblTemp = Convert.ToDouble(input);
-            dblTemp = (dblTemp / 1073742);
-            dblTemp = Math.Round(dblTemp, 2);
+            if (strMemoryValue != null)
+            {
+                var dblTemp = Math.Round((Convert.ToDouble(strMemoryValue) / 1073742), 2);
 
-            result = dblTemp.ToString("0.##") + " GB";
+                result = dblTemp.ToString("0.##") + " GB";
+            }
+            else { result = "No Data (xNull)."; }
 
             return result;
         }

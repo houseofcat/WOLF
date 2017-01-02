@@ -498,7 +498,7 @@ namespace Wolf
             {
                 //Wait till the background thread of the OS class has finished
                 //loading the accounts.
-                while ((!(comp.os.AreAccountsLoaded())) || (comp.os.AccountErrorOccurred))
+                while ((!(comp.os.AccountsLoaded)) || (comp.os.AccountErrorOccurred))
                 { Thread.Sleep(100); }
             }
             catch
@@ -708,7 +708,7 @@ namespace Wolf
         {
             try
             {
-                tbxExtIP.Text = comp.os.GetExtIP();
+                tbxExtIP.Text = comp.os.ExtIP;
 
                 funcLOG("External IP function has finished. Elapsed time: " + DisplayTimer.ElapsedMilliseconds.ToString() + " ms");
             }
@@ -1462,9 +1462,9 @@ namespace Wolf
         //Calls the Computer's Net Connection class to get info.
         private void funcLoadNetEnv()
         {
-            tbxIPv4.Text = comp.os.GetIPv4();
-            tbxIPv6.Text = comp.os.GetIPv6();
-            tbxExtIP.Text = comp.os.GetExtIP();
+            tbxIPv4.Text = comp.os.IPv4;
+            tbxIPv6.Text = comp.os.IPv6;
+            tbxExtIP.Text = comp.os.ExtIP;
 
             funcLOG("System IPs have been gathered.");
         }
