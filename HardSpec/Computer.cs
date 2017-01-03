@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Management;
 using System.Net.NetworkInformation;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Wolf.HardSpec
 {
     class Computer : IDisposable
     {
-
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
@@ -105,37 +106,38 @@ namespace Wolf.HardSpec
         private void funcMisc()
         {
             SelectQuery QueryTOTMEM = new SelectQuery("SELECT * FROM Win32_ComputerSystem");
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(QueryTOTMEM);
+            ManagementObjectCollection moc = new ManagementObjectSearcher(QueryTOTMEM).Get();
 
-            foreach (ManagementObject item in searcher.Get())
+            Parallel.ForEach(moc.Cast<ManagementObject>(), mo =>
             {
                 double memSize = 0;
-                double.TryParse(item["TotalPhysicalMemory"].ToString(), out memSize);
+                if (double.TryParse(mo["TotalPhysicalMemory"]?.ToString() ?? "", out memSize))
+                {
+                    //Convert from Bytes to Gigabytes
+                    memSize = memSize / 1041741824;
 
-                //Convert from Bytes to Gigabytes
-                memSize = memSize / 1041741824;
-
-                TotalMemory = memSize.ToString("0.##") + " GB " + "(" + intMemModules + "x DIMM)";
-            }
+                    TotalMemory = memSize.ToString("0.##") + " GB " + "(" + intMemModules + "x DIMM)";
+                }
+            });
         }
 
         private void funcPopulateRAM()
         {
             SelectQuery QueryMEM = new SelectQuery("SELECT * FROM Win32_PhysicalMemory");
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(QueryMEM);
+            ManagementObjectCollection moc = new ManagementObjectSearcher(QueryMEM).Get();
 
             intMemModules = 0;
 
-            foreach (ManagementObject obj in searcher.Get())
+            Parallel.ForEach(moc.Cast<ManagementObject>(), mo =>
             {
-                MEM temp = new MEM(obj);
+                MEM temp = new MEM(mo);
 
                 listMEM.Add(temp);
 
                 MemorySpeed = temp.MEMSpeed;
 
                 intMemModules += 1;
-            }
+            });
         }
 
         public string getTotalMemorySize()
@@ -149,164 +151,157 @@ namespace Wolf.HardSpec
         public void funcPopulateCPUs()
         {
             SelectQuery QueryCPUs = new SelectQuery("SELECT * FROM Win32_Processor");
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(QueryCPUs);
+            ManagementObjectCollection moc = new ManagementObjectSearcher(QueryCPUs).Get();
 
-            foreach (ManagementObject procInfo in searcher.Get())
+            Parallel.ForEach(moc.Cast<ManagementObject>(), mo =>
             {
-                CPU temp = new CPU(procInfo);
+                CPU temp = new CPU(mo);
 
                 listCPU.Add(temp);
-            }
+            });
         }
 
         public void funcPopulateMB()
         {
-            try
-            {
-                SelectQuery QueryMBs = new SelectQuery("SELECT * FROM Win32_BaseBoard");
-                ManagementObjectSearcher searcher = new ManagementObjectSearcher(QueryMBs);
+            SelectQuery QueryMBs = new SelectQuery("SELECT * FROM Win32_BaseBoard");
+            ManagementObjectCollection moc = new ManagementObjectSearcher(QueryMBs).Get();
 
-                foreach (ManagementObject mbInfo in searcher.Get())
-                {
-                    Motherboard temp = new Motherboard(mbInfo);
-
-                    mb = temp;
-                }
-            }
-            catch(Exception Bug)
+            Parallel.ForEach(moc.Cast<ManagementObject>(), mo =>
             {
-                MessageBox.Show(Bug.ToString());
-            }
+                Motherboard temp = new Motherboard(mo);
+
+                mb = temp;
+            });
         }
 
         public void funcPopulateGPUs()
         {
             SelectQuery QueryGPUs = new SelectQuery("SELECT * FROM Win32_VideoController");
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(QueryGPUs);
+            ManagementObjectCollection moc = new ManagementObjectSearcher(QueryGPUs).Get();
 
-            foreach (ManagementObject gpuInfo in searcher.Get())
+            Parallel.ForEach(moc.Cast<ManagementObject>(), mo =>
             {
-                GPU temp = new GPU(gpuInfo);
+                GPU temp = new GPU(mo);
 
                 listGPU.Add(temp);
-            }
+            });
         }
 
         public void funcPopulateSoundDevices()
         {
             SelectQuery QuerySDs = new SelectQuery("SELECT * FROM Win32_SoundDevice");
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(QuerySDs);
+            ManagementObjectCollection moc = new ManagementObjectSearcher(QuerySDs).Get();
 
-            foreach (ManagementObject sdInfo in searcher.Get())
+            Parallel.ForEach(moc.Cast<ManagementObject>(), mo =>
             {
-                SoundDevice temp = new SoundDevice(sdInfo);
+                SoundDevice temp = new SoundDevice(mo);
 
                 listSD.Add(temp);
-            }
+            });
         }
 
         public void funcPopulateMonitors()
         {
             SelectQuery QueryMONs = new SelectQuery("SELECT * FROM Win32_PnPEntity WHERE Service='monitor'");
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(QueryMONs);
+            ManagementObjectCollection moc = new ManagementObjectSearcher(QueryMONs).Get();
 
-            foreach (ManagementObject monInfo in searcher.Get())
+            Parallel.ForEach(moc.Cast<ManagementObject>(), mo =>
             {
-                PNPMonitor temp = new PNPMonitor(monInfo);
+                PNPMonitor temp = new PNPMonitor(mo);
 
                 listMons.Add(temp);
-            }
+            });
         }
 
         public void funcPopulateTPs()
         {
             SelectQuery QueryTPs = new SelectQuery("SELECT * FROM Win32_TemperatureProbe");
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(QueryTPs);
+            ManagementObjectCollection moc = new ManagementObjectSearcher(QueryTPs).Get();
 
-            foreach (ManagementObject tpInfo in searcher.Get())
+            Parallel.ForEach(moc.Cast<ManagementObject>(), mo =>
             {
-                ThermalProbe temp = new ThermalProbe(tpInfo);
+                ThermalProbe temp = new ThermalProbe(mo);
 
                 listTP.Add(temp);
-            }
+            });
         }
 
         public void funcPopulateBIOSes()
         {
             SelectQuery QueryBIOSes = new SelectQuery("SELECT * FROM Win32_BIOS");
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(QueryBIOSes);
+            ManagementObjectCollection moc = new ManagementObjectSearcher(QueryBIOSes).Get();
 
-            foreach (ManagementObject BIOSInfo in searcher.Get())
+            Parallel.ForEach(moc.Cast<ManagementObject>(), mo =>
             {
-                BIOS temp = new BIOS(BIOSInfo);
+                BIOS temp = new BIOS(mo);
 
                 listBIOS.Add(temp);
-            }
+            });
         }
 
         public void funcPopulateSMBIOSes()
         {
             SelectQuery QuerySMBIOSes = new SelectQuery("SELECT * FROM Win32_SMBIOSMemory");
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(QuerySMBIOSes);
+            ManagementObjectCollection moc = new ManagementObjectSearcher(QuerySMBIOSes).Get();
 
-            foreach (ManagementObject SMInfo in searcher.Get())
+            Parallel.ForEach(moc.Cast<ManagementObject>(), mo =>
             {
-                SMBIOS temp = new SMBIOS(SMInfo);
+                SMBIOS temp = new SMBIOS(mo);
 
                 listSMBIOS.Add(temp);
-            }
+            });
         }
 
         private void funcPopulateNICs()
         {
             SelectQuery QueryNICs = new SelectQuery("SELECT * FROM WIN32_NetworkAdapter");
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(QueryNICs);
-            
-            foreach (ManagementObject Adapt in searcher.Get())
+            ManagementObjectCollection moc = new ManagementObjectSearcher(QueryNICs).Get();
+
+            Parallel.ForEach(moc.Cast<ManagementObject>(), mo =>
             {
-                NIC temp = new NIC(Adapt);
+                NIC temp = new NIC(mo);
 
                 listNIC.Add(temp);
-            }
+            });
         }
 
         private void funcPopulateLOGDRVs()
         {
             SelectQuery QueryDRVs = new SelectQuery("SELECT * FROM WIN32_LogicalDisk");
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(QueryDRVs);
+            ManagementObjectCollection moc = new ManagementObjectSearcher(QueryDRVs).Get();
 
-            foreach (ManagementObject Drive in searcher.Get())
+            Parallel.ForEach(moc.Cast<ManagementObject>(), mo =>
             {
-                LOGDRV temp = new LOGDRV(Drive);
+                LOGDRV temp = new LOGDRV(mo);
 
                 listLOGDRV.Add(temp);
-            }
+            });
         }
 
         private void funcPopulateDSKDRVs()
         {
             SelectQuery QueryDRVs = new SelectQuery("SELECT * FROM WIN32_DiskDrive");
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(QueryDRVs);
+            ManagementObjectCollection moc = new ManagementObjectSearcher(QueryDRVs).Get();
 
-            foreach (ManagementObject Drive in searcher.Get())
+            Parallel.ForEach(moc.Cast<ManagementObject>(), mo =>
             {
-                DSKDRV temp = new DSKDRV(Drive);
+                DSKDRV temp = new DSKDRV(mo);
 
                 listDSKDRV.Add(temp);
-            }
+            });
         }
 
         private void funcPopulateOSes()
         {
             SelectQuery QueryOS = new SelectQuery("SELECT * FROM Win32_OperatingSystem");
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(QueryOS);
+            ManagementObjectCollection moc = new ManagementObjectSearcher(QueryOS).Get();
 
-            foreach (ManagementObject item in searcher.Get())
+            Parallel.ForEach(moc.Cast<ManagementObject>(), mo =>
             {
-                OS temp = new OS(item);
+                OS temp = new OS(mo);
 
                 listOS.Add(temp);
-            }
+            });
         }
 
         private void addActiveCon()

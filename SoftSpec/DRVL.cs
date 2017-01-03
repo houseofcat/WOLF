@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Management;
+using System.Threading.Tasks;
 
 namespace Wolf
 {
@@ -34,13 +35,13 @@ namespace Wolf
         private void getInstalledDrivers()
         {
             SelectQuery QueryDrivers = new SelectQuery("SELECT * FROM Win32_SystemDriver");
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(QueryDrivers);
+            ManagementObjectCollection moc = new ManagementObjectSearcher(QueryDrivers).Get();
 
-            foreach (ManagementObject item in searcher.Get())
+            Parallel.ForEach(moc.Cast<ManagementObject>(), mo =>
             {
-                Driver tempDriver = new Driver(item);
+                Driver tempDriver = new Driver(mo);
                 UnsortedList.Add(tempDriver);
-            }
+            });
 
             if (UnsortedList.Any())
             {

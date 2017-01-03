@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using System.Threading.Tasks;
 
 namespace Wolf.SoftSpec
 {
@@ -28,74 +29,60 @@ namespace Wolf.SoftSpec
             var UninstallKey32 =
                 Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall", false);
 
-            foreach (var temp in UninstallKey32.GetSubKeyNames())
-                try
-                {
-                    var subkey = UninstallKey32.OpenSubKey(temp);
+            Parallel.ForEach (UninstallKey32.GetSubKeyNames(), ip =>
+            {
+                var subkey = UninstallKey32.OpenSubKey(ip);
 
-                    if (IsProgramVisible(subkey))
-                    {
-                        var name                = subkey?.GetValue("DisplayName")?.ToString()       ?? "";
-                        var version             = subkey?.GetValue("DisplayVersion")?.ToString()    ?? "";
-                        var installDate         = subkey?.GetValue("InstallDate")?.ToString()       ?? "";
-                        var uninstallCommand    = subkey?.GetValue("UninstallString")?.ToString()   ?? "";
-
-                        newList.Add(new InstalledProgram(name, version, installDate, uninstallCommand));
-                    }
-                }
-                catch (Exception ex)
+                if (IsProgramVisible(subkey))
                 {
-                    MessageBox.Show("Exception Occurred: 32-Bit Program Reading. \n\n" +
-                                    ex.Message + "\n\n" +
-                                    ex.StackTrace);
+                    var name = subkey?.GetValue("DisplayName")?.ToString() ?? "";
+                    var version = subkey?.GetValue("DisplayVersion")?.ToString() ?? "";
+                    var installDate = subkey?.GetValue("InstallDate")?.ToString() ?? "";
+                    var uninstallCommand = subkey?.GetValue("UninstallString")?.ToString() ?? "";
+
+                    newList.Add(new InstalledProgram(name, version, installDate, uninstallCommand));
                 }
+            });
 
             if (Environment.Is64BitOperatingSystem)
             {
                 var UninstallKey64 =
                     Registry.LocalMachine.OpenSubKey(
                         "SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall", false);
-                foreach (var temp in UninstallKey64.GetSubKeyNames())
-                    try
+                Parallel.ForEach(UninstallKey64.GetSubKeyNames(), ip =>
+                {
+                    var subkey = UninstallKey64.OpenSubKey(ip);
+
+                    if (IsProgramVisible(subkey))
                     {
-                        var subkey = UninstallKey64.OpenSubKey(temp);
+                        var name = "";
+                        var version = "";
+                        var installDate = "";
+                        var uninstallCommand = "";
 
-                        if (IsProgramVisible(subkey))
-                        {
-                            var name = "";
-                            var version = "";
-                            var installDate = "";
-                            var uninstallCommand = "";
+                        if (subkey.GetValue("DisplayName") != null)
+                            name = subkey.GetValue("DisplayName").ToString();
+                        else
+                            name = "Prog. (xNull.)";
 
-                            if (subkey.GetValue("DisplayName") != null)
-                                name = subkey.GetValue("DisplayName").ToString();
-                            else
-                                name = "Prog. (xNull.)";
+                        if (subkey.GetValue("DisplayVersion") != null)
+                            version = subkey.GetValue("DisplayVersion").ToString();
+                        else
+                            version = "Vers. (xNull)";
 
-                            if (subkey.GetValue("DisplayVersion") != null)
-                                version = subkey.GetValue("DisplayVersion").ToString();
-                            else
-                                version = "Vers. (xNull)";
+                        if (subkey.GetValue("InstallDate") != null)
+                            installDate = subkey.GetValue("InstallDate").ToString();
+                        else
+                            installDate = "";
 
-                            if (subkey.GetValue("InstallDate") != null)
-                                installDate = subkey.GetValue("InstallDate").ToString();
-                            else
-                                installDate = "";
+                        if (subkey.GetValue("UninstallString") != null)
+                            uninstallCommand = subkey.GetValue("UninstallString").ToString();
+                        else
+                            uninstallCommand = "";
 
-                            if (subkey.GetValue("UninstallString") != null)
-                                uninstallCommand = subkey.GetValue("UninstallString").ToString();
-                            else
-                                uninstallCommand = "";
-
-                            newList.Add(new InstalledProgram(name, version, installDate, uninstallCommand));
-                        }
+                        newList.Add(new InstalledProgram(name, version, installDate, uninstallCommand));
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Exception Occurred: 64-Bit Program Reading. \n\n" +
-                                        ex.Message + "\n\n" +
-                                        ex.StackTrace);
-                    }
+                });
             }
 
             return newList;

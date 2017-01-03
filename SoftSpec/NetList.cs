@@ -43,7 +43,7 @@ namespace Wolf.SoftSpec
             IPEndPoint[] tcpconlist = IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners();
 
             //Console.WriteLine("Test");
-            foreach(TcpConnectionInformation obj in tcpconact)
+            Parallel.ForEach(tcpconact, obj =>
             {
                 NetObj temp = new NetObj();
 
@@ -70,7 +70,7 @@ namespace Wolf.SoftSpec
                 temp.setState(obj.State.ToString());
 
                 ActiveTCPPorts.Add(temp);
-            }
+            });
         }
 
         private void GAP_86()
@@ -94,22 +94,20 @@ namespace Wolf.SoftSpec
 
             NativeMethods.Wow64RevertWow64FsRedirection(ref ptr);
 
-            StreamReader stdOutput = p.StandardOutput;
-            StreamReader stdError = p.StandardError;
-
-            string content = stdOutput.ReadToEnd();
-            string exitStatus = p.ExitCode.ToString();
-
-            if (exitStatus != "0")
+            using (StreamReader stdOutput = p.StandardOutput)
+            using (StreamReader stdError = p.StandardError)
             {
-                MessageBox.Show("An error occurred in gathering information from NetStat.exe.\n\n" + stdError.ToString());
+                string content = stdOutput.ReadToEnd();
+                string exitStatus = p.ExitCode.ToString();
+
+                if (exitStatus != "0")
+                {
+                    MessageBox.Show("An error occurred in gathering information from NetStat.exe.\n\n" + stdError.ToString());
+                }
+
+                string[] rows = Regex.Split(content, "\r\n");
+                StringArrayToNetObjList(rows);
             }
-
-            string[] rows = Regex.Split(content, "\r\n");
-            StringArrayToNetObjList(rows);
-
-            stdError.Close();
-            stdOutput.Close();
         }
 
         private void GAP_64()
@@ -127,28 +125,27 @@ namespace Wolf.SoftSpec
             p.StartInfo = ps;
             p.Start();
 
-            StreamReader stdOutput = p.StandardOutput;
-            StreamReader stdError = p.StandardError;
-
-            string content = stdOutput.ReadToEnd();
-            string exitStatus = p.ExitCode.ToString();
-
-            if (exitStatus != "0")
+            using (StreamReader stdOutput = p.StandardOutput)
+            using (StreamReader stdError = p.StandardError)
             {
-                MessageBox.Show("An error occurred in gathering information from NetStat.exe.\n\n" + stdError.ToString());
+
+                string content = stdOutput.ReadToEnd();
+                string exitStatus = p.ExitCode.ToString();
+
+                if (exitStatus != "0")
+                {
+                    MessageBox.Show("An error occurred in gathering information from NetStat.exe.\n\n" + stdError.ToString());
+                }
+
+                //Console.WriteLine(content);
+                string[] rows = Regex.Split(content, "\r\n");
+                StringArrayToNetObjList(rows);
             }
-
-            //Console.WriteLine(content);
-            string[] rows = Regex.Split(content, "\r\n");
-            StringArrayToNetObjList(rows);
-
-            stdError.Close();
-            stdOutput.Close();
         }
 
         private void StringArrayToNetObjList(string[] rows)
         {
-            foreach (string row in rows)
+            Parallel.ForEach(rows, row =>
             {
                 //Eliminates the default NetStat Rows
                 if ((row != null) && (row != "") && (!(row.Contains("Active"))) && (!(row.Contains("Proto"))))
@@ -165,7 +162,7 @@ namespace Wolf.SoftSpec
                         string ProcessName = "";
                         string PID = "";
 
-                        foreach (string temp in temparray)
+                        Parallel.ForEach(temparray, temp =>
                         {
                             //So many blank strings are in the array. This regex filters out any useless strings.
                             //netstat -ano will return 4 good strings per line, therefore every 4 elements from
@@ -209,13 +206,13 @@ namespace Wolf.SoftSpec
 
                                 count++;
                             }
-                        }
+                        });
 
                         NetObj nob = new NetObj(Protocol, LocalAddress, RemoteAddress, State, ProcessName, PID);
                         NetworkProcList.Add(nob);
                     }
                 }
-            }
+            });
         }
 
         public string GetProcessName( string ProcessID )
